@@ -56,11 +56,12 @@ public class WebSecurityConfig {
 				"select userName username, userPw password, enabled " +
 				"from member " + 
 				"where userId = ?";
-		
+
 		String userNameQueryforRole =
-				"select userName username " +
+				"select userId username, roleName role_name " +
 				"from member " +
 				"where userId = ?";
+
 		
 		auth.jdbcAuthentication()
 		.dataSource(dataSource)
