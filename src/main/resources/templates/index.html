@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec = "http://www.thtmeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>[게시판]</title>
+</head>	
+<body>
+<!--<span th:text ="${session}"></span><br>  -->
+<p>
+	<span sec:authentication ="name"></span>님 어서오세요!<br>
+<!--	<span sec:authentication = "principal"></span>-->
+</p>
+<ul>
+	<!-- 로그인 안했으면 보여주기 -->
+	<li sec:authorize = "not isAuthenticated()">
+		<a href= "/join">회원가입</a> <!-- =localhost8888/join -->
+	</li>
+	<li sec:authorize = "not isAuthenticated()">
+		<a href= "/login">로그인</a>
+	</li>	
+	<li sec:authorize = "isAuthenticated()">
+		<a href= "/logout">로그아웃</a>
+	</li>
+	<li sec:authorize = "isAuthenticated()">
+		<a href ="/updateMember">회원 정보 수정</a>
+	</li>
+	<li>
+		<a href= "/list">게시판 이동</a>
+	</li>
+</ul>
+</body>
+</html>
