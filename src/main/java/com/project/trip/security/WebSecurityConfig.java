@@ -35,7 +35,7 @@ public class WebSecurityConfig {
 		.formLogin()					// 일반적인 폼을 이용한 로그인 처리/실패 방법을 사용
 		.loginPage("/login")	// 내가 사용할 폼은 시큐리티에서 제공하는 기본 폼이 아닌 사용자가 만든 폼 사용
 		.loginProcessingUrl("/login").permitAll()	// 인증처리 URL. 로그인 폼의 action 속성 값 지정
-		.usernameParameter("userName")	// 로그인 폼 아이디의 name 속성
+		.usernameParameter("userId")	// 로그인 폼 아이디의 name 속성
 		.passwordParameter("userPw")	// 로그인 폼 비밀번호의 name 속성
 		.and()
 		.logout()
@@ -47,21 +47,26 @@ public class WebSecurityConfig {
 		
 		return hs.build();
 	}
-	
 	// 인증용 쿼리
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		String userNameQueryforEnabled = 
-				"select user_name username, user_pw password " +
-				"from member " + 
-				"where user_name = ?";
+
+		String userNameQueryforEnabled =
+				"select user_id username, user_pw password, user_email_yn " +
+						"from user " +
+						"where user_id = ?";
+
+		String userNameQueryforRole =
+				"select user_id username, roleName role_name " +
+						"from user " +
+						"where user_id = ?";
 
 		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.usersByUsernameQuery(userNameQueryforEnabled);
+				.dataSource(dataSource)
+				.usersByUsernameQuery(userNameQueryforEnabled)
+				.authoritiesByUsernameQuery(userNameQueryforRole);
 	}
-	
+
 	// 단방향 비밀번호 암호화
 	@Bean
 	public PasswordEncoder passwordEncoder() {

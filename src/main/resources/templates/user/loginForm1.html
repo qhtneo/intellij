@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[로그인]</title>
+    <script>
+        //회원가입 입력창 검증하는 함수
+        //유효하면 -> 서버로 보냄 아니면 ->여기서 머무름
+        function checkForm() {
+            //.value쓰는 이유?입력창 객체 그 하나와 객체안의 값 차이
+            let userId = document.getElementById("userId").value;
+            let userPw = document.getElementById("userPw").value;
+
+            //trim문자열의 앞 또는 뒤에 붙어있는 공백 삭제
+            if(userId.trim().length ==0 || userPw.trim().length==0){
+                alert("아이디 또는 비밀번호가 비어있습니다.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        #message {
+            color:red
+        }
+    </style>
+</head>
+<body>
+<h1>[로그인]</h1>
+<!-- 로그인 창에 필요한 정보 ~ ID, 비밀번호, 로그인 버튼 -->
+<form action ="/login" method ="post" onsubmit = "return checkForm();">
+    <table>
+        <tr>
+            <th>아이디</th>
+            <td>
+                <input type = "text" name = "userId" id ="userId">
+            </td>
+        </tr>
+        <tr>
+            <th>비밀번호</th>
+            <td>
+                <input type = "password" name = "userPw" id ="userPw">
+            </td>
+        </tr>
+        <tr>
+            <th colspan = "2">
+                <input type = "submit" value = "로그인" >
+        </tr>
+    </table>
+</form>
+<span id = "message" th:if="${param.error != null}">아이디나 비밀번호가 틀렸습니다.</span>
+</body>
+</html>

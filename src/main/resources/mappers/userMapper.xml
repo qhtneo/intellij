@@ -7,8 +7,8 @@
     <!-- 회원정보추가 -->
     <insert id = "insertUser" parameterType = "User">
         INSERT INTO
-            MEMBER	(USER_NAME, USER_PW, USER_NICKNAME, USER_EMAIL)
+            USER	(USER_id, USER_PW, USER_NICKNAME, USER_EMAIL)
         VALUES
-            (#{userName}, #{userPw}, #{userNickname}, #{userEmail})
+            (#{userId}, #{userPw}, #{userNickname}, #{userEmail})
     </insert>
 </mapper>

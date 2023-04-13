@@ -13,12 +13,14 @@ import java.util.Collection;
 @AllArgsConstructor
 public class User implements UserDetails {
     private String userNo;
-    private String userName;
+    private String userId;
     private String userPw;
     private String userNickname;
     private String userEmail;
     private String regDate;
     private boolean userEmailYn;
+//    private boolean enabled;
+    private String roleName;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -32,7 +34,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.userId;
     }
 
     @Override
@@ -49,9 +51,10 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return false;
     }
-
     @Override
     public boolean isEnabled() {
-        return false;
+        // TODO Auto-generated method stub
+        return this.userEmailYn;
     }
+
 }

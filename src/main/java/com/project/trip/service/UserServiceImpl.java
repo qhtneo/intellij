@@ -16,7 +16,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public int joinUser(User u) {
         String encodedPassword = passwordEncoder.encode(u.getPassword());
-
         //비번 새로 설정
         u.setUserPw(encodedPassword);
         return uDao.insertUser(u);
