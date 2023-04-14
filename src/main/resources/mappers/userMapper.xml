@@ -2,13 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.project.trip.dao.UserDao">
+<mapper namespace="com.project.trip.dao.MemberDao">
 
     <!-- 회원정보추가 -->
-    <insert id = "insertUser" parameterType = "User">
+    <insert id = "insertMember" parameterType = "Member">
         INSERT INTO
-            USER	(USER_id, USER_PW, USER_NICKNAME, USER_EMAIL)
+            Member	(USER_id, USER_PW, USER_NICKNAME, USER_EMAIL)
         VALUES
             (#{userId}, #{userPw}, #{userNickname}, #{userEmail})
     </insert>
+    <!-- 한명의 회원정보 가져오기 -->
+    <select id = "selectOneMember" parameterType = "string" resultType = "Member">
+        SELECT * FROM MEMBER
+        WHERE USER_ID = #{userId}
+    </select>
+    <!-- 회원정보삭제 -->
+    <delete id ="deleteMember" parameterType ="Member">
+        DELETE FROM MEMBER
+        WHERE USER_ID = #{userId}
+    </delete>
 </mapper>

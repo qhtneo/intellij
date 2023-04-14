@@ -28,7 +28,8 @@ public class WebSecurityConfig {
 					"/read",
 					"/error",
 					"/img/**",
-					"/js/**")
+					"/js/**",
+					"/board")
 		.permitAll()					// 설정한 리소스의 접근을 인증 없이 사용 허가
 		.anyRequest().authenticated()	// 위의 경로 이외에는 모두 로그인
 		.and()
@@ -53,12 +54,12 @@ public class WebSecurityConfig {
 
 		String userNameQueryforEnabled =
 				"select user_id username, user_pw password, user_email_yn " +
-						"from user " +
+						"from Member " +
 						"where user_id = ?";
 
 		String userNameQueryforRole =
 				"select user_id username, roleName role_name " +
-						"from user " +
+						"from Member " +
 						"where user_id = ?";
 
 		auth.jdbcAuthentication()

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thtmeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>[회원정보수정]</title>
+  <script>
+    //회원가입 입력창 검증하는 함수
+    //유효하면 -> 서버로 보냄 아니면 ->여기서 머무름
+    function checkValue() {
+      //.value쓰는 이유?입력창 객체 그 하나와 객체안의 값 차이
+      let idValue = document.getElementById("userId").value;
+      let pw1Value = document.getElementById("pw1").value;
+      let pw2Value = document.getElementById("pw2").value;
+      let nameValue = document.getElementById("name").value;
+      let addressValue = document.getElementById("email").value;
+
+      //ID가 비어있거나 3~10자가 아니면 무효
+      //비밀번호가 비어있거나 4~8글자가 아니면 무효
+      //비밀번호 입력창과 비밀번호 확인창의 값이 다르면 무효
+      //이름이 없거나 한글자라면 무효
+      //이름에 숫자 들어있으면 무효
+      //이메일이 비어있으면 무효
+
+      if (idValue === '' || idValue.length < 3 || idValue.length > 10){
+        alert("아이디는 3~10자로 작성해야합니다.");
+        document.getElementById("userId").focus();
+        return false;
+      }
+      if(idValue == "userId"){
+        alert("중복된 아이디입니다.");
+        return false;
+      }
+      if (pw1Value === '' || pw1Value.length < 4 || pw1Value.length > 8 ){
+        alert("비밀번호는 4~8글자로 작성해야합니다");
+        document.getElementById("pw1").focus();
+        return false;
+      }
+      if (pw1Value !== pw2Value ){
+        alert("비밀번호가 다릅니다");
+        document.getElementById("pw2").focus();
+        return false;
+      }
+      if (nameValue.length > 6 || nameValue.length < 2 ){
+        alert("이름을 2글자 이상으로 입력하세요");
+        document.getElementById("name").focus();
+        return false;
+      }
+      for(let i=0; i<nameValue.length; i++){
+        if(!isNaN(nameValue.charAt(i))){
+          alert("잘못된 글자가 포함되어 있습니다.");
+          document.getElementById("name").focus();
+          return false;
+        }
+      }
+      if (addressValue ===''){
+        alert("이메일을 입력하세요");
+        document.getElementById("email").focus();
+        return false;
+      }
+    }
+  </script>
+</head>
+<body>
+<h1>[회원정보 수정]</h1>
+<!-- 테이블 형식으로 입력창을 만들어서 정보를 서버로 보낼때 -->
+<!-- 아이디를 사용하는 이유는 document.getElementById 사용하기 위함 -->
+<form action ="/updateMember" method = "post" onsubmit = "return checkValue();">
+  <table>
+    <tr>
+      <th>아이디</th>
+      <td>
+        <!-- th:value는 언제 사용하는지 -->
+        <input type = "text" name ="userId" id = "userId"  th:value="${member.userId}" readonly>
+        <!--아이디 중복 체크 여부-->
+      </td>
+    </tr>
+    <tr>
+      <th>비밀번호</th>
+      <td>
+        <input type = "password" name ="userPw"  id = "pw1" placeholder ="비밀번호를 입력하세요">
+      </td>
+    </tr>
+    <tr>
+      <th>비밀번호 확인</th>
+      <td>
+        <input type = "password" id = "pw2" placeholder ="비밀번호를 한번 더 입력하세요">
+      </td>
+    </tr>
+    <tr>
+      <th>이름</th>
+      <td><!-- 만약 pw2에도 userPw라는 name 지정하면 -->
+        <!-- pw1값,pw2값 -->
+        <input type = "text" id = "name" name="userName" th:value="${member.userName}">
+      </td>
+    </tr>
+    <tr>
+      <th>이메일</th>
+      <td>
+        <!-- input type = "email"속성은 입력된 값이 메일주소 형식인지
+                  꼼꼼하게 체크한다/PC 이외의 환경에서 이메일 입력 키보드 제공 -->
+        <input type = "email" name ="email" id = "email" th:value="${member.email}">
+      </td>
+    </tr>
+    <tr>
+      <!--  가입하기 버튼을 가운데 정렬하고 싶어서 colsapn 하는 것 -->
+      <th colspan = "2">
+        <input type = "submit" value = "수정하기">
+      </th>
+    </tr>
+  </table>
+</form>
+<a href="/deleteMember">회원 탈퇴하기</a>
+</body>
+</html>

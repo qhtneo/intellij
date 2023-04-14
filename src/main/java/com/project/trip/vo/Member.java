@@ -11,7 +11,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class Member implements UserDetails {
     private String userNo;
     private String userId;
     private String userPw;
