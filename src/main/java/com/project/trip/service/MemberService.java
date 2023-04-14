@@ -6,4 +6,5 @@ public interface MemberService {
     public int joinMember(Member m);
     public Member findOneMember(String id);
     int deleteMember(String userId);
+    int updateMember(Member m);
 }

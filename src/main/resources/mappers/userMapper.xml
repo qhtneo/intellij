@@ -13,7 +13,16 @@
     </insert>
     <!-- 한명의 회원정보 가져오기 -->
     <select id = "selectOneMember" parameterType = "string" resultType = "Member">
-        SELECT * FROM MEMBER
+        SELECT
+            user_no as userNo,
+            user_id as userId,
+            user_pw as userPw,
+            user_nickname as userNickname,
+            user_email as userEmail,
+            reg_date as regDate,
+            user_email_yn as userEmailYn,
+            rolename as roleName
+            FROM MEMBER
         WHERE USER_ID = #{userId}
     </select>
     <!-- 회원정보삭제 -->
@@ -21,4 +30,13 @@
         DELETE FROM MEMBER
         WHERE USER_ID = #{userId}
     </delete>
+    <!-- 회원정보수정하기 -->
+    <update id ="updateMember" parameterType="String">
+        UPDATE
+            MEMBER
+        SET
+            USER_PW = #{encodedPassword}
+        WHERE
+            USER_ID = #{userId}
+    </update>
 </mapper>

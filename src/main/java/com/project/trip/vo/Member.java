@@ -12,7 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member implements UserDetails {
-    private String userNo;
+    private int userNo;
     private String userId;
     private String userPw;
     private String userNickname;

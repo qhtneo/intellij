@@ -24,8 +24,6 @@ public class MemberController {
     }
     @PostMapping("/join")
     public String join(Member member, String userId) {
-        //Service 호출하기
-        log.debug("join실행됨{}",member);
         mService.joinMember(member);
         return REDIRECT_INDEX;
     }
@@ -34,10 +32,7 @@ public class MemberController {
         log.debug("login()");
         return "member/loginForm";
     }
-//    @GetMapping("/delete")
-//    public String delete(){
-//        return "member/deleteForm";
-//    }
+
     @GetMapping("/delete")
     public String deleteMember(@AuthenticationPrincipal UserDetails user) {
         String userId = user.getUsername();
@@ -48,12 +43,14 @@ public class MemberController {
     public String myPage(@AuthenticationPrincipal UserDetails user, Model model){
 
         String userId = user.getUsername();
-        log.debug("user id :{}",userId);
-
         Member member = mService.findOneMember(userId);
-        System.out.println(member);
         //클라이언트에 멤버 객체 전달
         model.addAttribute("member",member);
         return "member/myPage";
+    }
+    @PostMapping("/update")
+    public String update(Member member){
+        mService.updateMember(member);
+        return REDIRECT_INDEX;
     }
 }
