@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>[회원 탈퇴하기]</title>
+  <script>
+    function confirmDelete(){
+      let con = confirm("정말 탈퇴하시겠어요?");
+
+      if(con){
+        document.getElementById("delForm").submit();
+      }else{
+        alert("정말 고마워요 ㅠㅠ");
+      }
+    }
+  </script>
+  <style>
+    #message {
+      color:red
+    }
+  </style>
+</head>
+<body>
+<h1>[회원 탈퇴하기]</h1>
+<p><span th:text ="${session.login}">ooo</span>회원님이 탈퇴하신다니 정말 슬퍼요 ㅠㅠ<br>
+  정말 탈퇴하실건가요? 그렇다면 아래에 비밀 번호를 입력해 주세요
+</p>
+<form id ="delForm" action="deleteMember" method="post" >
+  <input type="password" name ="userPw">
+  <input type="button" value = "탈퇴하기" onclick ="confirmDelete();">
+</form>
+<span id = "message" th:if="${msg !=null}" th:text="${msg}"></span>
+</body>
+</html>

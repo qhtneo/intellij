@@ -28,7 +28,8 @@ public class WebSecurityConfig {
 					"/read",
 					"/error",
 					"/img/**",
-					"/js/**")
+					"/js/**",
+					"/board")
 		.permitAll()					// 설정한 리소스의 접근을 인증 없이 사용 허가
 		.anyRequest().authenticated()	// 위의 경로 이외에는 모두 로그인
 		.and()
@@ -47,27 +48,26 @@ public class WebSecurityConfig {
 		
 		return hs.build();
 	}
-	
 	// 인증용 쿼리
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		String userNameQueryforEnabled = 
-				"select userName username, userPw password, enabled " +
-				"from member " + 
-				"where userId = ?";
-		
+
+		String userNameQueryforEnabled =
+				"select user_id username, user_pw password, user_email_yn " +
+						"from Member " +
+						"where user_id = ?";
+
 		String userNameQueryforRole =
-				"select userName username " +
-				"from member " +
-				"where userId = ?";
-		
+				"select user_id username, roleName role_name " +
+						"from Member " +
+						"where user_id = ?";
+
 		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.usersByUsernameQuery(userNameQueryforEnabled)
-		.authoritiesByUsernameQuery(userNameQueryforRole);
+				.dataSource(dataSource)
+				.usersByUsernameQuery(userNameQueryforEnabled)
+				.authoritiesByUsernameQuery(userNameQueryforRole);
 	}
-	
+
 	// 단방향 비밀번호 암호화
 	@Bean
 	public PasswordEncoder passwordEncoder() {
