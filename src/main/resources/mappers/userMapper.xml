@@ -7,13 +7,22 @@
     <!-- 회원정보추가 -->
     <insert id = "insertMember" parameterType = "Member">
         INSERT INTO
-            Member	(USER_id, USER_PW, USER_NICKNAME, USER_EMAIL)
+            Member   (USER_id, USER_PW, USER_NICKNAME, USER_EMAIL)
         VALUES
             (#{userId}, #{userPw}, #{userNickname}, #{userEmail})
     </insert>
     <!-- 한명의 회원정보 가져오기 -->
     <select id = "selectOneMember" parameterType = "string" resultType = "Member">
-        SELECT * FROM MEMBER
+        SELECT
+            user_no as userNo,
+            user_id as userId,
+            user_pw as userPw,
+            user_nickname as userNickname,
+            reg_date as regDate,
+            user_email as userEmail,
+            user_email_yn as userEmailYn,
+            rolename as roleName
+        FROM MEMBER
         WHERE USER_ID = #{userId}
     </select>
     <!-- 회원정보삭제 -->
