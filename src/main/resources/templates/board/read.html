@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[글보기]</title>
+</head>
+<body>
+<h1>글보기</h1>
+<!-- 글 번호, 제목, 내용, 글쓴이, 글쓴 시간, 조회수, 첨부파일(있다면) -->
+<table th:object="${board}" border=1>
+    <tr>
+        <th th:text="*{boardNo}">글번호</th>
+        <th th:text="*{boardTitle}" colspan="2">제목들어갈곳 123132132132132</th>
+    </tr>
+    <tr>
+        <th th:text="*{userNickname}">글쓴이</th>
+        <th th:text="*{inputDate}">글쓴 시간</th>
+        <th th:text="*{boardView}">조회수</th>
+    </tr>
+    <tr>
+        <th colspan="3" th:text="*{boardSummary}">내용이 들어 갈 곳 12312132</th>
+    </tr>
+
+</table>
+
+</body>
+</html>

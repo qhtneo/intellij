@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.trip.dao.BoardDao">
+
+    <insert id="insertBoard" parameterType="Board">
+        <!-- 글 쓰기 -->
+        INSERT INTO
+            board( board_title, board_summary, user_no, user_nickname)
+        VALUES ( #{boardTitle}, #{boardSummary},#{userNo}, #{userNickname})
+    </insert>
+
+    <select id = "selectAllBoard" resultType = "Board">
+        SELECT
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_VIEW AS boardView,
+            INPUT_DATE AS inputDate,
+            BOARD_LIKE AS boardLike
+        FROM
+            BOARD
+        ORDER BY
+            BOARD_NO DESC
+    </select>
+
+    <select id="selectOneBoard" resultType="Board" parameterType="int">
+        SELECT
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+            INPUT_DATE AS inputDate,
+            BOARD_LIKE AS boardLike
+        FROM 	board
+        WHERE 	BOARD_NO = #{boardNo}
+    </select>
+
+</mapper>
