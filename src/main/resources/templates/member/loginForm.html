@@ -51,6 +51,7 @@
     <span class="checkbox mb-3"></span>
     <button class=" btn btn-lg btn-primary" type="submit">로그인</button>
   </form>
+  <span id = "message" th:if="${param.error != null}">아이디나 비밀번호가 틀렸습니다.</span>
 </main>
 
 </body>

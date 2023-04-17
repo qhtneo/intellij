@@ -10,6 +10,6 @@ public interface MemberService {
     int deleteMember(String userId);
     int updateMember(Member m);
 
-    Member selectCategory(String keyword);
+    Member selectByName(String keyword);
     Member selectByEmail(String email);
 }

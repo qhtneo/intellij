@@ -76,7 +76,7 @@ public class MemberController {
     @ResponseBody
     public String checkName(String userNickname) {
         log.debug("userNickname :{}",userNickname);
-        Member m = mService.selectCategory(userNickname);
+        Member m = mService.selectByName(userNickname);
         log.debug("m : {}",m);
         //DB에서 id에 대한 검색결과가 없으면 ok 아니면 ng 이렇게 돌려준다
         if(m == null) {
