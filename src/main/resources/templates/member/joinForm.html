@@ -3,18 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <title>[회원가입하기]</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script>
+    function onlyAlphabet(ele) {
+      ele.value = ele.value.replace(/[^\\!-z]/gi,"");
+    }
+    //비동기
+
+    $(document).ready(function(){
+      $("#pw2").on("blur",function() {
+        // this : #userNickName 요소
+        // name 입력창에 입력된 값 가져오기
+        let password2 = document.getElementById("pw1").value;
+        let password1 = $(this).val();
+        if(password1!==password2){
+          $("#msg_password").text("비밀번호가 일치하지 않습니다.");
+        }else{
+          $("#msg_password").text("비밀번호가 일치합니다.");
+        }
+      });
+      // 닉네임 체크
+      $("#userNickname").on("blur",function(){
+        // this : #userNickName 요소
+        // name 입력창에 입력된 값 가져오기
+        let currentValue =$(this).val();
+        if (currentValue.trim()==""){
+          $("#msg_nickName").text("닉네임이 비어있습니다.");
+          return;
+        }
+        //ajax로 서버에서 같은 아이디가 있는지 확인하기
+        $.ajax({
+          url:"/checkName",
+          method:"post",
+          data:{"userNickname": currentValue
+          },
+          success:function(result){
+            if(result=="OK" ){
+              $("#msg_nickName").text("사용 가능한 닉네임 입니다.");
+            }else if(result =="NG"){
+              $("#msg_nickName").text("사용중인 닉네임 입니다.");
+              return;
+            }
+            if(currentValue.length > 6 || currentValue.length < 2 ){
+              $("#msg_nickName").text("닉네임이 너무 짧거나 깁니다");
+              return;
+            };
+            for (let i = 0; i < currentValue.length; i++) {
+              if (!isNaN(currentValue.charAt(i))) {
+                $("#msg_nickName").text("닉네임에 공백이 있습니다.");
+                return;
+              };
+            }
+          }
+
+        })
+      });
+
+      $("#userId").on("blur",function(){
+        //this : #userId 요소
+        // id 입력창에 입력된 값 가져오기
+        let currentValue =$(this).val();
+        console.log(currentValue)
+        //ajax로 서버에서 같은 아이디가 있는지 확인하기
+        $.ajax({
+          url:"/checkId",
+          method:"post",
+          data:{"id": currentValue},
+          success:function(result) {
+            //result가 ok이면 사용 가능 아니면 불가능
+            //있으면 있다고 표시
+            //없으면 없다고 표시
+            if (result == "OK" && currentValue.length<11) {
+              $("#msg").text("사용 가능한 ID입니다.");
+            } else if (result == "NG") {
+              $("#msg").text("사용중인 id입니다.");
+              return;
+            }else{
+              $("#msg").text("아이디의 길이가 너무 깁니다.");
+            };
+            if (currentValue.length < 3) {
+              $("#msg").text("id는 세글자 이상으로 입력해주세요.");
+              return;
+            };
+
+          }
+        });
+      });
+
+      $("#email").on("blur",function(){
+        //this : #userId 요소
+        // id 입력창에 입력된 값 가져오기
+        let currentValue =$(this).val();
+        console.log(currentValue)
+        //ajax로 서버에서 같은 아이디가 있는지 확인하기
+        $.ajax({
+          url:"/checkEmail",
+          method:"post",
+          data:{"email": currentValue},
+          success:function(result) {
+            //result가 ok이면 사용 가능 아니면 불가능
+            //있으면 있다고 표시
+            //없으면 없다고 표시
+            if (result == "OK") {
+              $("#msgEmail").text("");
+            } else if (result == "NG") {
+              $("#msgEmail").text("사용중인 이메일입니다.");
+              return;
+            };
+          }
+        });
+      });
+
+    })
+
+    //회원가입 입력창 검증하는 함수
+    //유효하면 -> 서버로 보냄 아니면 ->여기서 머무름
+    function checkValue() {
+      //.value쓰는 이유?입력창 객체 그 하나와 객체안의 값 차이
+      let idValue = document.getElementById("userId").value;
+      let pw1Value = document.getElementById("pw1").value;
+      let pw2Value = document.getElementById("pw2").value;
+      let nameValue = document.getElementById("userNickname").value;
+      let addressValue = document.getElementById("email").value;
+
+      if (idValue === '' || idValue.length < 3 || idValue.length > 10){
+        alert("아이디는 3~10자로 작성해야합니다.");
+        document.getElementById("userId").focus();
+        return false;
+      }
+      if(idValue == "userId"){
+        alert("중복된 아이디입니다.");
+        return false;
+      }
+      if (pw1Value === '' || pw1Value.length < 4 || pw1Value.length > 8 ){
+        alert("비밀번호는 4~8글자로 작성해야합니다");
+        document.getElementById("pw1").focus();
+        return false;
+      }
+      if (pw1Value !== pw2Value ){
+        alert("비밀번호가 다릅니다");
+        document.getElementById("pw2").focus();
+        return false;
+      }
+      if (nameValue.trim() == ''){
+        alert("닉네임이 공백입니다.")
+        return false;
+      }
+      if (nameValue.trim().length > 6 || nameValue.trim().length <= 2 ){
+        alert("닉네임을 2글자 이상으로 입력하세요");
+        document.getElementById("name").focus();
+        return false;
+      }
+      for(let i=0; i<nameValue.length; i++){
+        if(!isNaN(nameValue.charAt(i))){
+          alert("잘못된 글자가 포함되어 있습니다.");
+          document.getElementById("name").focus();
+          return false;
+        }
+      }
+      if (addressValue ===''){
+        alert("이메일을 입력하세요");
+        document.getElementById("email").focus();
+        return false;
+      }
+      //아이디 중복확인을 했는지?
+      let checkIdMsg = document.getElementById("msg").innerText;
+
+      //중복확인메세지에 '가능'이라는 키워드가 없다면 유효하지 않은 아이디
+      if(!checkIdMsg.includes("가능")){
+        alert("유효하지 않은 아이디입니다.")
+        document.getElementById("userId").focus();
+        return false;
+      }//중복이 아닌 id에 대해서는 '가능' 키워드 있음
+    }
+  </script>
 </head>
 <body>
 <h1>[회원가입]</h1>
 <!-- 테이블 형식으로 입력창을 만들어서 정보를 서버로 보낼때 -->
 <!-- 아이디를 사용하는 이유는 document.getElementById 사용하기 위함 -->
 <!-- onsubmit = "return checkValue();" -->
-<form action ="/join" method = "post" >
+<form action ="/join" method = "post" onsubmit="return checkValue()">
   <table>
     <tr>
       <th>아이디</th>
       <td>
-        <input type = "text" name ="userId" id = "userId" >
+        <input type = "text" name ="userId" id = "userId" onkeydown="onlyAlphabet(this)">
         <span id ="msg"></span>
       </td>
     </tr>
@@ -28,13 +202,14 @@
       <th>비밀번호 확인</th>
       <td>
         <input type = "password" id = "pw2">
+        <span id ="msg_password"></span>
       </td>
     </tr>
     <tr>
       <th>닉네임</th>
-      <td><!-- 만약 pw2에도 userPw라는 name 지정하면 -->
-        <!-- pw1값,pw2값 -->
+      <td>
         <input type = "text" id = "userNickname" name="userNickname">
+        <span id ="msg_nickName"></span>
       </td>
     </tr>
     <tr>
@@ -43,6 +218,7 @@
         <!-- input type = "email"속성은 입력된 값이 메일주소 형식인지
                   꼼꼼하게 체크한다/PC 이외의 환경에서 이메일 입력 키보드 제공 -->
         <input type = "email" name ="userEmail" id = "email" >
+        <span id ="msgEmail"></span>
       </td>
     </tr>
     <tr>
