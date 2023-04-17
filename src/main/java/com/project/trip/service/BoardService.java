@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface BoardService {
 
-    public int write(Board board);
+    public int writeBoard(Board board);
 
     public List<Board> selectAllBoard();
 
-    public Board read(int boardNo);
+    public Board selectOneBoard(int boardNo);
+
+    public int updateBoard(Board board);
+
+    public int deleteBoard(int boardNo);
 }
