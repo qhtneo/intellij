@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymepleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>[글 수정하기]</title>
+    <script type="text/javascript">
+        function validate() {
+            let boardTitle = document.getElementById("boardTitle").value;
+
+            let boardSummary = document.getElementById("boardSummary").value;
+
+            if (boardTitle.trim().length == 0) {
+                alert("제목은 필수 입력 사항 입니다.");
+                return false;
+            }
+
+            if(boardSummary.trim().length == 0) {
+                alert("내용은 필수 입력 사항입니다.");
+                return false;
+            }
+
+            // 금지어 체크
+            let bad = ['바보', '멍청이', '말미잘'];
+
+            for(let i=0; i <bad.length; i++) {
+                if(boardTitle.includes(bad[i])) {
+                    alert(bad[i] + "(은)는 사용할 수 없는 단어입니다");
+                    return false;
+                }
+
+                if(boardSummary.includes(bad[i])) {
+                    alert(bad[i] + "(은)는 사용할 수 없는 단어입니다");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+<h1>[글 수정하기]</h1>
+<!-- 제목, 내용, 취소버튼, 작성버튼 -->
+<form action="/updateBoard" method="post" onsubmit="return validate();" enctype="multipart/form-data">
+    <table>
+        <input type="hidden" th:value="${board.boardNo}" name = "boardNo">
+        <tr>
+            <th>제목</th>
+            <td>
+                <input type="text" name="boardTitle" id="boardTitle" th:value="${board.boardTitle}">
+            </td>
+        </tr>
+        <tr>
+            <th>내용</th>
+            <td>
+                <textarea rows="5" cols="50" name="boardSummary" id="boardSummary" th:text="${board.boardSummary}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">
+                <input type = "submit" value="글수정하기">
+                <input type = "button" value="뒤로 가기">
+            </th>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
