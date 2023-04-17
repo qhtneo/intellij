@@ -21,7 +21,7 @@
   <tr th:each ="board:${boardList}">
     <td th:text ="${board.boardNo}"></td>
     <td>
-      <a th:href ="@{/read(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
+      <a th:href ="@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
     </td>
     <td th:text ="${board.userNickname}"></td>
     <td th:text ="${board.inputDate}"></td>
@@ -29,7 +29,7 @@
     <td th:text ="${board.boardView}"></td>
   </tr>
 </table>
-<a th:if="${#httpServletRequest.userPrincipal != null}" href = "/write">글쓰기</a>
+<a th:if="${#httpServletRequest.userPrincipal != null}" href = "/writeBoard">글쓰기</a>
 <span th:if="${#httpServletRequest.userPrincipal == null}" >
    글을 작성하려면
    <a href = "/login">로그인</a>하세요

@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -37,34 +35,61 @@ public class BoardController {
         return "board/boardList";
     }
 
-    @GetMapping("/write")
-    public String write(){
-        return "board/write";
+    @GetMapping("/writeBoard")
+    public String writeBoard(){
+        return "board/writeBoard";
     }
 
-    @PostMapping("/write")
-    public String write(Board board, @AuthenticationPrincipal UserDetails user) {
+    @PostMapping("/writeBoard")
+    public String writeBoard(Board board, @AuthenticationPrincipal UserDetails user) {
         log.debug("write(Board)");
         log.debug("Board : {}", board);
         String userId = user.getUsername();
         Member member  = mService.findOneMember(userId);
         board.setUserNickname((member.getUserNickname()));
         board.setUserNo(member.getUserNo());
-        bService.write(board);
+        bService.writeBoard(board);
         return "redirect:/board";
     }
 
-    @GetMapping("/read")
-    public String read(Model model, int boardNo) {
+    @GetMapping("/readBoard")
+    public String readBoard(Model model, int boardNo) {
         log.debug("read()");
         log.debug("boardNum : {}", boardNo);
 
         // service 호출
-        // 글읽기와 조회수가 합쳐짐
-        Board board = bService.read(boardNo);
+        Board board = bService.selectOneBoard(boardNo);
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
 
-        return "board/read";
+        return "board/readBoard";
+    }
+
+    @GetMapping("/updateBoard")
+    public String updateBoard(Model model, int boardNo){
+        log.debug("update()");
+        log.debug("boardNo : {}", boardNo);
+
+        // service 호출
+        Board board = bService.selectOneBoard(boardNo);
+
+        // model 객체에 글 정보 담기
+        model.addAttribute("board", board);
+
+        return "board/updateBoard";
+    }
+
+    @PostMapping("/updateBoard")
+    public String updateBoard(Board board){
+        bService.updateBoard(board);
+
+        return "redirect:/readBoard/?boardNo=" + board.getBoardNo();
+    }
+
+    @GetMapping("/deleteBoard")
+    public String deleteBoard(int boardNo){
+        bService.deleteBoard(boardNo);
+
+        return "redirect:/board";
     }
 }
