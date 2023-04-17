@@ -52,8 +52,8 @@ public class MemberServiceImpl implements MemberService {
         return 0;
     }
     @Override
-    public Member selectCategory(String keyword) {
-        return mDao.selectCategory(keyword);
+    public Member selectByName(String keyword) {
+        return mDao.selectByName(keyword);
     }
 
     @Override

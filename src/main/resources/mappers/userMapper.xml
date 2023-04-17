@@ -43,7 +43,7 @@
             USER_ID = #{userId}
     </update>
     <!-- 조건부 검색 -->
-    <select id = "selectCategory" parameterType ="string" resultType = "Member">
+    <select id = "selectByName" parameterType ="string" resultType = "Member">
         SELECT
         user_no as userNo,
         user_id as userId,

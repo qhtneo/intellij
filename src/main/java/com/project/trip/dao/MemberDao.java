@@ -12,7 +12,7 @@ public interface MemberDao {
     Member selectOneMember(String userId);
     int deleteMember(Member m);
     int updateMember(String userId, String encodedPassword);
-    Member selectCategory(String userNickname);
+    Member selectByName(String userNickname);
     Member selectByEmail(String email);
 
 }
