@@ -5,7 +5,10 @@ import com.project.trip.vo.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -15,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberDao mDao;
     @Override
-    public int joinMember(Member m) {
+    public int insertMember(Member m) {
         String encodedPassword = passwordEncoder.encode(m.getPassword());
         //비번 새로 설정
         m.setUserPw(encodedPassword);
@@ -23,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findOneMember(String id) {
+    public Member selectOneMember(String id) {
         return mDao.selectOneMember(id);
     }
 
@@ -47,5 +50,14 @@ public class MemberServiceImpl implements MemberService {
             return mDao.updateMember(m.getUserId(),encodedPassword);
         }
         return 0;
+    }
+    @Override
+    public Member selectCategory(String keyword) {
+        return mDao.selectCategory(keyword);
+    }
+
+    @Override
+    public Member selectByEmail(String email) {
+        return mDao.selectByEmail(email);
     }
 }

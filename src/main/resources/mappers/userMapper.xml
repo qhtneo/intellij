@@ -26,6 +26,7 @@
             FROM MEMBER
         WHERE USER_ID = #{userId}
     </select>
+
     <!-- 회원정보삭제 -->
     <delete id ="deleteMember" parameterType ="Member">
         DELETE FROM MEMBER
@@ -41,5 +42,35 @@
         WHERE
             USER_ID = #{userId}
     </update>
+    <!-- 조건부 검색 -->
+    <select id = "selectCategory" parameterType ="string" resultType = "Member">
+        SELECT
+        user_no as userNo,
+        user_id as userId,
+        user_pw as userPw,
+        user_nickname as userNickname,
+
+        user_email as userEmail,
+        reg_date as regDate,
+        user_email_yn as userEmailYn,
+        rolename as roleName
+        FROM MEMBER
+        where user_nickname =#{userNickname}
+    </select>
+    <!-- 조건부 검색 -->
+    <select id = "selectByEmail" parameterType ="string" resultType = "Member">
+        SELECT
+            user_no as userNo,
+            user_id as userId,
+            user_pw as userPw,
+            user_nickname as userNickname,
+
+            user_email as userEmail,
+            reg_date as regDate,
+            user_email_yn as userEmailYn,
+            rolename as roleName
+        FROM MEMBER
+        where user_email = #{userEmail}
+    </select>
 </mapper>
 

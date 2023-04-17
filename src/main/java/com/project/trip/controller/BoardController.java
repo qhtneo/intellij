@@ -12,8 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class BoardController {
         log.debug("write(Board)");
         log.debug("Board : {}", board);
         String userId = user.getUsername();
-        Member member  = mService.findOneMember(userId);
+        Member member  = mService.selectOneMember(userId);
         board.setUserNickname((member.getUserNickname()));
         board.setUserNo(member.getUserNo());
         bService.write(board);

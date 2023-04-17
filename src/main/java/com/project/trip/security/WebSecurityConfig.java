@@ -24,6 +24,8 @@ public class WebSecurityConfig {
 		.antMatchers("/",
 					"/join",
 					"/checkId",
+					"/checkName",
+					"/checkEmail",
 					"/list",
 					"/read",
 					"/error",
