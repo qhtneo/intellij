@@ -74,14 +74,7 @@
               $("#msg_nickName").text("닉네임이 너무 짧거나 깁니다");
               return;
             };
-            for (let i = 0; i < currentValue.length; i++) {
-              if (!isNaN(currentValue.charAt(i))) {
-                $("#msg_nickName").text("닉네임에 공백이 있습니다.");
-                return;
-              };
-            }
           }
-
         })
       });
         //아이디체크
@@ -89,7 +82,6 @@
         //this : #userId 요소
         // id 입력창에 입력된 값 가져오기
         let currentValue =$(this).val();
-        console.log(currentValue)
         //ajax로 서버에서 같은 아이디가 있는지 확인하기
         $.ajax({
           url:"/checkId",
@@ -120,7 +112,6 @@
         //this : #userId 요소
         // id 입력창에 입력된 값 가져오기
         let currentValue =$(this).val();
-        console.log(currentValue)
         //ajax로 서버에서 같은 아이디가 있는지 확인하기
         $.ajax({
           url:"/checkEmail",
@@ -177,17 +168,10 @@
       }
       if (nameValue.trim().length > 6 || nameValue.trim().length < 2 ){
         alert("닉네임을 2글자 이상으로 입력하세요");
-        console.log("zz");
         document.getElementById("userNickname").focus();
         return false;
       }
-      for(let i=0; i<nameValue.length; i++){
-        if(!isNaN(nameValue.charAt(i))){
-          alert("잘못된 글자가 포함되어 있습니다.");
-          document.getElementById("userNickname").focus();
-          return false;
-        }
-      }
+
       if (addressValue ==='' || addressValue.trim().length==0){
         alert("이메일을 입력하세요");
         document.getElementById("email").focus();
@@ -207,6 +191,11 @@
       if(!checkIdMsg.includes("가능")){
         alert("유효하지 않은 아이디입니다.")
         document.getElementById("userId").focus();
+        return false;
+      }
+      if(checkEmailMsg.includes("사용중")){
+        alert("이미 사용중인 이메일입니다.")
+        document.getElementById("email").focus();
         return false;
       }
     }
