@@ -41,15 +41,19 @@
     <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
     <span class="form-floating-lg">
-            <input type="text" class="form-control-lg" id="floatingInput" placeholder="아이디" name="userId">
+            <input type="text" class="form-control-lg" placeholder="아이디" name="userId">
           </span>
-    <br>
+    <br><br>
     <span class="form-floating-lg">
-            <input type="password" class="form-control-lg" id="floatingPassword" placeholder="비밀번호" name="userPw">
+            <input type="password" class="form-control-lg" placeholder="비밀번호" name="userPw">
           </span>
-    <br>
-    <span class="checkbox mb-3"></span>
+    <br><br>
+
     <button class=" btn btn-lg btn-primary" type="submit">로그인</button>
+    <br><br>
+    <div><a href="#">아이디</a> / <a href="#">비밀번호</a> 찾기</div>
+
+
   </form>
   <span id = "message" th:if="${param.error != null}">아이디나 비밀번호가 틀렸습니다.</span>
 </main>
