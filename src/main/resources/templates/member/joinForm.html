@@ -175,19 +175,20 @@
         alert("닉네임을 입력하세요.")
         return false;
       }
-      if (nameValue.trim().length > 6 || nameValue.trim().length <= 2 ){
+      if (nameValue.trim().length > 6 || nameValue.trim().length < 2 ){
         alert("닉네임을 2글자 이상으로 입력하세요");
-        document.getElementById("name").focus();
+        console.log("zz");
+        document.getElementById("userNickname").focus();
         return false;
       }
       for(let i=0; i<nameValue.length; i++){
         if(!isNaN(nameValue.charAt(i))){
           alert("잘못된 글자가 포함되어 있습니다.");
-          document.getElementById("name").focus();
+          document.getElementById("userNickname").focus();
           return false;
         }
       }
-      if (addressValue ===''){
+      if (addressValue ==='' || addressValue.trim().length==0){
         alert("이메일을 입력하세요");
         document.getElementById("email").focus();
         return false;
@@ -195,17 +196,19 @@
       //아이디 중복확인을 했는지?
       let checkIdMsg = document.getElementById("msg").innerText;
       let checkNameMsg = document.getElementById("msg_nickName").innerText;
+      let checkEmailMsg = document.getElementById("msgEmail").innerText;
+
       if(!checkNameMsg.includes("가능")){
         alert("중복된 닉네임 입니다.")
         document.getElementById("userNickname").focus();
         return false;
       }
-      //중복확인메세지에 '가능'이라는 키워드가 없다면 유효하지 않은 아이디
+
       if(!checkIdMsg.includes("가능")){
         alert("유효하지 않은 아이디입니다.")
         document.getElementById("userId").focus();
         return false;
-      }//중복이 아닌 id에 대해서는 '가능' 키워드 있음
+      }
     }
   </script>
 </head>
