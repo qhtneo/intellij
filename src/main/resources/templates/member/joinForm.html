@@ -194,7 +194,12 @@
       }
       //아이디 중복확인을 했는지?
       let checkIdMsg = document.getElementById("msg").innerText;
-
+      let checkNameMsg = document.getElementById("msg_nickName").innerText;
+      if(!checkNameMsg.includes("가능")){
+        alert("중복된 닉네임 입니다.")
+        document.getElementById("userNickname").focus();
+        return false;
+      }
       //중복확인메세지에 '가능'이라는 키워드가 없다면 유효하지 않은 아이디
       if(!checkIdMsg.includes("가능")){
         alert("유효하지 않은 아이디입니다.")
