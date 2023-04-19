@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import java.util.List;
@@ -42,7 +43,6 @@ public class BoardController {
     @GetMapping("/board")
     public String board(Model model){
         List<Board> boardList = bService.selectAllBoard();
-        log.debug("list size {}  ", boardList.size());
 
         model.addAttribute("boardList", boardList);
 
@@ -56,8 +56,6 @@ public class BoardController {
 
     @PostMapping("/writeBoard")
     public String writeBoard(Board board, @AuthenticationPrincipal UserDetails user) {
-        log.debug("write(Board)");
-        log.debug("Board : {}", board);
         String userId = user.getUsername();
         Member member  = mService.selectOneMember(userId);
         board.setUserNickname((member.getUserNickname()));
@@ -68,9 +66,6 @@ public class BoardController {
 
     @GetMapping("/readBoard")
     public String readBoard(Model model, int boardNo) {
-        log.debug("read()");
-        log.debug("boardNum : {}", boardNo);
-
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
         // model 객체에 글 정보 담기
@@ -81,9 +76,6 @@ public class BoardController {
 
     @GetMapping("/updateBoard")
     public String updateBoard(Model model, int boardNo){
-        log.debug("update()");
-        log.debug("boardNo : {}", boardNo);
-
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
 
@@ -106,4 +98,5 @@ public class BoardController {
 
         return "redirect:/board";
     }
+
 }

@@ -4,6 +4,7 @@ import com.project.trip.vo.Board;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardDao {
@@ -16,4 +17,13 @@ public interface BoardDao {
     public int updateBoard(Board board);
 
     public int deleteBoard(int boardNo);
+
+    List<Board> selectBoardById(String userId);
+
+
+    void updateRecommend(int boardNo);
+
+    int checkRecommendHistory(Map<String, Object> map);
+
+    void insertRecommendHistory(Map<String, Object> map);
 }

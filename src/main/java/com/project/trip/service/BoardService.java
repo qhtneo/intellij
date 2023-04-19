@@ -15,4 +15,11 @@ public interface BoardService {
     public int updateBoard(Board board);
 
     public int deleteBoard(int boardNo);
+
+    public List<Board> selectBoardById(String userId);
+
+
+    boolean recommend(int boardNo,String userId);
+
+    int updateRecommend(int boardNo);
 }

@@ -15,5 +15,5 @@ public class Board {
     private String boardSummary;   // 글내용
     private String inputDate;      // 글 작성 날짜
     private int boardView;         // 글 조회수
-    private int boardLike;         // 글 좋아요
+    private int recommend;         // 글 좋아요
 }
