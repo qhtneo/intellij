@@ -25,6 +25,12 @@
             BOARD_NO DESC
     </select>
 
+    <!-- 글 개수 세기 -->
+    <select id = "countBoard" resultType = "int">
+        SELECT count(*) FROM BOARD
+        ORDER BY INPUT_DATE DESC
+    </select>
+
     <select id="selectOneBoard" resultType="Board" parameterType="int">
         SELECT
             BOARD_NO AS boardNo,
@@ -63,6 +69,33 @@
         DELETE FROM board
         WHERE BOARD_NO = #{boardNo}
     </delete>
+
+    <!-- 조건부 검색 -->
+    <select id="selectBoardByKeyword" resultType="Board" parameterType="hashmap">
+        SELECT
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+            INPUT_DATE AS inputDate,
+            BOARD_LIKE AS boardLike
+        FROM board
+        <if test = "category != null and keyword != null">
+            <where>
+                <if test="category eq 'boardTitle_summary'">
+                    BOARD_TITLE LIKE '%'||#{keyword}||'%' OR
+                    BOARD_SUMMARY LIKE '%'||#{keyword}||'%'
+                </if>
+                <if test="category eq 'userNickname'">
+                    USER_NICKNAME LIKE '%'||#{keyword}||'%'
+                </if>
+            </where>
+        </if>
+        ORDER BY BOARD_NO DESC
+    </select>
+
+
     <!-- 추천 수 업데이트 -->
     <update id = "updateRecommend" parameterType="int">
         UPDATE BOARD
@@ -83,4 +116,5 @@
         VALUES
             (#{boardNo},#{userId})
     </insert>
+
 </mapper>

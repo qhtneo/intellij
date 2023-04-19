@@ -2,28 +2,22 @@ package com.project.trip.dao;
 
 import com.project.trip.vo.Board;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface BoardDao {
-    public int writeBoard(Board board);
-
-    public List<Board> selectAllBoard();
-
-    public Board selectOneBoard(int boardNo);
-
-    public int updateBoard(Board board);
-
-    public int deleteBoard(int boardNo);
-
+    int writeBoard(Board board);
+    Board selectOneBoard(int boardNo);
+    int updateBoard(Board board);
+    int deleteBoard(int boardNo);
+    List<Board> selectAllBoard(RowBounds rb);
+    int countBoard();
+    List<Board> selectBoardByKeyword(Map<String, Object> map, RowBounds rb);
     List<Board> selectBoardById(String userId);
-
-
     void updateRecommend(int boardNo);
-
     int checkRecommendHistory(Map<String, Object> map);
-
     void insertRecommendHistory(Map<String, Object> map);
 }
