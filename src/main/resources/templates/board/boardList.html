@@ -15,6 +15,8 @@
 </head>
 <body>
 <h1>글 목록</h1>
+
+<a th:href="@{/}">홈으로</a>
 <!-- 글 목록 보여줄 곳 -->
 <table border="1">
   <tr>
@@ -44,7 +46,6 @@
 </span>
 
 <div id="page">
-  <form id="pagingForm">
     <!-- 페이지 이동링크 -->
     <a th:href="|javascript:pagingFormSubmit(${navi.currentPage - navi.pagePerGroup})|">◁◁</a>
     <a th:href="|javascript:pagingFormSubmit(${navi.currentPage - 1})|">◀</a>
@@ -55,12 +56,16 @@
         </span>
     <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + 1})|">▶</a>
     <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})|">▷▷</a>
+  <form id="pagingForm">
     <input type="hidden" name="page" id="page1" value="${navi.currentPage}" />
+    <input type="hidden" name="category"  th:value="${category}" />
+    <input type="hidden" name="keyword"  th:value="${keyword}" />
+
   </form>
 </div>
 
 <!-- 검색 -->
-<form action="/searchBoard" method="get">
+<form action="/board" method="get">
   <table>
     <tr>
       <td>

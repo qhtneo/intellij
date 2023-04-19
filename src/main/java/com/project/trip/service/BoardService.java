@@ -16,7 +16,7 @@ public interface BoardService {
 
     public int deleteBoard(int boardNo);
 
-    public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);
+    public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category);
 
     public List<Board> selectAllBoard(PageNavigator navi);
 
@@ -24,9 +24,9 @@ public interface BoardService {
 
     public List<Board> selectBoardById(String userId);
 
-    boolean recommend(int boardNo,String userId);
+    public boolean recommend(int boardNo,String userId);
 
-    int updateRecommend(int boardNo);
+    public int updateRecommend(int boardNo);
 
     String selectIdByBoard(String userId);
 }

@@ -15,7 +15,7 @@ public interface BoardDao {
     int updateBoard(Board board);
     int deleteBoard(int boardNo);
     List<Board> selectAllBoard(RowBounds rb);
-    int countBoard();
+    int countBoard(String keyword, String category);
     List<Board> selectBoardByKeyword(Map<String, Object> map, RowBounds rb);
     List<Board> selectBoardById(String userId);
     void updateRecommend(int boardNo);
