@@ -40,18 +40,18 @@ public class BoardController {
     int pagePerGroup;
     
     // 게시판 목록
-    @GetMapping("/board")
-
-    public String board(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-        PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page);
-        log.debug(navi.toString());
-        List<Board> boardList = bService.selectAllBoard(navi);
-
-
-        model.addAttribute("navi", navi);
-        model.addAttribute("boardList", boardList);
-        return "board/boardList";
-    }
+//    @GetMapping("/board")
+//
+//    public String board(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+//        PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page);
+//        log.debug(navi.toString());
+//        List<Board> boardList = bService.selectAllBoard(navi);
+//
+//
+//        model.addAttribute("navi", navi);
+//        model.addAttribute("boardList", boardList);
+//        return "board/boardList";
+//    }
 
     // 게시판 글쓰기 페이지로 이동
     @GetMapping("/writeBoard")
@@ -80,8 +80,10 @@ public class BoardController {
     // 게시판 글 상세보기
     @GetMapping("/readBoard")
     public String readBoard(Model model, int boardNo) {
+
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
+
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
 
@@ -117,14 +119,14 @@ public class BoardController {
 
 
     // 글 검색
-    @GetMapping("/searchBoard")
+    @GetMapping("/board")
     public String searchBoard(String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-        PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page);
+        PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category);
         log.debug(navi.toString());
 
 
         List<Board> boardList = bService.selectBoardByKeyword(keyword, category, navi);
-
+        log.debug("검색 실행됨 {}", boardList.size());
         model.addAttribute("navi", navi);
         model.addAttribute("boardList", boardList);
         model.addAttribute("keyword", keyword);
