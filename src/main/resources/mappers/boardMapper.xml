@@ -70,6 +70,16 @@
         WHERE
             U.user_id = #{userId}
     </select>
+    <select id="selectIdByBoard" parameterType="String" resultType="String">
+        select
+            M.user_id as userId
+        from
+            member M join board B
+        ON
+            B.user_no= M.user_no
+        where
+            M.user_id = #{userId}
+    </select>
     <update id="updateBoard" parameterType="board">
         UPDATE board
         SET BOARD_TITLE = #{boardTitle}, BOARD_SUMMARY = #{boardSummary}

@@ -2,6 +2,7 @@ package com.project.trip.service;
 
 import com.project.trip.dao.BoardDao;
 import com.project.trip.vo.Board;
+import com.project.trip.vo.Member;
 import com.project.trip.vo.PageNavigator;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,11 @@ class BoardServiceImpl implements BoardService {
         Board b = bDao.selectOneBoard(boardNo);
         return b.getRecommend();
 
+    }
+
+    @Override
+    public String selectIdByBoard(String userId) {
+        return bDao.selectIdByBoard(userId);
     }
 
 

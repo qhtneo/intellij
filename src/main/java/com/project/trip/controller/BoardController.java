@@ -79,13 +79,16 @@ public class BoardController {
 
     // 게시판 글 상세보기
     @GetMapping("/readBoard")
+
     public String readBoard(Model model, int boardNo) {
 
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
 
+
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
+        model.addAttribute("member",member);
 
         return "board/readBoard";
     }
