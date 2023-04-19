@@ -18,7 +18,7 @@
             BOARD_TITLE AS boardTitle,
             BOARD_VIEW AS boardView,
             INPUT_DATE AS inputDate,
-            BOARD_LIKE AS boardLike
+            recommend AS recommend
         FROM
             BOARD
         ORDER BY
@@ -39,11 +39,26 @@
             BOARD_SUMMARY AS boardSummary,
             BOARD_VIEW AS boardView,
             INPUT_DATE AS inputDate,
-            BOARD_LIKE AS boardLike
+            recommend AS recommend
         FROM 	board
         WHERE 	BOARD_NO = #{boardNo}
     </select>
-
+    <select id="selectBoardById" resultType="Board" parameterType="String">
+        SELECT
+            BOARD_NO AS boardNo,
+            U.USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+            INPUT_DATE AS inputDate,
+            recommend AS recommend
+        FROM
+            Board B JOIN Member U
+        ON
+            B.user_no= U.user_no
+        WHERE
+            U.user_id = #{userId}
+    </select>
     <update id="updateBoard" parameterType="board">
         UPDATE board
         SET BOARD_TITLE = #{boardTitle}, BOARD_SUMMARY = #{boardSummary}
@@ -80,5 +95,26 @@
         ORDER BY BOARD_NO DESC
     </select>
 
+
+    <!-- 추천 수 업데이트 -->
+    <update id = "updateRecommend" parameterType="int">
+        UPDATE BOARD
+        SET recommend = recommend+1
+        WHERE BOARD_NO =#{boardNo}
+    </update>
+
+    <!-- 추천 확인 -->
+    <select id="checkRecommendHistory" parameterType ="map" resultType="int">
+        SELECT COUNT(*)
+        FROM RECOMMEND
+        WHERE user_id = #{userId} and BOARD_NO = #{boardNo}
+    </select>
+    <!--추천 저장-->
+    <insert id ="insertRecommendHistory" parameterType ="map">
+        INSERT INTO
+            RECOMMEND(board_No,user_Id)
+        VALUES
+            (#{boardNo},#{userId})
+    </insert>
 
 </mapper>

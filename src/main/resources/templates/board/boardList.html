@@ -22,8 +22,8 @@
     <th>제목</th>
     <th>작성자</th>
     <th>작성일시</th>
-    <th>조회수</th>
     <th>좋아요</th>
+    <th>조회수</th>
   </tr>
   <!-- !!!반복할것임!!! -->
   <tr th:each ="board:${boardList}">
@@ -33,7 +33,7 @@
     </td>
     <td th:text ="${board.userNickname}"></td>
     <td th:text ="${board.inputDate}"></td>
-    <td th:text = "${board.boardLike}"></td>
+    <td th:text = "${board.recommend}"></td>
     <td th:text ="${board.boardView}"></td>
   </tr>
 </table>

@@ -21,4 +21,10 @@ public interface BoardService {
 
     public List<Board> selectBoardByKeyword(String keyword, String category, PageNavigator navi);
 
+    public List<Board> selectBoardById(String userId);
+
+    boolean recommend(int boardNo,String userId);
+
+    int updateRecommend(int boardNo);
+
 }

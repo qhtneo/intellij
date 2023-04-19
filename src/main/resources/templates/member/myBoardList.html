@@ -56,8 +56,9 @@
         </header>
       </div>
 
-      <!-- 사이드바 -->
+    <!-- 전체 -->
     <div class="d-flex flex-row justify" style="padding: 50px;">
+      <!-- 사이드바 -->
       <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
         <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <svg class="bi pe-none me-2" width="40" height="32">
@@ -68,7 +69,7 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item">
-            <a href="/myBoardList" class="nav-link link-body-emphasis" aria-current="page">
+            <a href="#" class="nav-link link-body-emphasis" aria-current="page">
               <svg class="bi pe-none me-2" width="16" height="16">
                 <use xlink:href="#home"></use>
               </svg>
@@ -97,47 +98,34 @@
 
       <!-- 정보 수정 화면 -->
     <div class="row g-5 w-flex">
-      <div class="col-md-7 col-lg-8 mx-auto">
-        <h4 class="lb-3">회원 정보</h4>
-        <form class="needs-validation" novalidate="novalidate" action="/updateMember" method="post"
-        onsubmit="return pwCheckValue()">
-          <div class="row g-3">
-            <div class="col-sm-6">
-              <label for="firstName" class="form-label">별명</label>
-              <input type="text" class="form-control" id="firstName" th:value="${member.userNickname}" readonly>
-            </div>
-
-            <div class="col-12">
-              <label for="userId" class="form-label">아이디</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" id="userId" name = "userId" th:value="${member.userId}"readonly>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="email" class="form-label">Email
-                <input type="email" class="form-control" id="email" placeholder="you@example.com" th:value="${member.userEmail}" readonly>
-            </div>
-
-            <div class="col-12">
-                <label class="form-label">비밀번호</label>
-                <input type="password" class="form-control" id="pw1"  name = "userPw" >
-            </div>
-
-            <div class="col-12">
-                <label class="form-label">비밀번호 확인</label>
-                <input type="password" class="form-control" id="pw2">
-            </div>
-
-            <div class="col-12 text-center">
-                <button class=" btn btn-lg btn-primary" type="submit">정보 수정</button>
-                <button class=" btn btn-lg btn-primary" type="button" onclick="location.href = 'deleteMember'">회원 탈퇴</button>
-            </div>
-          </div>
-        </form>
-          <hr class="my-4">
+      <div>
+        <h4><span th:text="${member.userNickname}"></span>회원님의 게시물</h4>
+        <table border="1">
+          <tr>
+            <th>글 번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일시</th>
+            <th>조회수</th>
+            <th>좋아요</th>
+          </tr>
+          <!-- !!!반복할것임!!! -->
+          <tr th:each = "board:${boardList}">
+            <td th:text = "${board.boardNo}"></td>
+            <td>
+              <a th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
+            </td>
+            <td th:text = "${board.userNickname}"></td>
+            <td th:text = "${board.inputDate}"></td>
+            <td th:text = "${board.recommend}"></td>
+            <td th:text = "${board.boardView}"></td>
+          </tr>
+        </table>
 
         </div>
+
+      </div>
+    </div>
   </body>
 
 </html>

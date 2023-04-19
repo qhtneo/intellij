@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 
 import java.util.List;
@@ -39,10 +41,12 @@ public class BoardController {
     
     // 게시판 목록
     @GetMapping("/board")
+
     public String board(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page);
         log.debug(navi.toString());
         List<Board> boardList = bService.selectAllBoard(navi);
+
 
         model.addAttribute("navi", navi);
         model.addAttribute("boardList", boardList);
@@ -62,6 +66,7 @@ public class BoardController {
         log.debug("Board : {}", board);
 
         // 로그인 된 정보에서 userId 가져오기
+
         String userId = user.getUsername();
         Member member  = mService.selectOneMember(userId);
         board.setUserNickname((member.getUserNickname()));
@@ -75,9 +80,6 @@ public class BoardController {
     // 게시판 글 상세보기
     @GetMapping("/readBoard")
     public String readBoard(Model model, int boardNo) {
-        log.debug("read()");
-        log.debug("boardNum : {}", boardNo);
-
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
         // model 객체에 글 정보 담기
@@ -89,9 +91,6 @@ public class BoardController {
     // 게시판 글 수정하기 페이지로 이동
     @GetMapping("/updateBoard")
     public String updateBoard(Model model, int boardNo){
-        log.debug("update()");
-        log.debug("boardNo : {}", boardNo);
-
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
 
@@ -116,6 +115,7 @@ public class BoardController {
         return "redirect:/board";
     }
 
+
     // 글 검색
     @GetMapping("/searchBoard")
     public String searchBoard(String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
@@ -132,6 +132,5 @@ public class BoardController {
 
         return "board/boardList";
     }
-
 
 }
