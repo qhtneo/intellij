@@ -1,6 +1,7 @@
 package com.project.trip.dao;
 
 import com.project.trip.vo.Board;
+import com.project.trip.vo.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -20,4 +21,6 @@ public interface BoardDao {
     void updateRecommend(int boardNo);
     int checkRecommendHistory(Map<String, Object> map);
     void insertRecommendHistory(Map<String, Object> map);
+
+    String selectIdByBoard(String userId);
 }

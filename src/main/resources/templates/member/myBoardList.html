@@ -33,6 +33,28 @@
       }
     }
   </script>
+    <style>
+      .my-hr1 {
+        border: 0;
+        height: 1px;
+        background: #ccc;
+      }
+      .my-hr2 {
+        border: 0;
+        height: 2px;
+        background: black;
+      }
+      .my-hr3 {
+        border: 1;
+        height: 4px;
+        background: black;
+      }
+      #myTable{
+        border : 0px;
+        width: 630px;
+
+      }
+    </style>
   </head>
 
   <body>
@@ -97,29 +119,36 @@
       </div>
 
       <!-- 정보 수정 화면 -->
-    <div class="row g-5 w-flex">
-      <div>
+    <div class="row g-5 w-100 "style="padding-left: 20px">
+      <div class="col-md-7 col-lg-12 mx-auto" style="padding-top: 20px">
         <h4><span th:text="${member.userNickname}"></span>회원님의 게시물</h4>
-        <table border="1">
-          <tr>
+        <hr  class="my-hr3">
+        <table id = "myTable" >
+          <tr style="text-align: center;">
             <th>글 번호</th>
             <th>제목</th>
             <th>작성자</th>
-            <th>작성일시</th>
-            <th>조회수</th>
             <th>좋아요</th>
+            <th>조회수</th>
+            <th>작성일시</th>
+          </tr>
+          <tr>
+            <!--이 colspan은 보여줄 컬럼의 수-->
+            <td colspan="6" ><hr class="my-hr2"></td>
           </tr>
           <!-- !!!반복할것임!!! -->
-          <tr th:each = "board:${boardList}">
+          <tr th:each = "board:${boardList}"  style="text-align: center;">
             <td th:text = "${board.boardNo}"></td>
             <td>
               <a th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
             </td>
             <td th:text = "${board.userNickname}"></td>
-            <td th:text = "${board.inputDate}"></td>
             <td th:text = "${board.recommend}"></td>
             <td th:text = "${board.boardView}"></td>
+            <td th:text = "${board.inputDate}" ></td>
+
           </tr>
+
         </table>
 
         </div>

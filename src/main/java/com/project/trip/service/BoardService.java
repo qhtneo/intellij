@@ -1,6 +1,7 @@
 package com.project.trip.service;
 
 import com.project.trip.vo.Board;
+import com.project.trip.vo.Member;
 import com.project.trip.vo.PageNavigator;
 
 import java.util.List;
@@ -27,4 +28,5 @@ public interface BoardService {
 
     int updateRecommend(int boardNo);
 
+    String selectIdByBoard(String userId);
 }

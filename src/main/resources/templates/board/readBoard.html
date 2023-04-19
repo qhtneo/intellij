@@ -51,7 +51,7 @@
             좋아요:<span id = "rec" th:text="*{recommend}">0</span>&nbsp;&nbsp;<input type ="button" value="추천" id="btnRec"></tr>
         </th>
     <tr>
-        <th>
+        <th th:text= "${#authentication.principal}">
             <a th:href="|/updateBoard?boardNo=${board.boardNo}|">수정하기</a>
         </th>
         <th>
