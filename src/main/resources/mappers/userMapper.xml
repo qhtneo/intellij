@@ -72,5 +72,11 @@
         FROM MEMBER
         where user_email = #{userEmail}
     </select>
+    <select id = "findIdByEmail" parameterType="String" resultType="Member">
+        SELECT
+            user_id as userId
+        from Member
+        where user_email=#{userEmail}
+    </select>
 </mapper>
 

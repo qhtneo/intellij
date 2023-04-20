@@ -5,6 +5,7 @@ import com.project.trip.service.MemberService;
 import com.project.trip.vo.Board;
 import com.project.trip.vo.Member;
 import com.project.trip.vo.PageNavigator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +24,10 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
-
-    @Autowired
-    private BoardService bService;
-
-    @Autowired
-    private MemberService mService;
+    private final BoardService bService;
+    private final MemberService mService;
 
     // 게시판 목록의 페이지당 글 수
     @Value("${user.board.page}")
@@ -88,7 +86,7 @@ public class BoardController {
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
-        model.addAttribute("member",member);
+//        model.addAttribute("member",member);
 
         return "board/readBoard";
     }

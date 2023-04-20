@@ -23,9 +23,13 @@ public class WebSecurityConfig {
 		.authorizeRequests()
 		.antMatchers("/",
 					"/join",
+					"/findMember",
+					"/findId",
 					"/checkId",
 					"/checkName",
 					"/checkEmail",
+					"/checkMember",
+				    "/emailConfirm",
 					"/list",
 					"/read",
 					"/error",
