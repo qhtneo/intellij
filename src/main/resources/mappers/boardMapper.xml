@@ -124,6 +124,11 @@
         SET recommend = recommend+1
         WHERE BOARD_NO =#{boardNo}
     </update>
+    <update id = "deleteRecommend" parameterType="int">
+        UPDATE BOARD
+        SET recommend = recommend-1
+        WHERE BOARD_NO =#{boardNo}
+    </update>
 
     <!-- 추천 확인 -->
     <select id="checkRecommendHistory" parameterType ="map" resultType="int">
@@ -139,4 +144,8 @@
             (#{boardNo},#{userId})
     </insert>
 
+    <delete id="deleteRecommendHistory" parameterType="map">
+        DELETE FROM RECOMMEND
+        WHERE BOARD_NO = #{boardNo} and USER_ID = #{userId}
+    </delete>
 </mapper>
