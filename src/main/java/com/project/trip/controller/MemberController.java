@@ -99,6 +99,15 @@ public class MemberController {
             return "NG";
         }
     }
+    @GetMapping("/recommendList")
+    public String recommendList(@AuthenticationPrincipal UserDetails user, Model model){
+        String userId = user.getUsername();
+        Member member = mService.selectOneMember(userId);
+        List<Board> boardList = bService.selectBoardByRecommend(userId);
+        model.addAttribute("member",member);
+        model.addAttribute("boardList", boardList);
+        return "member/myBoardList";
+    }
     @GetMapping("/myBoardList")
     public String myBoardList(@AuthenticationPrincipal UserDetails user, Model model){
         String userId = user.getUsername();
