@@ -21,8 +21,7 @@ public interface BoardDao {
     void updateRecommend(int boardNo);
     int checkRecommendHistory(Map<String, Object> map);
     void insertRecommendHistory(Map<String, Object> map);
+    void deleteRecommendHistory(Map<String, Object> map);
 
-    String selectIdByBoard(String userId);
-
-
+    void deleteRecommend(int boardNo);
 }

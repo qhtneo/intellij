@@ -28,7 +28,8 @@ public interface BoardService {
 
     public int updateRecommend(int boardNo);
 
-    String selectIdByBoard(String userId);
 
+    int deleteRecommend(int boardNo);
 
+    boolean checkRecommend(int boardNo, String userId);
 }

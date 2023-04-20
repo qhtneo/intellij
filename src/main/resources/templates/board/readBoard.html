@@ -6,33 +6,47 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function (){
-
-            $("#btnRec").on("click",function(){
-                let bNum = $("#boardNum").text();
-                $.ajax({
-                    //내가 필요한 설정등을 써서 서버에 보낼 수 있음
-                    url: "/recommend", //호출할 서버의 url
-                    method:"post",	// get or host
-                    data: {"boardNo" : parseInt(bNum)}, // url을 호출하면서 넘겨줄 데이터
-                    success : function(data){
-                        if(data.value2){
-                            $("#rec").text(data.value2);
-                        }
-                        if(data.value1=="OK"){
-                            alert("추천이 완료되었습니다.");
-                        }else{
-                            alert("이미 추천한 글입니다.");
-                        }
+            $('#eh').show();
+            let bNum = $("#boardNum").text();
+            $.ajax({
+                url: "/checkRecommend",
+                method:"post",
+                data: {"boardNo" : parseInt(bNum)},
+                success : function(data){
+                    if(data=="OK"){
+                        $('#fh').hide();
+                    }else if(data =="NG"){
+                        $('#eh').hide();
+                        $('#fh').show();
                     }
-                });
+                }
             });
-        });
+            });
+
+        function checkHeart(){
+            let bNum = $("#boardNum").text();
+            $.ajax({
+                url: "/recommend",
+                method:"post",
+                data: {"boardNo" : parseInt(bNum)},
+                success : function(data){
+                    $("#rec3").text(data.value2);
+                    if(data.value1=="OK"){
+                        $('#eh').hide();
+                        $('#fh').show();
+
+                    }else{
+                        $('#eh').show();
+                        $('#fh').hide();
+                    }
+                }
+            });
+        };
+
     </script>
 </head>
 <body>
 <h1>글보기</h1>
-<!-- 글 번호, 제목, 내용, 글쓴이, 글쓴 시간, 조회수, 첨부파일(있다면) -->
-
 <table th:object="${board}" border=1>
     <tr>
         <th th:text="*{boardNo}" id ="boardNum">글번호</th>
@@ -48,11 +62,14 @@
     </tr>
     <tr>
         <th colspan="3">
-            좋아요:<span id = "rec" th:text="*{recommend}">0</span>&nbsp;&nbsp;<input type ="button" value="추천" id="btnRec"></tr>
+            <span id = "rec3" th:text="*{recommend}">0</span>&nbsp;&nbsp;
+            <a href="javascript:checkHeart();"><img src="img/eHeart.png" alt="" width="30" height="auto" id = "eh"></a>
+            <a href="javascript:checkHeart();"><img src="img/fHeart.png" alt="" width="30" height="auto" id = "fh"></a>
+            </tr>
         </th>
 
     <tr>
-        <th th:text= "${#authentication.principal}">
+        <th>
             <a th:href="|/updateBoard?boardNo=${board.boardNo}|">수정하기</a>
         </th>
         <th>
