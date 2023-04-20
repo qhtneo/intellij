@@ -99,15 +99,21 @@ public class BoardController {
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
-
+        log.debug("boardIS:{}",board);
         return "board/updateBoard";
     }
 
     // 게시판 글 수정 후 글 상세보기 페이지로 이동
     @PostMapping("/updateBoard")
-    public String updateBoard(Board board){
+    public String updateBoard(Board board ,@AuthenticationPrincipal UserDetails user, Model model){
+        String userId = user.getUsername();
         bService.updateBoard(board);
-        return "redirect:/readBoard/?boardNo=" + board.getBoardNo();
+        Member member = mService.selectOneMember(userId);
+        //클라이언트에 멤버 객체 전달
+        model.addAttribute("member",member);
+        List<Board> boardList = bService.selectBoardById(userId);
+        model.addAttribute("boardList", boardList);
+        return "member/myBoardList";
     }
 
     // 게시판 글 수정
@@ -115,7 +121,7 @@ public class BoardController {
     public String deleteBoard(int boardNo){
         bService.deleteBoard(boardNo);
 
-        return "redirect:/board";
+        return "redirect:/myBoardList";
     }
 
 
