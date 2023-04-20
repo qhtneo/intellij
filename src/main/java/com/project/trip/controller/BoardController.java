@@ -86,7 +86,7 @@ public class BoardController {
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
-//        model.addAttribute("member",member);
+
 
         return "board/readBoard";
     }
