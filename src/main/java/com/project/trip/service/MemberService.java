@@ -12,4 +12,7 @@ public interface MemberService {
 
     Member selectByName(String keyword);
     Member selectByEmail(String email);
+
+
+    Member findIdByEmail(String email);
 }

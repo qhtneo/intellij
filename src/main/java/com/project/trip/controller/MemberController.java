@@ -1,9 +1,11 @@
 package com.project.trip.controller;
 
 import com.project.trip.service.BoardService;
+import com.project.trip.service.EmailService;
 import com.project.trip.service.MemberService;
 import com.project.trip.vo.Board;
 import com.project.trip.vo.Member;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -20,11 +23,11 @@ import java.util.Map;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class MemberController {
-    @Autowired
-    private MemberService mService;
-    @Autowired
-    private BoardService bService;
+    private final MemberService mService;
+    private final BoardService bService;
+    private final EmailService emailService;
     private final String REDIRECT_INDEX = "redirect:/";
 
     @GetMapping("/join")
@@ -124,5 +127,29 @@ public class MemberController {
             Map<String, Object> map = new HashMap<>();
             map.put("value1", "NG");
             return map;}
+    }
+    @GetMapping("/findMember")
+    public String findMember(){
+        return "member/findMember";
+    }
+    @PostMapping("/findId")
+    @ResponseBody
+    public String findId(String email){
+        Member member = mService.findIdByEmail(email);
+        if(member != null){
+            String userId = member.getUserId();
+            return userId;
+        }
+        else{
+            log.debug("no have Id");
+            return "member/loginForm";
+        }
+    }
+    @PostMapping("/emailConfirm")
+    public String emailConfirm(@RequestParam String email, Model model) throws Exception {
+        String confirm = emailService.sendSimpleMessage(email);
+        model.addAttribute("key",confirm);
+        model.addAttribute("email",email);
+        return "member/checkMember";
     }
 }

@@ -13,12 +13,10 @@
     //유효하면 -> 서버로 보냄 아니면 ->여기서 머무름
     function checkForm() {
       //.value쓰는 이유?입력창 객체 그 하나와 객체안의 값 차이
-      let userId = document.getElementById("floatingInput").value;
-      let userPw = document.getElementById("floatingPassword").value;
-
+      let userEmail = document.getElementById("email").value;
       //trim문자열의 앞 또는 뒤에 붙어있는 공백 삭제
-      if(userId.trim().length ==0 || userPw.trim().length==0){
-        alert("아이디 또는 비밀번호가 비어있습니다.");
+      if(userEmail.trim().length == 0){
+        alert("이메일이 비어있습니다.");
         return false;
       }
       return true;
@@ -34,29 +32,31 @@
 <body class="text-center">
 
 <main class="form-signin" width="50">
-  <form action ="/login" method ="post" onsubmit = "return checkForm();">
+  <div>
+  <form action ="/emailConfirm" method ="post" onsubmit = "return checkForm();">
     <a href="/">
       <img class="mb-4" src="img/logo.png" alt="" width="380" height="auto">
     </a>
-    <h1 class="h3 mb-3 fw-normal">로그인</h1>
+    <h1 class="h3 mb-3 fw-normal">아이디 찾기</h1>
 
     <span class="form-floating-lg">
-            <input type="text" class="form-control-lg" placeholder="아이디" name="userId">
-          </span>
+        <input type="email" class="form-control-lg" placeholder="이메일" name="email" id="email">
+    </span>
     <br><br>
-    <span class="form-floating-lg">
-            <input type="password" class="form-control-lg" placeholder="비밀번호" name="userPw">
-          </span>
-    <br><br>
-
-    <button class=" btn btn-lg btn-primary" type="submit">로그인</button>
-    <br><br>
-    <div><a href="/join">회원가입</a></div>
-    <div><a href="/findMember">아이디 / 비밀번호</a> 찾기</div>
-
-
+    <button class=" btn btn-lg btn-primary" type="submit">아이디 찾기</button>
   </form>
-  <span id = "message" th:if="${param.error != null}">아이디나 비밀번호가 틀렸습니다.</span>
+  </div>
+  <br><br>
+<!--  <div>-->
+<!--    <form action ="/findMember" method ="post" onsubmit = "return checkForm();">-->
+<!--      <h1 class="h3 mb-3 fw-normal">비밀번호 찾기</h1>-->
+<!--      <span class="form-floating-lg">-->
+<!--            <input type="email" class="form-control-lg" placeholder="이메일" name="email"id="email">-->
+<!--          </span>-->
+<!--      <br><br>-->
+<!--      <button class=" btn btn-lg btn-primary" type="submit">비밀번호 찾기</button>-->
+<!--    </form>-->
+<!--  </div>-->
 </main>
 
 </body>

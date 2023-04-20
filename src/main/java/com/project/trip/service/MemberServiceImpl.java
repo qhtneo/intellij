@@ -60,4 +60,11 @@ public class MemberServiceImpl implements MemberService {
     public Member selectByEmail(String email) {
         return mDao.selectByEmail(email);
     }
+
+    @Override
+    public Member findIdByEmail(String email) {
+        return mDao.findIdByEmail(email);
+    }
+
+
 }
