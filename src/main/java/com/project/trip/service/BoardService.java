@@ -29,4 +29,6 @@ public interface BoardService {
     public int updateRecommend(int boardNo);
 
     String selectIdByBoard(String userId);
+
+
 }

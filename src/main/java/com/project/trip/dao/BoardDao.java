@@ -23,4 +23,6 @@ public interface BoardDao {
     void insertRecommendHistory(Map<String, Object> map);
 
     String selectIdByBoard(String userId);
+
+
 }
