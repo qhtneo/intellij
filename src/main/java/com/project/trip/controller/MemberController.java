@@ -41,7 +41,6 @@ public class MemberController {
     }
     @GetMapping("/login")
     public String login() {
-        log.debug("login()");
         return "member/loginForm";
     }
 
@@ -123,11 +122,25 @@ public class MemberController {
             map.put("value2", a);
             return map;
         }
-        else {;
+        else {
+            int a = bService.deleteRecommend(boardNo);
             Map<String, Object> map = new HashMap<>();
             map.put("value1", "NG");
+            map.put("value2", a);
             return map;}
     }
+    @PostMapping("/checkRecommend")
+    @ResponseBody
+    public String checkRecommend(@AuthenticationPrincipal UserDetails user, int boardNo){
+        String userId = user.getUsername();
+        boolean result = bService.checkRecommend(boardNo,userId);
+        if(result){
+            return "OK";
+        }
+        else {
+            return "NG";}
+    }
+
     @GetMapping("/findMember")
     public String findMember(){
         return "member/findMember";
@@ -141,8 +154,7 @@ public class MemberController {
             return userId;
         }
         else{
-            log.debug("no have Id");
-            return "member/loginForm";
+            return "no have Id";
         }
     }
     @PostMapping("/emailConfirm")
@@ -152,4 +164,5 @@ public class MemberController {
         model.addAttribute("email",email);
         return "member/checkMember";
     }
+
 }

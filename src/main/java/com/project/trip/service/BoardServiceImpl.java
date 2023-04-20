@@ -74,14 +74,16 @@ class BoardServiceImpl implements BoardService {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("boardNo",boardNo);
         map.put("userId", userId);
-        System.out.println(map);
         int checkResult = bDao.checkRecommendHistory(map);
         //추천한 적 없음
         if(checkResult==0) {
             bDao.insertRecommendHistory(map);
             return true;
         }
-        return false;
+        else{
+            bDao.deleteRecommendHistory(map);
+            return false;
+        }
     }
 
     @Override
@@ -93,11 +95,26 @@ class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public String selectIdByBoard(String userId) {
-        return bDao.selectIdByBoard(userId);
+    public int deleteRecommend(int boardNo) {
+        bDao.deleteRecommend(boardNo);
+        Board b = bDao.selectOneBoard(boardNo);
+        return b.getRecommend();
     }
 
-
+    @Override
+    public boolean checkRecommend(int boardNo, String userId) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("boardNo",boardNo);
+        map.put("userId", userId);
+        int checkResult = bDao.checkRecommendHistory(map);
+        //추천한 적 없음
+        if(checkResult==0) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
 
 }
