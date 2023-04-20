@@ -142,7 +142,7 @@ public class MemberController {
         }
         else{
             log.debug("no have Id");
-            return "member/loginForm";
+            return "해당 이메일과 일치하는 아이디가 없습니다.";
         }
     }
     @PostMapping("/emailConfirm")
