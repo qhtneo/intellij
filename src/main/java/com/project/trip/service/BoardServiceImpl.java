@@ -68,6 +68,11 @@ class BoardServiceImpl implements BoardService {
 
     @Override
     public List<Board> selectBoardById(String userId) {return bDao.selectBoardById(userId); }
+    @Override
+    public List<Board> selectBoardByRecommend(String userId) {
+        return bDao.selectBoardByRecommend(userId);
+    }
+
 
     @Override
     public boolean recommend(int boardNo,String userId) {
@@ -115,6 +120,7 @@ class BoardServiceImpl implements BoardService {
             return false;
         }
     }
+
 
 
 }

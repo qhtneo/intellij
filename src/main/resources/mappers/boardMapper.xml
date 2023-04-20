@@ -70,6 +70,20 @@
         WHERE
             U.user_id = #{userId}
     </select>
+
+    <select id="selectBoardByRecommend" resultType="Board" parameterType="String">
+        SELECT B.board_no AS boardNo,
+               U.USER_NICKNAME AS userNickname,
+               B.board_title AS boardTitle,
+               B.board_summary AS boardSummary,
+               B.board_view AS boardView,
+               B.input_date AS inputDate,
+               B.recommend AS recommend
+        FROM recommend r
+                 JOIN BOARD B ON R.board_no = B.board_no
+                 JOIN Member U ON B.user_no = U.user_no
+        WHERE r.user_id = #{user_id}
+    </select>
     <select id="selectIdByBoard" parameterType="String" resultType="String">
         select
             M.user_id as userId

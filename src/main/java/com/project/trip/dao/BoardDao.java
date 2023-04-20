@@ -24,4 +24,6 @@ public interface BoardDao {
     void deleteRecommendHistory(Map<String, Object> map);
 
     void deleteRecommend(int boardNo);
+
+    List<Board> selectBoardByRecommend(String userId);
 }

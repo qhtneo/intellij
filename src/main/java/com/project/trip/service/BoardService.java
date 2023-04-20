@@ -32,4 +32,6 @@ public interface BoardService {
     int deleteRecommend(int boardNo);
 
     boolean checkRecommend(int boardNo, String userId);
+
+    List<Board> selectBoardByRecommend(String userId);
 }
