@@ -49,10 +49,16 @@
         height: 4px;
         background: black;
       }
-      #myTable{
-        border : 0px;
-        width: 630px;
-
+      table{
+        width: 100%;
+      }
+      tr,th{
+        text-align: center;
+        border-bottom: 1px solid gray;
+        padding: 15px;
+      }
+      td{
+        padding: 10px;
       }
     </style>
   </head>
@@ -76,55 +82,55 @@
           </div>
 
         </header>
-      </div>
+
 
     <!-- 전체 -->
     <div class="d-flex flex-row justify" style="padding: 50px;">
       <!-- 사이드바 -->
-      <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
-        <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-          <svg class="bi pe-none me-2" width="40" height="32">
-            <use xlink:href="#bootstrap"></use>
-          </svg>
-          <span class="fs-4">마이페이지</span>
-        </a>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <a href="#" class="nav-link link-body-emphasis" aria-current="page">
-              <svg class="bi pe-none me-2" width="16" height="16">
-                <use xlink:href="#home"></use>
-              </svg>
-              내가 쓴 글
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-body-emphasis">
-              <svg class="bi pe-none me-2" width="16" height="16">
-                <use xlink:href="#speedometer2"></use>
-              </svg>
-              좋아요한 글
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-body-emphasis">
-              <svg class="bi pe-none me-2" width="16" height="16">
-                <use xlink:href="#table"></use>
-              </svg>
-              댓글을 쓴 글
-            </a>
-          </li>
-        </ul>
-        <hr>
-      </div>
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px; background-color: #BBE7F1; border-radius: 10px;">
+          <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi pe-none me-2" width="40" height="32">
+              <use xlink:href="#bootstrap"></use>
+            </svg>
+            <span class="fs-4">마이페이지</span>
+          </a>
+          <hr>
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+              <a href="/myBoardList" class="nav-link link-body-emphasis" aria-current="page">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                  <use xlink:href="#home"></use>
+                </svg>
+                내가 쓴 글
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link link-body-emphasis">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                  <use xlink:href="#speedometer2"></use>
+                </svg>
+                좋아요한 글
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link link-body-emphasis">
+                <svg class="bi pe-none me-2" width="16" height="16">
+                  <use xlink:href="#table"></use>
+                </svg>
+                댓글을 쓴 글
+              </a>
+            </li>
+          </ul>
+          <hr>
+        </div>
 
-      <!-- 정보 수정 화면 -->
+      <!-- 내 글 보기 -->
     <div class="row g-5 w-100 "style="padding-left: 20px">
       <div class="col-md-7 col-lg-12 mx-auto" style="padding-top: 20px">
         <h4><span th:text="${member.userNickname}"></span>회원님의 게시물</h4>
         <hr  class="my-hr3">
         <table id = "myTable" >
-          <tr style="text-align: center;">
+          <tr>
             <th>글 번호</th>
             <th>제목</th>
             <th>작성자</th>
@@ -132,10 +138,7 @@
             <th>조회수</th>
             <th>작성일시</th>
           </tr>
-          <tr>
-            <!--이 colspan은 보여줄 컬럼의 수-->
-            <td colspan="6" ><hr class="my-hr2"></td>
-          </tr>
+
           <!-- !!!반복할것임!!! -->
           <tr th:each = "board:${boardList}"  style="text-align: center;">
             <td th:text = "${board.boardNo}"></td>
@@ -154,6 +157,7 @@
         </div>
 
       </div>
+    </div>
     </div>
   </body>
 
