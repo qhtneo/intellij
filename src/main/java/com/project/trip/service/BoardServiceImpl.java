@@ -25,7 +25,9 @@ class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Board selectOneBoard(int boardNo) {
+    public Board selectOneBoard(int boardNo)
+    {
+        bDao.addViewCount(boardNo);
         return bDao.selectOneBoard(boardNo);
     }
 

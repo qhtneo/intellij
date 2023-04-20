@@ -106,7 +106,7 @@ public class MemberController {
         List<Board> boardList = bService.selectBoardByRecommend(userId);
         model.addAttribute("member",member);
         model.addAttribute("boardList", boardList);
-        return "member/myBoardList";
+        return "member/recommendList";
     }
     @GetMapping("/myBoardList")
     public String myBoardList(@AuthenticationPrincipal UserDetails user, Model model){

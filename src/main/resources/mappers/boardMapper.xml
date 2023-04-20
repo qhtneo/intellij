@@ -54,6 +54,12 @@
         FROM 	board
         WHERE 	BOARD_NO = #{boardNo}
     </select>
+    <!-- 조회수 늘리기 -->
+    <update id ="addViewCount" parameterType ="int">
+        UPDATE BOARD
+        SET BOARD_VIEW = BOARD_VIEW+1
+        where BOARD_NO = #{boardNo}
+    </update>
     <select id="selectBoardById" resultType="Board" parameterType="String">
         SELECT
             BOARD_NO AS boardNo,

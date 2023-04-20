@@ -26,4 +26,6 @@ public interface BoardDao {
     void deleteRecommend(int boardNo);
 
     List<Board> selectBoardByRecommend(String userId);
+
+    void addViewCount(int boardNo);
 }
