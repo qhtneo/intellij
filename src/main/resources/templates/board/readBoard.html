@@ -113,8 +113,8 @@
         <tr>
             <th>
                 <span id = "rec3" th:text="*{recommend}">0</span>&nbsp;&nbsp;
-                <a href="javascript:checkHeart();"><img src="img/eHeart.png" alt="" width="30" height="auto" id = "eh"></a>
-                <a href="javascript:checkHeart();"><img src="img/fHeart.png" alt="" width="30" height="auto" id = "fh"></a>
+                    <a href="javascript:checkHeart();"><img src="img/eHeart.png" sec:authorize = "isAuthenticated()"  alt="" width="30" height="auto" id = "eh"></a>
+                    <a href="javascript:checkHeart();"><img src="img/fHeart.png" sec:authorize = "isAuthenticated()"  alt="" width="30" height="auto" id = "fh"></a>
             </th>
             <th></th>
             <th></th>
