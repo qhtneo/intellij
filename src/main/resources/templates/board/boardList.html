@@ -41,6 +41,16 @@
             </div>
         </header>
 
+    <!-- 메뉴바 -->
+        <ul class="nav justify-content-center mb-4" style="background-color: #BBE7F1; border-radius: 10px;">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#">지역별 데이터</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/board">추천 리뷰 게시판</a>
+            </li>
+        </ul>
+
     <!-- 검색창 -->
         <nav class="navbar bg-body-tertiary">
             <div class="mx-auto">
@@ -54,14 +64,14 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" class="form-control me-2 " style="width: 800px;" name="keyword" th:value ="${keyword}">
+                                <input type="text" class="form-control me-2 " style="width: 800px;" name="keyword" th:value ="${keyword}" placeholder="검색어를 입력하세요">
                             </td>
                             <td>
                                 <button class="btn btn-outline-primary" type="submit">검색</button>
                             </td>
                             <td>
                                 <div class="text-end">
-                                    <a th:if="${#httpServletRequest.userPrincipal != null}" href = "/writeBoard">글쓰기</a>
+                                    <a class="btn btn-primary" th:if="${#httpServletRequest.userPrincipal != null}" onclick="location.href = 'writeBoard'">글쓰기</a>
                                     <span th:if="${#httpServletRequest.userPrincipal == null}" >글을 작성하려면<a href = "/login">로그인</a>하세요</span>
                                 </div>
 
