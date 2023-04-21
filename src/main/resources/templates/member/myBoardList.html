@@ -128,14 +128,8 @@
           <!-- !!!반복할것임!!! -->
           <tr th:each = "board:${boardList}"  style="text-align: center;">
             <td th:text = "${board.boardNo}"></td>
-            <td style="
-        display: block;
-        width: 200px;
-        font-weight: bolder !important;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap; ">
-              <a  th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}" ></a>
+            <td>
+              <a th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
             </td>
             <td th:text = "${board.userNickname}"></td>
             <td th:text = "${board.recommend}"></td>
