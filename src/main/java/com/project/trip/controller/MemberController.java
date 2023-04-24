@@ -163,7 +163,6 @@ public class MemberController {
             return userId;
         }
         else{
-
             log.debug("no have Id");
             return "해당 이메일과 일치하는 아이디가 없습니다.";
 

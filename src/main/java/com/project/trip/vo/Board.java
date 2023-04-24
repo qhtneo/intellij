@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Board {
     private int boardNo;        // 글 번호
     private int userNo;         // 작성자 번호
-    private int userId;
+    private String userId;
     private String userNickname;   // 작성자 닉네임
     private String boardTitle;     // 글제목
     private String boardSummary;   // 글내용

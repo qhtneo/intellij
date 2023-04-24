@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymepleaf.org/extras/spring-security">>
+      xmlns:sec="http://www.thymepleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>[글보기]</title>
@@ -25,6 +25,18 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function (){
+            loadReply();
+
+            $("#btnUpdate").hide(); // 수정 버튼 숨기기
+
+            $("#btnReply").on("click", function() {
+                insertReply();
+            });
+
+            $("#btnUpdate").on("click", function() {
+                updateReply();
+            });
+
             $('#eh').show();
             let bNum = $("#boardNum").text();
             $.ajax({
@@ -50,10 +62,9 @@
                 data: {"boardNo" : parseInt(bNum)},
                 success : function(data){
                     $("#rec3").text(data.value2);
-                    if(data.value1=="OK"){
+                    if(data.value=="OK"){
                         $('#eh').hide();
                         $('#fh').show();
-
                     }else{
                         $('#eh').show();
                         $('#fh').hide();
@@ -62,6 +73,93 @@
             });
         };
 
+        function loadReply(){
+            let boardNo = $("#boardNo").val(); // hidden 태그에 달린 글 번호
+            let userNickname = $("#userNickname").val();
+            $.ajax({
+                url: "/loadReply",
+                method: "POST",
+                data: {"boardNo" : boardNo},
+                success: function(data){
+                    let replyTable = "<table>";
+                    $.each(data.replyList, function(index, item) {
+                        replyTable += "<tr>";
+                        replyTable += "<td>" + item.replyContent + "</td>";
+                        replyTable += "<td>" + item.userNickname + "</td>";
+                        replyTable += "<td>" + item.replyInputDate + "</td>";
+                        replyTable += "<td>"
+                        if (item.userNickname == data.userId) {
+                            replyTable += "<a href = 'javascript:getOneReply(" + item.replyId +");'>수정</a> / ";
+                            replyTable += "<a href = 'javascript:deleteReply(" + item.replyId +");'>삭제</a>";
+                        }
+                        replyTable += "</td>";
+                        replyTable += "</tr>";
+                    });
+                    replyTable += "</table>"
+                    $("#reList").html(replyTable);
+                }
+            })
+        }
+
+        function insertReply() {
+            let replyContent = $("#replyContent").val(); //입력창에 입력된 문자열 가져오기
+            let boardNo = $("#boardNo").val(); // hidden 태그에 들어있는 글 번호
+
+            $.ajax({
+                url: "/insertReply",
+                method: "POST",
+                data: {"replyContent" : replyContent, "boardNo" : boardNo},
+                success: function(){
+                    $("#replyContent").val("");
+                    loadReply();
+                }
+            });
+        }
+
+        function deleteReply(replyId) {
+            $.ajax({
+                url: "/deleteReply",
+                method: "GET",
+                data: {"replyId" : replyId},
+                success: function(){
+                    loadReply();
+                }
+            });
+        }
+
+        function getOneReply(replyId) {
+            $.ajax({
+                url: "/getOneReply",
+                method: "POST",
+                data: {"replyId" : replyId},
+                success: function(reply){
+                    $("#replyContent").val(reply.replyContent);
+                    $("#replyContent").focus();
+
+                    $("#btnReply").hide();
+                    $("#btnUpdate").show();
+
+                    $("#replyId").val(reply.replyId);
+                }
+            });
+        }
+
+        function updateReply(){
+            let newReplyContent = $("#replyContent").val();
+            let replyId = $("#replyId").val();
+
+            $.ajax({
+                url: "/updateReply",
+                method: "POST",
+                data: {"replyContent" : newReplyContent, "replyId" : replyId},
+                success: function(Reply){
+                    loadReply();
+                    $("#btnUpdate").hide();
+                    $("#replyContent").val("");
+                    $("#btnReply").show();
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -83,7 +181,6 @@
             <button sec:authorize = "isAuthenticated()" type ="button" class="btn btn-primary" onclick="location.href = 'logout'">Log-out</button>
             <button sec:authorize = "isAuthenticated()" type ="button" class="btn btn-primary" onclick="location.href = 'myPage'">myPage</button>
         </div>
-
     </header>
 
     <table th:object="${board}">
@@ -124,6 +221,16 @@
         </tr>
     </table>
     <br><br>
+    <!-- 댓글 -->
+    <div id =  "reply">
+        <div id = "reList"></div>
+        <textarea id = "replyContent" cols = "100" rows = ""></textarea><br>
+        <input type = "button" value = "댓글달기" id = "btnReply">
+        <input type = "button" value = "댓글수정" id = "btnUpdate">
+        <input type = "hidden" id = "replyId" value = "">
+        <input type = "hidden" id = "boardNo" th:value = "${board.boardNo}">
+        <input type = "hidden" id = "userNickname" th:value = "${board.userNickname}">
+    </div>
 </div>
 </body>
 </html>
