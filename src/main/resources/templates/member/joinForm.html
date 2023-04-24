@@ -71,7 +71,7 @@
               $("#msg_nickName").text("사용중인 닉네임 입니다.");
               return;
             }
-            if(currentValue.length > 6 || currentValue.length < 2 ){
+            if(currentValue.length > 7 || currentValue.length < 2 ){
               $("#msg_nickName").text("닉네임이 너무 짧거나 깁니다");
               return;
             };
@@ -167,8 +167,8 @@
         alert("닉네임을 입력하세요.")
         return false;
       }
-      if (nameValue.trim().length > 6 || nameValue.trim().length < 2 ){
-        alert("닉네임을 2글자 이상으로 입력하세요");
+      if (nameValue.trim().length > 7 || nameValue.trim().length < 2 ){
+        alert("닉네임이 너무 짧거나 깁니다.");
         document.getElementById("userNickname").focus();
         return false;
       }
