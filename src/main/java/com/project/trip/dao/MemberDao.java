@@ -15,5 +15,4 @@ public interface MemberDao {
     Member selectByName(String userNickname);
     Member selectByEmail(String email);
 
-    Member findIdByEmail(String email);
 }
