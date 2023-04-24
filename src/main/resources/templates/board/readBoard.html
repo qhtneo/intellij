@@ -62,7 +62,7 @@
                 data: {"boardNo" : parseInt(bNum)},
                 success : function(data){
                     $("#rec3").text(data.value2);
-                    if(data.value=="OK"){
+                    if(data.value1=="OK"){
                         $('#eh').hide();
                         $('#fh').show();
                     }else{
