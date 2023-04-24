@@ -49,7 +49,7 @@
             BOARD_TITLE AS boardTitle,
             BOARD_SUMMARY AS boardSummary,
             BOARD_VIEW AS boardView,
-            INPUT_DATE AS inputDate,
+            DATE_FORMAT(INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
             recommend AS recommend
         FROM 	board
         WHERE 	BOARD_NO = #{boardNo}
@@ -67,7 +67,7 @@
             BOARD_TITLE AS boardTitle,
             BOARD_SUMMARY AS boardSummary,
             BOARD_VIEW AS boardView,
-            INPUT_DATE AS inputDate,
+            DATE_FORMAT(INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
             recommend AS recommend
         FROM
             Board B JOIN Member U
@@ -83,7 +83,7 @@
                B.board_title AS boardTitle,
                B.board_summary AS boardSummary,
                B.board_view AS boardView,
-               B.input_date AS inputDate,
+               DATE_FORMAT(B.INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
                B.recommend AS recommend
         FROM recommend r
                  JOIN BOARD B ON R.board_no = B.board_no
@@ -119,7 +119,7 @@
             BOARD_TITLE AS boardTitle,
             BOARD_SUMMARY AS boardSummary,
             BOARD_VIEW AS boardView,
-            INPUT_DATE AS inputDate,
+            DATE_FORMAT(INPUT_DATE, '%y-%m-%d') AS inputDate ,
             RECOMMEND AS recommend
         FROM board
         <if test="category != null and keyword != null">
