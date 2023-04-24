@@ -49,4 +49,20 @@
         SET REPLY_CONTENT = #{replyContent}
         WHERE REPLY_ID = #{replyId}
     </update>
+    <!-- 내 댓글 목록 -->
+    <select id="getMyReply" parameterType="String" resultType="Map">
+        SELECT
+        B.board_title AS boardTitle,
+        R.reply_id AS replyId,
+        R.board_no AS boardNo,
+        R.user_nickname AS userNickname,
+        R.reply_content AS replyContent,
+        R.reply_input_date AS replyInputDate
+        FROM
+        BOARD B JOIN Reply R ON B.board_no = R.board_no
+        WHERE
+        R.user_nickname = #{userNickname}
+        ORDER BY
+        reply_input_date DESC
+    </select>
 </mapper>
