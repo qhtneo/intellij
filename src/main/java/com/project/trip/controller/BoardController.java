@@ -31,7 +31,7 @@ import java.util.Map;
 public class BoardController {
     private final BoardService bService;
     private final MemberService mService;
-    private  final ReplyService rService;
+    private final ReplyService rService;
 
     // 게시판 목록의 페이지당 글 수
     @Value("${user.board.page}")
@@ -40,7 +40,7 @@ public class BoardController {
     // 게시판 목록의 페이지 이동 링크 수
     @Value("${user.board.group}")
     int pagePerGroup;
-    
+
     // 게시판 목록
 //    @GetMapping("/board")
 //
@@ -57,7 +57,7 @@ public class BoardController {
 
     // 게시판 글쓰기 페이지로 이동
     @GetMapping("/writeBoard")
-    public String writeBoard(){
+    public String writeBoard() {
         return "board/writeBoard";
     }
 
@@ -69,7 +69,7 @@ public class BoardController {
 
         // 로그인 된 정보에서 userId 가져오기
         String userId = user.getUsername();
-        Member member  = mService.selectOneMember(userId);
+        Member member = mService.selectOneMember(userId);
         board.setUserNickname((member.getUserNickname()));
         board.setUserNo(member.getUserNo());
 
@@ -80,40 +80,36 @@ public class BoardController {
 
     // 게시판 글 상세보기
     @GetMapping("/readBoard")
-
     public String readBoard(Model model, int boardNo) {
-
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
 
-
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
-
 
         return "board/readBoard";
     }
 
     // 게시판 글 수정하기 페이지로 이동
     @GetMapping("/updateBoard")
-    public String updateBoard(Model model, int boardNo){
+    public String updateBoard(Model model, int boardNo) {
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
-        log.debug("boardIS:{}",board);
+        log.debug("boardIS:{}", board);
         return "board/updateBoard";
     }
 
     // 게시판 글 수정 후 글 상세보기 페이지로 이동
     @PostMapping("/updateBoard")
-    public String updateBoard(Board board ,@AuthenticationPrincipal UserDetails user, Model model){
+    public String updateBoard(Board board, @AuthenticationPrincipal UserDetails user, Model model) {
         String userId = user.getUsername();
         bService.updateBoard(board);
         Member member = mService.selectOneMember(userId);
         //클라이언트에 멤버 객체 전달
-        model.addAttribute("member",member);
+        model.addAttribute("member", member);
         List<Board> boardList = bService.selectBoardById(userId);
         model.addAttribute("boardList", boardList);
         return "member/myBoardList";
@@ -121,19 +117,17 @@ public class BoardController {
 
     // 게시판 글 수정
     @GetMapping("/deleteBoard")
-    public String deleteBoard(int boardNo){
+    public String deleteBoard(int boardNo) {
         bService.deleteBoard(boardNo);
 
         return "redirect:/myBoardList";
     }
-
 
     // 글 검색
     @GetMapping("/board")
     public String searchBoard(String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category);
         log.debug(navi.toString());
-
 
         List<Board> boardList = bService.selectBoardByKeyword(keyword, category, navi);
         log.debug("검색 실행됨 {}", boardList.size());
@@ -150,7 +144,7 @@ public class BoardController {
     @ResponseBody
     public String insertReply(int boardNo, String replyContent, @AuthenticationPrincipal UserDetails user) {
         String userId = user.getUsername();
-        Member member  = mService.selectOneMember(userId);
+        Member member = mService.selectOneMember(userId);
         int userNo = member.getUserNo();
         String userNickname = member.getUserNickname();
 
@@ -163,11 +157,11 @@ public class BoardController {
         rService.insertReply(r);
         return "OK";
     }
-    
+
     // 댓글 목록
     @PostMapping("/loadReply")
     @ResponseBody
-    public Map<String, Object> loadReply(int boardNo, @AuthenticationPrincipal UserDetails user){
+    public Map<String, Object> loadReply(int boardNo, @AuthenticationPrincipal UserDetails user) {
         String userId = user.getUsername();
         List<Reply> replyList = rService.getAllReply(boardNo);
         Map<String, Object> map = new HashMap<>();
@@ -209,7 +203,4 @@ public class BoardController {
 
         return "OK";
     }
-
-
-
 }
