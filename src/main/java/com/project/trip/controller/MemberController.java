@@ -157,6 +157,7 @@ public class MemberController {
     public String findMember(){
         return "member/findMember";
     }
+
     @PostMapping("/findId")
     @ResponseBody
     public String findId(String email){
