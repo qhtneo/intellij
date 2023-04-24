@@ -19,8 +19,6 @@ public class EmailServiceImpl implements EmailService{
     public static final String ePw = createKey();
 
     private MimeMessage createMessage(String to)throws Exception{
-        System.out.println("보내는 대상 : "+ to);
-        System.out.println("인증 번호 : "+ePw);
         MimeMessage  message = emailSender.createMimeMessage();
 
         message.addRecipients(RecipientType.TO, to);//보내는 대상
@@ -35,9 +33,34 @@ public class EmailServiceImpl implements EmailService{
         msgg+= "<p>감사합니다.<p>";
         msgg+= "<br>";
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg+= "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        msgg+= "<h3 style='color:blue;'>아이디찾기 인증 코드입니다.</h3>";
         msgg+= "<div style='font-size:130%'>";
         msgg+= "CODE : <strong>";
+        msgg+= ePw+"</strong><div><br/> ";
+        msgg+= "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("travel@trips.com","teamTrips"));//보내는 사람
+
+        return message;
+    }
+    private MimeMessage createPasswordMessage(String to)throws Exception{
+        MimeMessage  message = emailSender.createMimeMessage();
+
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("Trip.s 임시 비밀번호 입니다.");//제목
+
+        String msgg="";
+        msgg+= "<div style='margin:20px;'>";
+        msgg+= "<h1> 안녕하세요 Trip.s입니다. </h1>";
+        msgg+= "<br>";
+        msgg+= "<p>임시 비밀번호 입니다.<p>";
+        msgg+= "<br>";
+        msgg+= "<p>비밀번호를 변경해 주세요.<p>";
+        msgg+= "<br>";
+        msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg+= "<h3 style='color:blue;'>임시 비밀번호입니다.</h3>";
+        msgg+= "<div style='font-size:130%'>";
+        msgg+= "임시 비밀번호 : <strong>";
         msgg+= ePw+"</strong><div><br/> ";
         msgg+= "</div>";
         message.setText(msgg, "utf-8", "html");//내용
@@ -72,9 +95,19 @@ public class EmailServiceImpl implements EmailService{
     }
     @Override
     public String sendSimpleMessage(String to)throws Exception {
-        // TODO Auto-generated method stub
         MimeMessage message = createMessage(to);
         try{//예외처리
+            emailSender.send(message);
+        }catch(MailException es){
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return ePw;
+    }
+    @Override
+    public String sendFindPasswordMessage(String to)throws Exception {
+        MimeMessage message = createPasswordMessage(to);
+        try{
             emailSender.send(message);
         }catch(MailException es){
             es.printStackTrace();

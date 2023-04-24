@@ -160,7 +160,7 @@ public class MemberController {
     @PostMapping("/findId")
     @ResponseBody
     public String findId(String email){
-        Member member = mService.findIdByEmail(email);
+        Member member = mService.selectByEmail(email);
         if(member != null){
             String userId = member.getUserId();
             return userId;
@@ -178,6 +178,25 @@ public class MemberController {
         model.addAttribute("email",email);
         return "member/checkMember";
     }
+ @PostMapping("/checkIdEmail")
+    public String checkAll(String email,String userId, Model model) throws Exception{
+        Member member = mService.selectByEmail(email);
+        if(member == null){
+            model.addAttribute("error","아이디와 이메일이 일치하지 않습니다");
+            return "errorPage";
+        }
+
+        String uId =  member.getUserId();
+        if(userId.equals(uId)){
+            String confirm = emailService.sendFindPasswordMessage(email);
+            member.setUserPw(confirm);
+            mService.updateMember(member);
+            return REDIRECT_INDEX;
+        }else{
+            model.addAttribute("error","아이디와 이메일이 일치하지 않습니다");
+            return "errorPage";
+        }
+    }
 
     @GetMapping("/myReplyList")
     public String getMyReply(Model model, @AuthenticationPrincipal UserDetails user) {
@@ -186,6 +205,7 @@ public class MemberController {
         model.addAttribute("replyList", replyList);
         model.addAttribute("userNickName", userId);
         return "member/myReplyList";
+
     }
 }
 

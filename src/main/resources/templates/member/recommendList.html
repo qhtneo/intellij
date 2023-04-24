@@ -150,7 +150,7 @@
           <!-- !!!반복할것임!!! -->
           <tr th:each = "board:${boardList}"  style="text-align: center;">
             <td th:text = "${board.boardNo}"></td>
-            <td>
+            <td class="text-truncate" style="max-width: 250px;">
               <a th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
             </td>
             <td th:text = "${board.userNickname}"></td>

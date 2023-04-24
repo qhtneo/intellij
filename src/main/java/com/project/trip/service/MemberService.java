@@ -17,5 +17,4 @@ public interface MemberService {
 
     Member selectByEmail(String email);
 
-    Member findIdByEmail(String email);
 }

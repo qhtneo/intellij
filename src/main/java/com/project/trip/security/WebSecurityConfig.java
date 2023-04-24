@@ -38,7 +38,9 @@ public class WebSecurityConfig {
 					"/readBoard",
 					"/board",
 					"/searchBoard",
-				    "/recommendList")
+					"/checkIdEmail",
+				    "/recommendList",
+					"/errorPage")
 		.permitAll()					// 설정한 리소스의 접근을 인증 없이 사용 허가
 		.anyRequest().authenticated()	// 위의 경로 이외에는 모두 로그인
 		.and()

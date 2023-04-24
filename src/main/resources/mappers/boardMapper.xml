@@ -114,13 +114,13 @@
     <!-- 조건부 검색 -->
     <select id="selectBoardByKeyword" resultType="Board" parameterType="hashmap">
         SELECT
-        BOARD_NO AS boardNo,
-        USER_NICKNAME AS userNickname,
-        BOARD_TITLE AS boardTitle,
-        BOARD_SUMMARY AS boardSummary,
-        BOARD_VIEW AS boardView,
-        INPUT_DATE AS inputDate,
-        RECOMMEND AS recommend
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+            INPUT_DATE AS inputDate,
+            RECOMMEND AS recommend
         FROM board
         <if test="category != null and keyword != null">
             <where>
