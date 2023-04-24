@@ -3,8 +3,10 @@ package com.project.trip.controller;
 import com.project.trip.service.BoardService;
 import com.project.trip.service.EmailService;
 import com.project.trip.service.MemberService;
+import com.project.trip.service.ReplyService;
 import com.project.trip.vo.Board;
 import com.project.trip.vo.Member;
+import com.project.trip.vo.Reply;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import java.util.Map;
 public class MemberController {
     private final MemberService mService;
     private final BoardService bService;
+    public final ReplyService rService;
     private final EmailService emailService;
     private final String REDIRECT_INDEX = "redirect:/";
 
@@ -175,7 +178,7 @@ public class MemberController {
         model.addAttribute("email",email);
         return "member/checkMember";
     }
-    @PostMapping("/checkIdEmail")
+ @PostMapping("/checkIdEmail")
     public String checkAll(String email,String userId, Model model) throws Exception{
         Member member = mService.selectByEmail(email);
         if(member == null){
@@ -194,4 +197,15 @@ public class MemberController {
             return "errorPage";
         }
     }
+
+    @GetMapping("/myReplyList")
+    public String getMyReply(Model model, @AuthenticationPrincipal UserDetails user) {
+        String userId = user.getUsername();
+        List<Map<String, Object>> replyList = rService.getMyReply(userId);
+        model.addAttribute("replyList", replyList);
+        model.addAttribute("userNickName", userId);
+        return "member/myReplyList";
+
+    }
 }
+
