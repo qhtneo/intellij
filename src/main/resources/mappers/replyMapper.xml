@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 인터페이스 이름(풀네임) -->
+<mapper namespace="com.project.trip.dao.ReplyDao">
+    <!-- 댓글 쓰기 -->
+    <insert id = "insertReply" parameterType = "Reply">
+        INSERT INTO
+        REPLY(BOARD_NO, USER_NO, USER_NICKNAME, REPLY_CONTENT)
+        VALUES
+        (#{boardNo}, #{userNo}, #{userNickname}, #{replyContent})
+    </insert>
+    <!-- 댓글 목록 -->
+    <select id = "getAllReply" parameterType = "int" resultType = "Reply">
+        SELECT
+            reply_id AS replyId,
+            board_no AS boardNo,
+            user_no AS userNo,
+            user_nickName AS userNickname,
+            reply_content AS replyContent,
+            reply_input_date AS replyInputDate
+        FROM REPLY
+            WHERE BOARD_NO = #{boardNo}
+        ORDER BY
+            REPLY_INPUT_DATE ASC
+    </select>
+    <!-- 댓글 삭제 -->
+    <delete id = "deleteReply" parameterType = "int">
+        DELETE FROM REPLY
+        WHERE REPLY_ID = #{replyId}
+    </delete>
+    <!-- 댓글 하나 가져오기 -->
+    <select id = "getOneReply" parameterType = "int" resultType = "Reply">
+        SELECT
+            REPLY_ID AS replyId,
+            BOARD_NO AS boardNo,
+            USER_NO AS userNo,
+            USER_NICKNAME AS userNickname,
+            REPLY_CONTENT AS replyContent,
+            REPLY_INPUT_DATE AS replyInputDate
+        FROM REPLY
+            WHERE REPLY_ID = #{replyId}
+    </select>
+    <!-- 댓글 수정 -->
+    <update id = "updateReply" parameterType = "Reply">
+        UPDATE REPLY
+        SET REPLY_CONTENT = #{replyContent}
+        WHERE REPLY_ID = #{replyId}
+    </update>
+</mapper>

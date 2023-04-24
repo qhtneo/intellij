@@ -2,9 +2,11 @@ package com.project.trip.controller;
 
 import com.project.trip.service.BoardService;
 import com.project.trip.service.MemberService;
+import com.project.trip.service.ReplyService;
 import com.project.trip.vo.Board;
 import com.project.trip.vo.Member;
 import com.project.trip.vo.PageNavigator;
+import com.project.trip.vo.Reply;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -28,6 +31,7 @@ import java.util.List;
 public class BoardController {
     private final BoardService bService;
     private final MemberService mService;
+    private  final ReplyService rService;
 
     // 게시판 목록의 페이지당 글 수
     @Value("${user.board.page}")
@@ -64,7 +68,6 @@ public class BoardController {
         log.debug("Board : {}", board);
 
         // 로그인 된 정보에서 userId 가져오기
-
         String userId = user.getUsername();
         Member member  = mService.selectOneMember(userId);
         board.setUserNickname((member.getUserNickname()));
@@ -141,5 +144,72 @@ public class BoardController {
 
         return "board/boardList";
     }
+
+    // 댓글 쓰기
+    @PostMapping("/insertReply")
+    @ResponseBody
+    public String insertReply(int boardNo, String replyContent, @AuthenticationPrincipal UserDetails user) {
+        String userId = user.getUsername();
+        Member member  = mService.selectOneMember(userId);
+        int userNo = member.getUserNo();
+        String userNickname = member.getUserNickname();
+
+        Reply r = new Reply();
+        r.setBoardNo(boardNo);
+        r.setUserNo(userNo);
+        r.setUserNickname(userNickname);
+        r.setReplyContent(replyContent);
+        r.setBoardNo(boardNo);
+        rService.insertReply(r);
+        return "OK";
+    }
+    
+    // 댓글 목록
+    @PostMapping("/loadReply")
+    @ResponseBody
+    public Map<String, Object> loadReply(int boardNo, @AuthenticationPrincipal UserDetails user){
+        String userId = user.getUsername();
+        List<Reply> replyList = rService.getAllReply(boardNo);
+        Map<String, Object> map = new HashMap<>();
+        map.put("replyList", replyList);
+        map.put("userId", userId);
+        log.debug("replyList {} : ", replyList);
+        return map;
+    }
+
+    // 댓글 삭제
+    @GetMapping("/deleteReply")
+    @ResponseBody
+    public String deleteReply(int replyId) {
+        rService.deleteReply(replyId);
+        return "OK";
+    }
+
+    // 댓글 수정하기 위해 하나의 댓글 가져오기
+    @PostMapping("/getOneReply")
+    @ResponseBody
+    public Reply getOneReply(int replyId) {
+        Reply reply = rService.getOneReply(replyId);
+        return reply;
+    }
+
+    // 댓글 수정
+    @PostMapping("/updateReply")
+    @ResponseBody
+    public String updateReply(String replyContent, int replyId) {
+
+        log.debug("replyContent : {}", replyContent);
+        log.debug("replyId : {}", replyId);
+
+        Reply reply = new Reply();
+        reply.setReplyContent(replyContent);
+        reply.setReplyId(replyId);
+
+        rService.updateReply(reply);
+
+        return "OK";
+    }
+
+
 
 }
