@@ -34,6 +34,16 @@
       }
       return true;
     }
+    function checkForm2() {
+      //.value쓰는 이유?입력창 객체 그 하나와 객체안의 값 차이
+      let userEmail = document.getElementById("email1").value;
+      //trim문자열의 앞 또는 뒤에 붙어있는 공백 삭제
+      if(userEmail.trim().length == 0){
+        alert("이메일이 비어있습니다.");
+        return false;
+      }
+      return true;
+    }
   </script>
   <style>
     #message {
@@ -62,9 +72,11 @@
   </form>
   <br><br>
   <div>
-    <form action ="/findMember" method ="post" onsubmit = "return checkForm();">
+    <form action ="/checkIdEmail" method ="post" onsubmit = "return checkForm2();">
       <h1 class="h3 mb-3 fw-normal">비밀번호 찾기</h1>
       <span class="form-floating-lg">
+            <input type="text" class="form-control-lg" placeholder="아이디" name="userId">
+              <br><br>
             <input type="email" class="form-control-lg" placeholder="이메일" name="email"id="email1">
           </span>
       <br><br>
