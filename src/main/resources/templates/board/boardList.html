@@ -18,6 +18,7 @@
         div{
             padding: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -91,7 +92,7 @@
                         <img src="img/jeju.jpg" class="bd-placeholder-img card-img-top" width="50%" height="200">
                     </a>
                     <div class="card-body" style="background-color: #BBE7F1">
-                        <p class="card-text"><a th:href="@{/readBoard(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></p>
+                        <p class="card-text text-truncate"><a th:href="@{/readBoard(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></p>
                         <p class="text-end" th:text="${board.userNickname}" >작성자</p>
                         <div class="d-flex justify-content-between">
                             <span>조회수</span><small class="text-body-secondary" th:text="${board.boardView}">조회수</small>
