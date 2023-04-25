@@ -50,6 +50,7 @@
         alert("코드가 일치하지 않습니다.")
       }
     }
+
   </script>
 </head>
 
@@ -63,10 +64,11 @@
   <div>
     <h1 class="h3 mb-3 fw-normal">아이디 찾기</h1>
     <input type = "hidden" id = "key" th:value="${key}">
-    <span><input type="text"id="email" th:value="${email}" readonly> 으로 코드를 보냈습니다!</span> <br><br>
+    <span><input type="text"id="email" name="email" th:value="${email}" readonly> 으로 코드를 보냈습니다!</span> <br><br>
     <span><input type= "text" class="form-control-lg" id="sendKey" placeholder="메일로 받은 코드를 입력해주세요"></span><br><br>
-    <span id="msg_id" class="h3 mb-3"></span><br><br>
+    <span id="msg_id" class="h3 mb-3" name="userId"></span><br><br>
     <button class=" btn btn-lg btn-primary" onclick="checkKey()">아이디 찾기</button>
+    <button class=" btn btn-lg btn-primary" onclick="location.href='/findMember'">비밀번호 찾기</button>
   </div>
   <br><br>
 

@@ -75,9 +75,9 @@
     <form action ="/checkIdEmail" method ="post" onsubmit = "return checkForm2();">
       <h1 class="h3 mb-3 fw-normal">비밀번호 찾기</h1>
       <span class="form-floating-lg">
-            <input type="text" class="form-control-lg" placeholder="아이디" name="userId">
+            <input type="text" class="form-control-lg" placeholder="아이디" name="userId" th:value="${userId}">
               <br><br>
-            <input type="email" class="form-control-lg" placeholder="이메일" name="email"id="email1">
+            <input type="email" class="form-control-lg" placeholder="이메일" name="email"id="email1" th:value="${email}">
           </span>
       <br><br>
       <button class=" btn btn-lg btn-primary" type="submit">비밀번호 찾기</button>
