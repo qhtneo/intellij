@@ -21,12 +21,6 @@
     }
   </style>
   <script>
-
-    function onlyAlphabet(ele) {
-      ele.value = ele.value.replace(/[^\\!-z]/gi,"");
-    }
-    //비동기
-
     $(document).ready(function(){
       //비밀번호 체크
       $("#pw2").on("blur",function() {
@@ -79,10 +73,14 @@
         })
       });
         //아이디체크
+
       $("#userId").on("blur",function(){
         //this : #userId 요소
         // id 입력창에 입력된 값 가져오기
+
         let currentValue =$(this).val();
+        const regex = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+
         //ajax로 서버에서 같은 아이디가 있는지 확인하기
         $.ajax({
           url:"/checkId",
@@ -92,7 +90,7 @@
             //result가 ok이면 사용 가능 아니면 불가능
             //있으면 있다고 표시
             //없으면 없다고 표시
-            if (result == "OK" && currentValue.length<11) {
+            if (result == "OK" && currentValue.length<11 && !currentValue.match(regex)) {
               $("#msg").text("사용 가능한 ID입니다.");
             } else if (result == "NG") {
               $("#msg").text("사용중인 id입니다.");
@@ -104,6 +102,10 @@
               $("#msg").text("ID는 세글자 이상으로 입력해주세요.");
               return;
             };
+            if (currentValue.match(regex)) {
+              $("#msg").text('아이디에 한글이 포함되어 있습니다.');
+              return;
+            }
 
           }
         });
@@ -133,7 +135,6 @@
       });
 
     })
-
     //회원가입 입력창 검증하는 함수
     //유효하면 -> 서버로 보냄 아니면 ->여기서 머무름
     function checkValue() {
@@ -223,7 +224,7 @@
           <th>아이디</th>
           <th>
             <span class="form-floating-lg">
-              <input type="text" class="form-control-lg" name="userId" id="userId" placeholder="아이디" onkeydown="onlyAlphabet(this)">
+              <input type="text" class="form-control-lg" name="userId" id="userId" placeholder="아이디" >
             </span><br>
             <span id ="msg" style="font-size: 15px;"></span>
           </th>
