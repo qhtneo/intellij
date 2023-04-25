@@ -16,11 +16,11 @@ public interface BoardService {
 
     public int deleteBoard(int boardNo);
 
-    public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category);
+    public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category, String localCategory);
 
     public List<Board> selectAllBoard(PageNavigator navi);
 
-    public List<Board> selectBoardByKeyword(String keyword, String category, PageNavigator navi);
+    public List<Board> selectBoardByKeyword(String localCategory, String keyword, String category, PageNavigator navi);
 
     public List<Board> selectBoardById(String userId);
 

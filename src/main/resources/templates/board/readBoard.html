@@ -44,7 +44,7 @@
             });
 
             $('#eh').show();
-            let bNum = $("#boardNum").text();
+            let bNum = $("#boardNum").val();
             $.ajax({
                 url: "/checkRecommend",
                 method: "post",
@@ -61,7 +61,7 @@
         });
 
         function checkHeart() {
-            let bNum = $("#boardNum").text();
+            let bNum = $("#boardNum").val();
             $.ajax({
                 url: "/recommend",
                 method: "post",
@@ -212,10 +212,10 @@
             </button>
         </div>
     </header>
-
     <table th:object="${board}">
         <tr>
-            <th th:text="*{boardNo}" id="boardNum" class="h3">글번호</th>
+            <input type="hidden" th:value="*{boardNo}" id = "boardNum">
+            <th th:text="*{localCategory}" class="h6">지역</th>
             <th th:text="*{boardTitle}" colspan="2" class="h3">제목</th>
             <th th:text="*{userNickname}">글쓴이</th>
         </tr>
@@ -233,10 +233,7 @@
             <td class="text-start" th:text="*{boardView}">조회수</td>
         </tr>
         <tr>
-
-            <th colspan="4"><div th:utext="*{boardSummary}" style="width: 100%; height: auto; resize: none;" readonly>내용</div></th>
-
-
+            <th colspan="4"><div th:utext="*{boardSummary}" style="width: 100%; height: auto; resize: none; border: #cccccc solid 1px; padding: 20px" >내용</div></th>
         </tr>
         <tr>
             <th colspan="4">

@@ -83,6 +83,7 @@ public class BoardController {
     public String readBoard(Model model, int boardNo) {
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
+        log.debug("게시판 정보{}",board);
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
@@ -125,16 +126,18 @@ public class BoardController {
 
     // 글 검색
     @GetMapping("/board")
-    public String searchBoard(String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-        PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category);
+    public String searchBoard(String localCategory,String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+        PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category, localCategory);
         log.debug(navi.toString());
+        log.debug(localCategory);
 
-        List<Board> boardList = bService.selectBoardByKeyword(keyword, category, navi);
+        List<Board> boardList = bService.selectBoardByKeyword(localCategory,keyword, category, navi);
         log.debug("검색 실행됨 {}", boardList.size());
         model.addAttribute("navi", navi);
         model.addAttribute("boardList", boardList);
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category);
+        model.addAttribute("localCategory", localCategory);
 
         return "board/boardList";
     }
@@ -204,4 +207,6 @@ public class BoardController {
 
         return "OK";
     }
+
+
 }
