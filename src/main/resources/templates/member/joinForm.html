@@ -81,7 +81,6 @@
         let currentValue =$(this).val();
         const regex = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
 
-        //ajax로 서버에서 같은 아이디가 있는지 확인하기
         $.ajax({
           url:"/checkId",
           method:"post",
