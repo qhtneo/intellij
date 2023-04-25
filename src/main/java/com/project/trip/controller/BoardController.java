@@ -127,6 +127,9 @@ public class BoardController {
     // 글 검색
     @GetMapping("/board")
     public String searchBoard(String localCategory,String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+        if(localCategory == null){
+            localCategory = "전체";
+        }
         PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category, localCategory);
         log.debug(navi.toString());
         log.debug(localCategory);
