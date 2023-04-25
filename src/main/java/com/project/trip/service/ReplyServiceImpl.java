@@ -39,8 +39,8 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public List<Map<String, Object>> getMyReply(String userId) {
-        return rDao.getMyReply(userId);
+    public List<Map<String, Object>> getMyReply(int userNo) {
+        return rDao.getMyReply(userNo);
     }
 }
 

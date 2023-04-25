@@ -163,11 +163,12 @@ public class BoardController {
     @ResponseBody
     public Map<String, Object> loadReply(int boardNo, @AuthenticationPrincipal UserDetails user) {
         String userId = user.getUsername();
+        Member member = mService.selectOneMember(userId);
         List<Reply> replyList = rService.getAllReply(boardNo);
         Map<String, Object> map = new HashMap<>();
         map.put("replyList", replyList);
-        map.put("userId", userId);
-        log.debug("replyList {} : ", replyList);
+        map.put("userNo", member.getUserNo());
+
         return map;
     }
 
