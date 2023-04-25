@@ -99,23 +99,13 @@
                     if(data.replyList.length == 0){
                         $("#reList").html("댓글이 아직 없습니다.");
                     } else {
-
-//                         let replyTable = "<table border='1' style=\"table-layout:fixed;\">";
-//                         replyTable += "<tr>";
-//                         replyTable += "<th>" + "닉네임" + "</th>";
-//                         replyTable += "<th>" + "내용" + "</th>";
-//                         replyTable += "<th>" + "시간" + "</th>";
-//                         if (data.userNo != null) {
-//                             replyTable += "<th>" + "수정 / 삭제" + "</th>";
-//                         }
-
                         let replyTable = "<table style='border: #cccccc solid 1px;'>";
                         replyTable += "<tr>";
                         replyTable += "<th>" + "닉네임" + "<hr>" + "</th>";
                         replyTable += "<th style='width: 50%;'>" + "내용" + "<hr>" + "</th>";
                         replyTable += "<th>" + "시간" + "<hr>" + "</th>";
                         if (data.userNo != null) {
-                            replyTable += "<th>" + "수정 / 삭제" + "</th>";
+                            replyTable += "<th>" + "수정 / 삭제" + "<hr>" + "</th>";
                         }
 
                         replyTable += "</tr>";
