@@ -24,7 +24,7 @@
         FROM REPLY
             WHERE BOARD_NO = #{boardNo}
         ORDER BY
-            REPLY_INPUT_DATE ASC
+            REPLY_INPUT_DATE DESC
     </select>
     <!-- 댓글 삭제 -->
     <delete id = "deleteReply" parameterType = "int">

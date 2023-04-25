@@ -123,9 +123,9 @@
             BOARD_TITLE AS boardTitle,
             BOARD_SUMMARY AS boardSummary,
             BOARD_VIEW AS boardView,
-            DATE_FORMAT(INPUT_DATE, '%y-%m-%d') AS inputDate ,
-            RECOMMEND AS recommend,
-            LOCAL_CATEGORY AS localCategory
+
+            INPUT_DATE AS inputDate ,
+            RECOMMEND AS recommend
         FROM board
         <if test="category != null and keyword != null and localCategory != null">
             <where>

@@ -179,6 +179,7 @@ public class BoardController {
     @GetMapping("/deleteReply")
     @ResponseBody
     public String deleteReply(int replyId) {
+        log.debug("replyId : {}", replyId );
         rService.deleteReply(replyId);
         return "OK";
     }
@@ -195,10 +196,6 @@ public class BoardController {
     @PostMapping("/updateReply")
     @ResponseBody
     public String updateReply(String replyContent, int replyId) {
-
-        log.debug("replyContent : {}", replyContent);
-        log.debug("replyId : {}", replyId);
-
         Reply reply = new Reply();
         reply.setReplyContent(replyContent);
         reply.setReplyId(replyId);
