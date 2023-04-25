@@ -12,7 +12,7 @@
         VALUES
         (#{boardNo}, #{userNo}, #{userNickname}, #{replyContent})
     </insert>
-    <!-- 댓글 목록 -->
+    <!-- 댓글 목록2 -->
     <select id = "getAllReply" parameterType = "int" resultType = "Reply">
         SELECT
             reply_id AS replyId,
@@ -50,7 +50,7 @@
         WHERE REPLY_ID = #{replyId}
     </update>
     <!-- 내 댓글 목록 -->
-    <select id="getMyReply" parameterType="String" resultType="Map">
+    <select id="getMyReply" parameterType="int" resultType="Map">
         SELECT
         B.board_title AS boardTitle,
         R.reply_id AS replyId,
@@ -61,7 +61,7 @@
         FROM
         BOARD B JOIN Reply R ON B.board_no = R.board_no
         WHERE
-        R.user_nickname = #{userNickname}
+        R.user_no = #{userNo}
         ORDER BY
         reply_input_date DESC
     </select>

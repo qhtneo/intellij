@@ -101,7 +101,7 @@
                         replyTable += "<td>" + item.replyContent + "</td>";
                         replyTable += "<td>" + item.replyInputDate + "</td>";
                         replyTable += "<td>"
-                        if (item.userNickname == data.userId) {
+                        if (item.userNo == data.userNo) {
                             replyTable += "<a href = 'javascript:getOneReply(" + item.replyId + ");'>수정</a> / ";
                             replyTable += "<a href = 'javascript:deleteReply(" + item.replyId + ");'>삭제</a>";
                         }
@@ -118,7 +118,7 @@
             let replyContent = $("#replyContent").val(); //입력창에 입력된 문자열 가져오기
             let boardNo = $("#boardNo").val(); // hidden 태그에 들어있는 글 번호
 
-            if (replyContent.trim() == "" || replyContent.trim().length < 5) {
+            if (replyContent.trim() == "") {
                 alert("내용이 비어있거나 5글자 이하입니다.");
                 return false;
             } else {

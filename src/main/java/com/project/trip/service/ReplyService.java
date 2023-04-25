@@ -16,5 +16,5 @@ public interface ReplyService {
 
     public int updateReply(Reply reply);
 
-    public List<Map<String, Object>> getMyReply(String userId);
+    public List<Map<String, Object>> getMyReply(int userNo); // 변경
 }

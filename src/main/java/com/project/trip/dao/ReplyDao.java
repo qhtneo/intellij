@@ -13,6 +13,6 @@ public interface ReplyDao {
     public int deleteReply(int replyId);
     public Reply getOneReply(int replyId);
     public int updateReply(Reply reply);
-    List<Map<String, Object>> getMyReply(String userId);
+    List<Map<String, Object>> getMyReply(int userNo); // 변경
 
 }
