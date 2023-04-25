@@ -69,7 +69,7 @@
                 success: function (data) {
                     $("#rec3").text(data.value2);
 
-                    if (data.value1 == "OK") {
+                    if(data.value1=="OK"){
                         $('#eh').hide();
                         $('#fh').show();
                     } else {
@@ -82,6 +82,7 @@
 
         function loadReply() {
             let boardNo = $("#boardNo").val(); // hidden 태그에 달린 글 번호
+            let userNickname = $("#userNickname").val();
             $.ajax({
                 url: "/loadReply",
                 method: "POST",
@@ -100,7 +101,7 @@
                         replyTable += "<td>" + item.replyContent + "</td>";
                         replyTable += "<td>" + item.replyInputDate + "</td>";
                         replyTable += "<td>"
-                        if (item.userNo == data.userNo) {
+                        if (item.userNickname == data.userId) {
                             replyTable += "<a href = 'javascript:getOneReply(" + item.replyId + ");'>수정</a> / ";
                             replyTable += "<a href = 'javascript:deleteReply(" + item.replyId + ");'>삭제</a>";
                         }
@@ -117,8 +118,8 @@
             let replyContent = $("#replyContent").val(); //입력창에 입력된 문자열 가져오기
             let boardNo = $("#boardNo").val(); // hidden 태그에 들어있는 글 번호
 
-            if (replyContent.trim() == "") {
-                alert("내용이 비어있습니다.");
+            if (replyContent.trim() == "" || replyContent.trim().length < 5) {
+                alert("내용이 비어있거나 5글자 이하입니다.");
                 return false;
             } else {
                 $.ajax({
@@ -257,10 +258,10 @@
     <br><br>
     <!-- 댓글 -->
     <div id="reply">
-        <textarea id="replyContent" cols="80" rows=""></textarea>
+        <div id="reList"></div>
+        <textarea id="replyContent" cols="100" rows=""></textarea><br>
         <input type="button" value="댓글쓰기" id="btnInsert">
         <input type="button" value="댓글수정" id="btnUpdate">
-        <br><br><div id="reList"></div>
         <input type="hidden" id="replyId" value="">
         <input type="hidden" id="boardNo" th:value="${board.boardNo}">
         <input type="hidden" id="userNickname" th:value="${board.userNickname}">
