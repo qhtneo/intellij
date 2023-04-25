@@ -83,7 +83,7 @@ public class BoardController {
     public String readBoard(Model model, int boardNo) {
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
-        log.debug("게시판 정보{}",board);
+        log.debug("board info:{}",board);
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
@@ -128,11 +128,8 @@ public class BoardController {
     @GetMapping("/board")
     public String searchBoard(String localCategory,String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category, localCategory);
-        log.debug(navi.toString());
-        log.debug(localCategory);
-
         List<Board> boardList = bService.selectBoardByKeyword(localCategory,keyword, category, navi);
-        log.debug("검색 실행됨 {}", boardList.size());
+        log.debug("search activate :{}", boardList.size());
         model.addAttribute("navi", navi);
         model.addAttribute("boardList", boardList);
         model.addAttribute("keyword", keyword);
@@ -165,16 +162,18 @@ public class BoardController {
     @PostMapping("/loadReply")
     @ResponseBody
     public Map<String, Object> loadReply(int boardNo, @AuthenticationPrincipal UserDetails user) {
-        String userId = user.getUsername();
-        Member member = mService.selectOneMember(userId);
         List<Reply> replyList = rService.getAllReply(boardNo);
         Map<String, Object> map = new HashMap<>();
         map.put("replyList", replyList);
-        map.put("userNo", member.getUserNo());
-
+        if (user != null) {
+            String userId = user.getUsername();
+            Member member = mService.selectOneMember(userId);
+            map.put("userNo", member.getUserNo());
+        } else {
+            map.put("userNo", null);
+        }
         return map;
     }
-
     // 댓글 삭제
     @GetMapping("/deleteReply")
     @ResponseBody

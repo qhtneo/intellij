@@ -144,16 +144,21 @@ public class MemberController {
     @PostMapping("/checkRecommend")
     @ResponseBody
     public String checkRecommend(@AuthenticationPrincipal UserDetails user, int boardNo){
+        if (user != null) {
         String userId = user.getUsername();
         boolean result = bService.checkRecommend(boardNo,userId);
         log.debug("something");
-        if(result){
-            log.debug("emptyHeart");
-            return "OK";
+            if(result){
+                log.debug("emptyHeart");
+                return "OK";
+            }
+            else {
+                log.debug("fullHeart");
+                return "NG";}
+            }
+        else{
+            return "NG";
         }
-        else {
-            log.debug("fullHeart");
-            return "NG";}
     }
 
     @GetMapping("/findMember")
