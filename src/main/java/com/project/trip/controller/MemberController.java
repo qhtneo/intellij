@@ -207,7 +207,7 @@ public class MemberController {
 
         List<Map<String, Object>> replyList = rService.getMyReply(userNo); // 서비스호출
         model.addAttribute("replyList", replyList);
-        model.addAttribute("userNo", member.getUserNo());
+        model.addAttribute("member", member);
         return "member/myReplyList";
 
     }
