@@ -127,6 +127,159 @@
         </div>
     </nav>
 
+    <!-- 지역별 카테고리 버튼 -->
+        <table class="table text-center border">
+            <tr>
+                <th>
+                    <span th:if="!${localCategory}">
+                        <a href="/board" class="btn btn-outline-primary active">전체</a>
+                    </span>
+                    <span th:unless="!${localCategory}">
+                        <a href="/board" class="btn btn-outline-primary">전체</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '서울특별시'">
+                        <a href="?localCategory=서울특별시" class="btn btn-outline-primary active">서울특별시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '서울특별시'">
+                        <a href="?localCategory=서울특별시" class="btn btn-outline-primary">서울특별시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '부산광역시'">
+                        <a href="?localCategory=부산광역시" class="btn btn-outline-primary active">부산광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '부산광역시'">
+                        <a href="?localCategory=부산광역시" class="btn btn-outline-primary">부산광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '대구광역시'">
+                        <a href="?localCategory=대구광역시" class="btn btn-outline-primary active">대구광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '대구광역시'">
+                        <a href="?localCategory=대구광역시" class="btn btn-outline-primary">대구광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '인천광역시'">
+                          <a href="?localCategory=인천광역시" class="btn btn-outline-primary active">인천광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '인천광역시'">
+                         <a href="?localCategory=인천광역시" class="btn btn-outline-primary">인천광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '광주광역시'">
+                          <a href="?localCategory=광주광역시" class="btn btn-outline-primary active">광주광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '광주광역시'">
+                         <a href="?localCategory=광주광역시" class="btn btn-outline-primary">광주광역시</a>
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <span th:if="${localCategory} == '대전광역시'">
+                        <a href="?localCategory=대전광역시" class="btn btn-outline-primary active">대전광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '대전광역시'">
+                        <a href="?localCategory=대전광역시" class="btn btn-outline-primary">대전광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '울산광역시'">
+                        <a href="?localCategory=울산광역시" class="btn btn-outline-primary active">울산광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '울산광역시'">
+                        <a href="?localCategory=울산광역시" class="btn btn-outline-primary">울산광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '세종특별자치시'">
+                        <a href="?localCategory=세종특별자치시" class="btn btn-outline-primary active">세종특별자치시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '세종특별자치시'">
+                        <a href="?localCategory=세종특별자치시" class="btn btn-outline-primary">세종특별자치시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '경기도'">
+                        <a href="?localCategory=경기도" class="btn btn-outline-primary active">경기도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '경기도'">
+                        <a href="?localCategory=경기도" class="btn btn-outline-primary">경기도</a>
+                    </span>
+                </th>
+                <th>
+                     <span th:if="${localCategory} == '강원도'">
+                        <a href="?localCategory=강원도" class="btn btn-outline-primary active">강원도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '강원도'">
+                        <a href="?localCategory=강원도" class="btn btn-outline-primary">강원도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '충청북도'">
+                        <a href="?localCategory=충청북도" class="btn btn-outline-primary active">충청북도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '충청북도'">
+                        <a href="?localCategory=충청북도" class="btn btn-outline-primary">충청북도</a>
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <span th:if="${localCategory} == '충청남도'">
+                        <a href="?localCategory=충청남도" class="btn btn-outline-primary active">충청남도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '충청남도'">
+                        <a href="?localCategory=충청남도" class="btn btn-outline-primary">충청남도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '전라북도'">
+                        <a href="?localCategory=전라북도" class="btn btn-outline-primary active">전라북도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '전라북도'">
+                        <a href="?localCategory=전라북도" class="btn btn-outline-primary">전라북도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '전라남도'">
+                        <a href="?localCategory=전라남도" class="btn btn-outline-primary active">전라남도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '전라남도'">
+                        <a href="?localCategory=전라남도" class="btn btn-outline-primary">전라남도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '경상북도'">
+                        <a href="?localCategory=경상북도" class="btn btn-outline-primary active">경상북도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '경상북도'">
+                        <a href="?localCategory=경상북도" class="btn btn-outline-primary">경상북도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '경상남도'">
+                        <a href="?localCategory=경상남도" class="btn btn-outline-primary active">경상남도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '경상남도'">
+                        <a href="?localCategory=경상남도" class="btn btn-outline-primary">경상남도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '제주특별자치도'">
+                        <a href="?localCategory=제주특별자치도" class="btn btn-outline-primary active">제주특별자치도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '제주특별자치도'">
+                        <a href="?localCategory=제주특별자치도" class="btn btn-outline-primary">제주특별자치도</a>
+                    </span>
+                </th>
+            </tr>
+        </table>
 
     <!-- 글 목록 -->
     <div class="row">
@@ -163,10 +316,13 @@
         </span>
         <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + 1})|">▶</a>
         <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})|">▷▷</a>
-        <form id="pagingForm">
-            <input type="hidden" name="page" id="page1" value="${navi.currentPage}"/>
-            <input type="hidden" name="category" th:value="${category}"/>
-            <input type="hidden" name="keyword" th:value="${keyword}"/>
+
+      <form id="pagingForm">
+        <input type="hidden" name="page" id="page1" value="${navi.currentPage}" />
+        <input type="hidden" name="category"  th:value="${category}" />
+        <input type="hidden" name="keyword"  th:value="${keyword}" />
+        <input type="hidden" name="localCategory"  th:value="${localCategory}" />
+
 
         </form>
     </div>

@@ -42,7 +42,7 @@ class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category) {
+    public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category, String localCategory) {
         int total = bDao.countBoard(keyword, category);
 
         PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, total);
@@ -59,10 +59,11 @@ class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> selectBoardByKeyword(String keyword, String category, PageNavigator navi) {
+    public List<Board> selectBoardByKeyword(String localCategory, String keyword, String category, PageNavigator navi) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("category", category);
         map.put("keyword", keyword);
+        map.put("localCategory", localCategory);
         RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
 
         return bDao.selectBoardByKeyword(map, rb);

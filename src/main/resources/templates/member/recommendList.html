@@ -139,7 +139,7 @@
         <hr  class="my-hr3">
         <table id = "myTable" >
           <tr>
-            <th>글 번호</th>
+            <th>지역</th>
             <th>제목</th>
             <th>작성자</th>
             <th>좋아요</th>
@@ -149,7 +149,7 @@
 
           <!-- !!!반복할것임!!! -->
           <tr th:each = "board:${boardList}"  style="text-align: center;">
-            <td th:text = "${board.boardNo}"></td>
+            <td th:text = "${board.localCategory}"></td>
             <td class="text-truncate" style="max-width: 250px;">
               <a th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
             </td>

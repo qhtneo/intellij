@@ -134,39 +134,37 @@
             <hr>
         </div>
 
-        <!-- 내 글 보기 -->
-        <div class="row g-5 w-100 " style="padding-left: 20px">
-            <div class="col-md-7 col-lg-12 mx-auto" style="padding-top: 20px">
-                <h4><span th:text="${member.userNickname}"></span>회원님의 게시물</h4>
-                <hr class="my-hr3">
-                <table id="myTable">
-                    <tr>
-                        <th>글 번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>좋아요</th>
-                        <th>조회수</th>
-                        <th>작성일시</th>
-                        <th>수정/삭제</th>
-                    </tr>
+    <!-- 내 글 보기 -->
+    <div class="row g-5 w-100 "style="padding-left: 20px">
+      <div class="col-md-7 col-lg-12 mx-auto" style="padding-top: 20px">
+        <h4><span th:text="${member.userNickname}"></span>회원님의 게시물</h4>
+        <hr  class="my-hr3">
+        <table id = "myTable" >
+          <tr>
+            <th>지역</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>좋아요</th>
+            <th>조회수</th>
+            <th>작성일시</th>
+            <th>수정/삭제</th>
+          </tr>
 
-                    <!-- !!!반복할것임!!! -->
-                    <tr th:each="board:${boardList}" style="text-align: center;">
-                        <td th:text="${board.boardNo}"></td>
-                        <td class="text-truncate" style="max-width: 250px;">
-                            <a th:href="@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
-                        </td>
-                        <td th:text="${board.userNickname}"></td>
-                        <td th:text="${board.recommend}"></td>
-                        <td th:text="${board.boardView}"></td>
-                        <td th:text="${board.inputDate}"></td>
-                        <td><a th:href="|/updateBoard?boardNo=${board.boardNo}|">수정</a> / <a
-                                th:href="|/deleteBoard?boardNo=${board.boardNo}|" onclick="return askDelete()">삭제</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+          <!-- !!!반복할것임!!! -->
+          <tr th:each = "board:${boardList}"  style="text-align: center;">
+            <td th:text = "${board.localCategory}"></td>
+            <td class="text-truncate" style="max-width: 250px;">
+              <a th:href = "@{/readBoard(boardNo =${board.boardNo})}" th:text="${board.boardTitle}"></a>
+            </td>
+            <td th:text = "${board.userNickname}"></td>
+            <td th:text = "${board.recommend}"></td>
+            <td th:text = "${board.boardView}"></td>
+            <td th:text = "${board.inputDate}" ></td>
+            <td><a th:href="|/updateBoard?boardNo=${board.boardNo}|">수정</a> / <a th:href="|/deleteBoard?boardNo=${board.boardNo}|" onclick="return askDelete()">삭제</a></td>
+          </tr>
+        </table>
+      </div>
+
     </div>
 </div>
 

@@ -146,10 +146,13 @@ public class MemberController {
     public String checkRecommend(@AuthenticationPrincipal UserDetails user, int boardNo){
         String userId = user.getUsername();
         boolean result = bService.checkRecommend(boardNo,userId);
+        log.debug("something");
         if(result){
+            log.debug("emptyHeart");
             return "OK";
         }
         else {
+            log.debug("fullHeart");
             return "NG";}
     }
 
