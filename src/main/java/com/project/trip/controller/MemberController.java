@@ -200,11 +200,11 @@ public class MemberController {
 
     @GetMapping("/myReplyList")
     public String getMyReply(Model model, @AuthenticationPrincipal UserDetails user) {
-        String userId = user.getUsername();
+        String userId = user.getUsername(); 
         Member member = mService.selectOneMember(userId);
         int userNo = member.getUserNo();
 
-        List<Map<String, Object>> replyList = rService.getMyReply(userNo);
+        List<Map<String, Object>> replyList = rService.getMyReply(userNo); // 서비스호출
         model.addAttribute("replyList", replyList);
         model.addAttribute("member", member);
         return "member/myReplyList";

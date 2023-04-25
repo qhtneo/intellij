@@ -12,7 +12,7 @@
         VALUES
         (#{boardNo}, #{userNo}, #{userNickname}, #{replyContent})
     </insert>
-    <!-- 댓글 목록 -->
+    <!-- 댓글 목록2 -->
     <select id = "getAllReply" parameterType = "int" resultType = "Reply">
         SELECT
             reply_id AS replyId,
