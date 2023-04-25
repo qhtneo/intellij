@@ -121,7 +121,7 @@
                     <!-- !!!반복할것임!!! -->
                     <tr th:each="reply:${replyList}" style="text-align: center;">
                         <td th:text="${reply.boardNo}"></td>
-                        <td>
+                        <td class="text-truncate" style="max-width: 250px;">
                             <a th:href="@{/readBoard(boardNo =${reply.boardNo})}" th:text="${reply.boardTitle}"></a>
                         </td>
                         <td th:text="${reply.replyContent}"></td>
