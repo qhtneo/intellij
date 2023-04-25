@@ -87,9 +87,6 @@
           method:"post",
           data:{"id": currentValue},
           success:function(result) {
-            //result가 ok이면 사용 가능 아니면 불가능
-            //있으면 있다고 표시
-            //없으면 없다고 표시
             if (result == "OK" && currentValue.length<11 && !currentValue.match(regex)) {
               $("#msg").text("사용 가능한 ID입니다.");
             } else if (result == "NG") {
