@@ -101,7 +101,7 @@
                         replyTable += "<td>" + item.replyContent + "</td>";
                         replyTable += "<td>" + item.replyInputDate + "</td>";
                         replyTable += "<td>"
-                        if (item.userNickname == data.userId) {
+                        if (item.userNo == data.userNo) {
                             replyTable += "<a href = 'javascript:getOneReply(" + item.replyId + ");'>수정</a> / ";
                             replyTable += "<a href = 'javascript:deleteReply(" + item.replyId + ");'>삭제</a>";
                         }
