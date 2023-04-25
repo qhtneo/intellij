@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +86,6 @@ public class BoardController {
     public String readBoard(Model model, int boardNo) {
         // service 호출
         Board board = bService.selectOneBoard(boardNo);
-        log.debug("board info:{}",board);
 
         // model 객체에 글 정보 담기
         model.addAttribute("board", board);
@@ -126,10 +128,12 @@ public class BoardController {
 
     // 글 검색
     @GetMapping("/board")
-    public String searchBoard(String localCategory,String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public String searchBoard(String localCategory, String category, String keyword, Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
         PageNavigator navi = bService.getPageNavigator(pagePerGroup, countPerPage, page, keyword, category, localCategory);
+
         List<Board> boardList = bService.selectBoardByKeyword(localCategory,keyword, category, navi);
         log.debug("search activate :{}", boardList.size());
+
         model.addAttribute("navi", navi);
         model.addAttribute("boardList", boardList);
         model.addAttribute("keyword", keyword);
@@ -157,7 +161,7 @@ public class BoardController {
         rService.insertReply(r);
         return "OK";
     }
-
+    
     // 댓글 목록
     @PostMapping("/loadReply")
     @ResponseBody
@@ -165,7 +169,9 @@ public class BoardController {
         List<Reply> replyList = rService.getAllReply(boardNo);
         Map<String, Object> map = new HashMap<>();
         map.put("replyList", replyList);
-        if (user != null) {
+
+        if(user != null){
+
             String userId = user.getUsername();
             Member member = mService.selectOneMember(userId);
             map.put("userNo", member.getUserNo());
@@ -203,6 +209,4 @@ public class BoardController {
 
         return "OK";
     }
-
-
 }

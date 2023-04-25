@@ -30,7 +30,7 @@ public class WebSecurityConfig {
 					"/checkEmail",
 					"/checkMember",
 					"/checkRecommend",
-				    "/emailConfirm",
+				  "/emailConfirm",
 					"/list",
 					"/read",
 					"/error",
@@ -40,9 +40,10 @@ public class WebSecurityConfig {
 					"/board",
 					"/searchBoard",
 					"/checkIdEmail",
-				    "/recommendList",
+				  "/recommendList",
 					"/errorPage",
-				    "/loadReply")
+				  "/loadReply")
+
 		.permitAll()					// 설정한 리소스의 접근을 인증 없이 사용 허가
 		.anyRequest().authenticated()	// 위의 경로 이외에는 모두 로그인
 		.and()
