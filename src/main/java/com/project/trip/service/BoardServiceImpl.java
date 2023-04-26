@@ -43,7 +43,7 @@ class BoardServiceImpl implements BoardService {
 
     @Override
     public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category, String localCategory) {
-        int total = bDao.countBoard(keyword, category);
+        int total = bDao.countBoard(keyword, category, localCategory);
 
         PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, total);
 

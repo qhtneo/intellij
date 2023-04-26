@@ -2,9 +2,7 @@ package com.project.trip.vo;
 
 import lombok.Data;
 
-/**
- * 게시판 페이징 처리 클래스
- */
+// * 게시판 페이징 처리 클래스
 @Data
 public class PageNavigator {
     //페이지 관련 정보

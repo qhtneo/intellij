@@ -30,15 +30,47 @@
     <select id = "countBoard" resultType = "int">
         SELECT count(*) FROM BOARD
         <where>
-            <if test="category != null and keyword != null">
-                <if test="category == 'boardTitle_summary'">
-                    BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
-                    OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%')
-                </if>
-                <if test="category == 'userNickname'">
-                    USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
-                </if>
-            </if>
+            <choose>
+                <when test="localCategory == null">
+                    <if test="category == 'boardTitle_summary'">
+                        LOCAL_CATEGORY = '전체' AND
+                        (BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                        OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%'))
+                    </if>
+                    <if test="category == 'userNickname'">
+                        LOCAL_CATEGORY = '전체' AND
+                        USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                    <if test="category == null and keyword == null">
+                        1=1
+                    </if>
+                </when>
+                <when test="localCategory == '전체'">
+                    <if test="category == 'boardTitle_summary'">
+                        BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                        OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                    <if test="category == 'userNickname'">
+                        USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                </when>
+
+                <when test="localCategory != ''">
+                    <if test="category == null and keyword == null">
+                        LOCAL_CATEGORY = #{localCategory}
+                    </if>
+                    <if test="category == 'boardTitle_summary'">
+                        LOCAL_CATEGORY = #{localCategory} AND
+                        (BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                        OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%'))
+                    </if>
+                    <if test="category == 'userNickname'">
+                        LOCAL_CATEGORY = #{localCategory} AND
+                        USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                </when>
+
+            </choose>
         </where>
         ORDER BY INPUT_DATE DESC
     </select>
