@@ -111,6 +111,7 @@
                         </td>
                         <td>
                             <button class="btn btn-outline-primary" type="submit">검색</button>
+                            <input type="hidden" name="localCategory"  th:value="${localCategory}" />
                         </td>
                         <td>
                             <div class="text-end">
@@ -119,7 +120,6 @@
                                 <span th:if="${#httpServletRequest.userPrincipal == null}">글을 작성하려면<a
                                         href="/login">로그인</a>하세요</span>
                             </div>
-
                         </td>
                     </tr>
                 </table>
@@ -131,11 +131,11 @@
         <table class="table text-center border">
             <tr>
                 <th>
-                    <span th:if="!${localCategory}">
-                        <a href="/board" class="btn btn-outline-primary active">전체</a>
+                    <span th:if="${localCategory} == '전체' or ${localCategory} == null">
+                        <a href="?localCategory=전체" class="btn btn-outline-primary active">전체</a>
                     </span>
-                    <span th:unless="!${localCategory}">
-                        <a href="/board" class="btn btn-outline-primary">전체</a>
+                    <span th:unless="${localCategory} == '전체' or ${localCategory} == null">
+                        <a href="?localCategory=전체" class="btn btn-outline-primary">전체</a>
                     </span>
                 </th>
                 <th>
@@ -322,9 +322,7 @@
         <input type="hidden" name="category"  th:value="${category}" />
         <input type="hidden" name="keyword"  th:value="${keyword}" />
         <input type="hidden" name="localCategory"  th:value="${localCategory}" />
-
-
-        </form>
+      </form>
     </div>
 </div>
 </body>
