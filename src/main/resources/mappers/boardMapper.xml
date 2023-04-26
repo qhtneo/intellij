@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.trip.dao.BoardDao">
+
+    <insert id="writeBoard" parameterType="Board">
+        <!-- 글 쓰기 -->
+        INSERT INTO
+            board( board_title, board_summary, user_no, user_nickname, local_category)
+        VALUES ( #{boardTitle}, #{boardSummary},#{userNo}, #{userNickname}, #{localCategory})
+    </insert>
+
+    <select id = "selectAllBoard" resultType = "Board">
+        SELECT
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_VIEW AS boardView,
+            INPUT_DATE AS inputDate,
+            recommend AS recommend,
+            LOCAL_CATEGORY AS localCategory
+        FROM
+            BOARD
+        ORDER BY
+            BOARD_NO DESC
+    </select>
+
+    <!-- 글 개수 세기 -->
+    <select id = "countBoard" resultType = "int">
+        SELECT count(*) FROM BOARD
+        <where>
+            <if test="category != null and keyword != null">
+                <if test="category == 'boardTitle_summary'">
+                    BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                    OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%')
+                </if>
+                <if test="category == 'userNickname'">
+                    USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                </if>
+            </if>
+        </where>
+        ORDER BY INPUT_DATE DESC
+    </select>
+
+    <select id="selectOneBoard" resultType="Board" parameterType="int">
+        SELECT
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+            DATE_FORMAT(INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
+            recommend AS recommend,
+            LOCAL_CATEGORY AS localCategory
+        FROM 	board
+        WHERE 	BOARD_NO = #{boardNo}
+    </select>
+    <!-- 조회수 늘리기 -->
+    <update id ="addViewCount" parameterType ="int">
+        UPDATE BOARD
+        SET BOARD_VIEW = BOARD_VIEW+1
+        where BOARD_NO = #{boardNo}
+    </update>
+    <select id="selectBoardById" resultType="Board" parameterType="String">
+        SELECT
+            BOARD_NO AS boardNo,
+            U.USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+            DATE_FORMAT(INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
+            recommend AS recommend,
+            LOCAL_CATEGORY AS localCategory
+        FROM
+            Board B JOIN Member U
+        ON
+            B.user_no= U.user_no
+        WHERE
+            U.user_id = #{userId}
+    </select>
+
+    <select id="selectBoardByRecommend" resultType="Board" parameterType="String">
+        SELECT B.board_no AS boardNo,
+               U.USER_NICKNAME AS userNickname,
+               B.board_title AS boardTitle,
+               B.board_summary AS boardSummary,
+               B.board_view AS boardView,
+               DATE_FORMAT(B.INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
+               B.recommend AS recommend,
+               B.LOCAL_CATEGORY AS localCategory
+        FROM recommend r
+                 JOIN BOARD B ON R.board_no = B.board_no
+                 JOIN Member U ON B.user_no = U.user_no
+        WHERE r.user_id = #{user_id}
+    </select>
+    <select id="selectIdByBoard" parameterType="String" resultType="String">
+        select
+            M.user_id as userId
+        from
+            member M join board B
+        ON
+            B.user_no= M.user_no
+        where
+            M.user_id = #{userId}
+    </select>
+    <update id="updateBoard" parameterType="board">
+        UPDATE board
+        SET BOARD_TITLE = #{boardTitle}, BOARD_SUMMARY = #{boardSummary}
+        WHERE BOARD_NO = #{boardNo}
+    </update>
+
+    <delete id="deleteBoard" parameterType="int">
+        DELETE FROM board
+        WHERE BOARD_NO = #{boardNo}
+    </delete>
+
+    <!-- 조건부 검색 -->
+    <select id="selectBoardByKeyword" resultType="Board" parameterType="hashmap">
+        SELECT
+            BOARD_NO AS boardNo,
+            USER_NICKNAME AS userNickname,
+            BOARD_TITLE AS boardTitle,
+            BOARD_SUMMARY AS boardSummary,
+            BOARD_VIEW AS boardView,
+
+            INPUT_DATE AS inputDate ,
+            RECOMMEND AS recommend
+        FROM board
+        <where>
+            <choose>
+                <when test="localCategory == '전체'">
+                    <if test="category == 'boardTitle_summary'">
+                        BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                        OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                    <if test="category == 'userNickname'">
+                        USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                </when>
+                <when test="localCategory == null">
+                    <if test="category == 'boardTitle_summary'">
+                        LOCAL_CATEGORY = '전체' AND
+                        (BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                        OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%'))
+                    </if>
+                    <if test="category == 'userNickname'">
+                        LOCAL_CATEGORY = '전체' AND
+                        USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                    <if test="category == null and keyword == null">
+                        1=1
+                    </if>
+                </when>
+                <when test="localCategory != ''">
+                    <if test="category == null and keyword == null">
+                        LOCAL_CATEGORY = #{localCategory}
+                    </if>
+                    <if test="category == 'boardTitle_summary'">
+                        LOCAL_CATEGORY = #{localCategory} AND
+                        (BOARD_TITLE LIKE CONCAT('%',#{keyword},'%')
+                        OR BOARD_SUMMARY LIKE CONCAT('%',#{keyword},'%'))
+                    </if>
+                    <if test="category == 'userNickname'">
+                        LOCAL_CATEGORY = #{localCategory} AND
+                        USER_NICKNAME LIKE CONCAT('%',#{keyword},'%')
+                    </if>
+                </when>
+
+            </choose>
+        </where>
+        ORDER BY BOARD_NO DESC
+    </select>
+
+
+
+    <!-- 추천 수 업데이트 -->
+    <update id = "updateRecommend" parameterType="int">
+        UPDATE BOARD
+        SET recommend = recommend+1
+        WHERE BOARD_NO =#{boardNo}
+    </update>
+    <update id = "deleteRecommend" parameterType="int">
+        UPDATE BOARD
+        SET recommend = recommend-1
+        WHERE BOARD_NO =#{boardNo}
+    </update>
+
+    <!-- 추천 확인 -->
+    <select id="checkRecommendHistory" parameterType ="map" resultType="int">
+        SELECT COUNT(*)
+        FROM RECOMMEND
+        WHERE user_id = #{userId} and BOARD_NO = #{boardNo}
+    </select>
+    <!--추천 저장-->
+    <insert id ="insertRecommendHistory" parameterType ="map">
+        INSERT INTO
+            RECOMMEND(board_No,user_Id)
+        VALUES
+            (#{boardNo},#{userId})
+    </insert>
+
+    <delete id="deleteRecommendHistory" parameterType="map">
+        DELETE FROM RECOMMEND
+        WHERE BOARD_NO = #{boardNo} and USER_ID = #{userId}
+    </delete>
+</mapper>

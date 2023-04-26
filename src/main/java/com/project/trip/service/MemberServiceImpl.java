@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
@@ -14,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberDao mDao;
     @Override
-    public int joinMember(Member m) {
+    public int insertMember(Member m) {
         String encodedPassword = passwordEncoder.encode(m.getPassword());
         //비번 새로 설정
         m.setUserPw(encodedPassword);
@@ -22,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member findOneMember(String id) {
+    public Member selectOneMember(String id) {
         return mDao.selectOneMember(id);
     }
 
@@ -32,4 +36,27 @@ public class MemberServiceImpl implements MemberService {
         m.setUserId(userId);
         return mDao.deleteMember(m);
     }
+
+    @Override
+    public int updateMember(Member m) {
+        //멤버 m객체를 가져오고
+        if (m.getUserPw() != null) {
+            String encodedPassword = passwordEncoder.encode(m.getUserPw());
+            m.setUserPw(encodedPassword);
+            return mDao.updateMember(m.getUserId(),encodedPassword);
+        }
+        return 0;
+    }
+    @Override
+    public Member selectByName(String keyword) {
+        return mDao.selectByName(keyword);
+    }
+
+    @Override
+    public Member selectByEmail(String email) {
+        return mDao.selectByEmail(email);
+    }
+
+
+
 }

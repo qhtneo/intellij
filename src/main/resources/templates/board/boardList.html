@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymepleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>[글 목록]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            let today = new Date();
+            $('[id^="inputDate-"]').each(function () {
+                let writeTime = new Date($(this).text());
+                let strTime = ((writeTime - today).toString()).slice(0, -3);
+                let calTime = Number(strTime);
+                let hour = parseInt(calTime / 3600);
+                let minute = parseInt(calTime / 60);
+                if (isNaN(calTime)) {
+                    $(this).text("방금전");
+                } else if (calTime * -1 <= 60) {
+                    $(this).text("방금전");
+                } else if (calTime * -1 < 3600) {
+                    $(this).text(minute * -1 + "분 전");
+                } else if(calTime * -1 < 86400){
+                    $(this).text(hour * -1 + "시간 전");
+                }else{
+                    $(this).text((($(this).text()).toString()).slice(0,10));
+                }
+            });
+        });
+        function pagingFormSubmit(currentPage) {
+            let form = document.getElementById("pagingForm");
+            let page = document.getElementById("page1");
+            page.value = currentPage;
+            form.submit();
+        }
+
+    </script>
+    <style>
+        div {
+            padding: 10px;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 상단바 -->
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 mb-2 mb-md-0">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <img src="img/logo.png" width="190" height="132" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 text-end">
+            <p sec:authorize="isAuthenticated()">
+                <span sec:authentication="name"></span>님 어서오세요!<br>
+            </p>
+            <button sec:authorize="not isAuthenticated()" type="button" class="btn btn-outline me-2"
+                    onclick="location.href = 'login'">Login
+            </button>
+            <button sec:authorize="not isAuthenticated()" type="button" class="btn btn-primary"
+                    onclick="location.href = 'join'">Sign-up
+            </button>
+            <button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary"
+                    onclick="location.href = 'logout'">Log-out
+            </button>
+            <button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary"
+                    onclick="location.href = 'myPage'">myPage
+            </button>
+        </div>
+    </header>
+
+    <!-- 메뉴바 -->
+    <ul class="nav justify-content-center mb-4" style="background-color: #BBE7F1; border-radius: 10px;">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">지역별 데이터</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/board">추천 리뷰 게시판</a>
+        </li>
+    </ul>
+
+    <!-- 검색창 -->
+    <nav class="navbar bg-body-tertiary">
+        <div class="mx-auto">
+            <form action="/board" method="get" class="d-flex flex">
+                <table>
+                    <tr>
+                        <td>
+                            <select name="category"> <!-- category 라는 파라미터로 보낼 것임 -->
+                                <option value="boardTitle_summary" th:selected="${category == 'boardTitle_summary'}">
+                                    제목+내용
+                                </option>
+                                <option value="userNickname" th:selected="${category == 'userNickname'}">작성자</option>
+                            </select>
+                        </td>
+                        <td style="width: 800px;">
+                            <input type="text" class="form-control me-2 input-lg" name="keyword" th:value="${keyword}"
+                                   placeholder="검색어를 입력하세요">
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary" type="submit">검색</button>
+                            <input type="hidden" name="localCategory"  th:value="${localCategory}" />
+                        </td>
+                        <td>
+                            <div class="text-end">
+                                <a class="btn btn-primary" th:if="${#httpServletRequest.userPrincipal != null}"
+                                   onclick="location.href = 'writeBoard'">글쓰기</a>
+                                <span th:if="${#httpServletRequest.userPrincipal == null}">글을 작성하려면<a
+                                        href="/login">로그인</a>하세요</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </nav>
+
+    <!-- 지역별 카테고리 버튼 -->
+        <table class="table text-center border">
+            <tr>
+                <th>
+                    <span th:if="${localCategory} == '전체' or ${localCategory} == null">
+                        <a href="?localCategory=전체" class="btn btn-outline-primary active">전체</a>
+                    </span>
+                    <span th:unless="${localCategory} == '전체' or ${localCategory} == null">
+                        <a href="?localCategory=전체" class="btn btn-outline-primary">전체</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '서울특별시'">
+                        <a href="?localCategory=서울특별시" class="btn btn-outline-primary active">서울특별시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '서울특별시'">
+                        <a href="?localCategory=서울특별시" class="btn btn-outline-primary">서울특별시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '부산광역시'">
+                        <a href="?localCategory=부산광역시" class="btn btn-outline-primary active">부산광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '부산광역시'">
+                        <a href="?localCategory=부산광역시" class="btn btn-outline-primary">부산광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '대구광역시'">
+                        <a href="?localCategory=대구광역시" class="btn btn-outline-primary active">대구광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '대구광역시'">
+                        <a href="?localCategory=대구광역시" class="btn btn-outline-primary">대구광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '인천광역시'">
+                          <a href="?localCategory=인천광역시" class="btn btn-outline-primary active">인천광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '인천광역시'">
+                         <a href="?localCategory=인천광역시" class="btn btn-outline-primary">인천광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '광주광역시'">
+                          <a href="?localCategory=광주광역시" class="btn btn-outline-primary active">광주광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '광주광역시'">
+                         <a href="?localCategory=광주광역시" class="btn btn-outline-primary">광주광역시</a>
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <span th:if="${localCategory} == '대전광역시'">
+                        <a href="?localCategory=대전광역시" class="btn btn-outline-primary active">대전광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '대전광역시'">
+                        <a href="?localCategory=대전광역시" class="btn btn-outline-primary">대전광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '울산광역시'">
+                        <a href="?localCategory=울산광역시" class="btn btn-outline-primary active">울산광역시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '울산광역시'">
+                        <a href="?localCategory=울산광역시" class="btn btn-outline-primary">울산광역시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '세종특별자치시'">
+                        <a href="?localCategory=세종특별자치시" class="btn btn-outline-primary active">세종특별자치시</a>
+                    </span>
+                    <span th:unless="${localCategory} == '세종특별자치시'">
+                        <a href="?localCategory=세종특별자치시" class="btn btn-outline-primary">세종특별자치시</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '경기도'">
+                        <a href="?localCategory=경기도" class="btn btn-outline-primary active">경기도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '경기도'">
+                        <a href="?localCategory=경기도" class="btn btn-outline-primary">경기도</a>
+                    </span>
+                </th>
+                <th>
+                     <span th:if="${localCategory} == '강원도'">
+                        <a href="?localCategory=강원도" class="btn btn-outline-primary active">강원도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '강원도'">
+                        <a href="?localCategory=강원도" class="btn btn-outline-primary">강원도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '충청북도'">
+                        <a href="?localCategory=충청북도" class="btn btn-outline-primary active">충청북도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '충청북도'">
+                        <a href="?localCategory=충청북도" class="btn btn-outline-primary">충청북도</a>
+                    </span>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <span th:if="${localCategory} == '충청남도'">
+                        <a href="?localCategory=충청남도" class="btn btn-outline-primary active">충청남도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '충청남도'">
+                        <a href="?localCategory=충청남도" class="btn btn-outline-primary">충청남도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '전라북도'">
+                        <a href="?localCategory=전라북도" class="btn btn-outline-primary active">전라북도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '전라북도'">
+                        <a href="?localCategory=전라북도" class="btn btn-outline-primary">전라북도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '전라남도'">
+                        <a href="?localCategory=전라남도" class="btn btn-outline-primary active">전라남도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '전라남도'">
+                        <a href="?localCategory=전라남도" class="btn btn-outline-primary">전라남도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '경상북도'">
+                        <a href="?localCategory=경상북도" class="btn btn-outline-primary active">경상북도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '경상북도'">
+                        <a href="?localCategory=경상북도" class="btn btn-outline-primary">경상북도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '경상남도'">
+                        <a href="?localCategory=경상남도" class="btn btn-outline-primary active">경상남도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '경상남도'">
+                        <a href="?localCategory=경상남도" class="btn btn-outline-primary">경상남도</a>
+                    </span>
+                </th>
+                <th>
+                    <span th:if="${localCategory} == '제주특별자치도'">
+                        <a href="?localCategory=제주특별자치도" class="btn btn-outline-primary active">제주특별자치도</a>
+                    </span>
+                    <span th:unless="${localCategory} == '제주특별자치도'">
+                        <a href="?localCategory=제주특별자치도" class="btn btn-outline-primary">제주특별자치도</a>
+                    </span>
+                </th>
+            </tr>
+        </table>
+
+    <!-- 글 목록 -->
+    <div class="row">
+        <div class="col-md-4" th:each="board:${boardList}">
+            <div class="card" style="background-color: #BBE7F1;">
+                <a th:href="@{/readBoard(boardNo=${board.boardNo})}">
+                    <img src="img/jejudo.jpg" class="bd-placeholder-img card-img-top" height="230">
+                </a>
+                <div class="card-body" style="background-color: #BBE7F1">
+                    <p class="card-text text-truncate"><a th:href="@{/readBoard(boardNo=${board.boardNo})}"
+                                                          th:text="${board.boardTitle}"></a></p>
+                    <p class="text-end" th:text="${board.userNickname}">작성자</p>
+                    <div class="d-flex justify-content-between">
+                        <span>조회수</span><small class="text-body-secondary" th:text="${board.boardView}">조회수</small>
+                        <span>추천수</span><small class="text-body-secondary" th:text="${board.recommend}">추천수</small>
+                        <small class="text-body-secondary" th:utext="${board.inputDate}" th:id="'inputDate-' + ${board.boardNo}">>올린날짜</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+    <div id="page" class="text-center">
+        <!-- 페이지 이동링크 -->
+        <a th:href="|javascript:pagingFormSubmit(${navi.currentPage - navi.pagePerGroup})|">◁◁</a>
+        <a th:href="|javascript:pagingFormSubmit(${navi.currentPage - 1})|">◀</a>
+        <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                <th:block th:if="${counter == navi.currentPage}"></th:block>
+                    <b><a th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a></b>&nbsp;
+                <th:block th:if="${counter == navi.currentPage}"></th:block>
+        </span>
+        <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + 1})|">▶</a>
+        <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})|">▷▷</a>
+
+      <form id="pagingForm">
+        <input type="hidden" name="page" id="page1" value="${navi.currentPage}" />
+        <input type="hidden" name="category"  th:value="${category}" />
+        <input type="hidden" name="keyword"  th:value="${keyword}" />
+        <input type="hidden" name="localCategory"  th:value="${localCategory}" />
+      </form>
+    </div>
+</div>
+</body>
+</html>

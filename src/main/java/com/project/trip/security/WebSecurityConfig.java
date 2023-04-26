@@ -23,13 +23,27 @@ public class WebSecurityConfig {
 		.authorizeRequests()
 		.antMatchers("/",
 					"/join",
+					"/findMember",
+					"/findId",
 					"/checkId",
+					"/checkName",
+					"/checkEmail",
+					"/checkMember",
+					"/checkRecommend",
+				  "/emailConfirm",
 					"/list",
 					"/read",
 					"/error",
 					"/img/**",
 					"/js/**",
-					"/board")
+					"/readBoard",
+					"/board",
+					"/searchBoard",
+					"/checkIdEmail",
+				  "/recommendList",
+					"/errorPage",
+				  "/loadReply")
+
 		.permitAll()					// 설정한 리소스의 접근을 인증 없이 사용 허가
 		.anyRequest().authenticated()	// 위의 경로 이외에는 모두 로그인
 		.and()
