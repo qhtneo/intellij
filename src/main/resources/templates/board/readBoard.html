@@ -92,7 +92,6 @@
 
         function loadReply() {
             let boardNo = $("#boardNo").val(); // hidden 태그에 달린 글 번호
-            let userNickname = $("#userNickname").val();
             $.ajax({
                 url: "/loadReply",
                 method: "POST",
@@ -109,11 +108,14 @@
                         if (data.userNo != null) {
                             replyTable += "<th>" + "수정 / 삭제" + "<hr>" + "</th>";
                         }
-
                         replyTable += "</tr>";
                         $.each(data.replyList, function (index, item) {
                             replyTable += "<tr>";
-                            replyTable += "<td>" + item.userNickname + "</td>";
+	                        if (item.userNickname == null) {
+		                        replyTable += "<td>" + "탈퇴한 회원" + "</td>";
+							} else {
+								replyTable += "<td>" + item.userNickname + "</td>";
+							}
                             replyTable += "<td>" + item.replyContent + "</td>";
                             replyTable += "<td>" + item.replyInputDate + "</td>";
                             replyTable += "<td>"
@@ -290,7 +292,7 @@
         <div id="reList"></div>
         <input type="hidden" id="replyId" value="">
         <input type="hidden" id="boardNo" th:value="${board.boardNo}">
-        <input type="hidden" id="userNickname" th:value="${board.userNickname}">
+        <input type="hidden" class="userNickname" id="userNickname" th:value="${board.userNickname}">
     </div>
 </div>
 <br>
