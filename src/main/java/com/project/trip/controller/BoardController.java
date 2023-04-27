@@ -151,8 +151,8 @@ public class BoardController {
     @PostMapping("/insertReply")
     @ResponseBody
     public String insertReply(int boardNo, String replyContent, @AuthenticationPrincipal UserDetails user) {
-        String userId = user.getUsername();
-        Member member = mService.selectOneMember(userId);
+        String userId = user.getUsername(); // userNIckname
+        Member member = mService.selectOneMember(userId); // user 정보 검색
         int userNo = member.getUserNo();
         String userNickname = member.getUserNickname();
 
@@ -170,17 +170,17 @@ public class BoardController {
     @PostMapping("/loadReply")
     @ResponseBody
     public Map<String, Object> loadReply(int boardNo, @AuthenticationPrincipal UserDetails user) {
-        List<Reply> replyList = rService.getAllReply(boardNo);
+        List<Reply> replyList = rService.getAllReply(boardNo); // 게시글에 있는 댓글 전체
         Map<String, Object> map = new HashMap<>();
-        map.put("replyList", replyList);
+        map.put("replyList", replyList); // 댓글 목록
 
-        if(user != null){
-
+        if(user != null){ // 로그인 했을 때
             String userId = user.getUsername();
             Member member = mService.selectOneMember(userId);
             map.put("userNo", member.getUserNo());
-        } else {
+        } else { // 비로그인
             map.put("userNo", null);
+            map.put("userNickname", null);
         }
         return map;
     }
