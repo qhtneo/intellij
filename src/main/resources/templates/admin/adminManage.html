@@ -24,6 +24,20 @@
             }
         };
 
+        function deleteBoard(boardNo){
+			alert(boardNo);
+	        if (confirm('정말 삭제하시겠습니까?')) {
+		        $.ajax({
+			        url: "/deleteBoard",
+			        method: "GET",
+			        data: {"boardNo": boardNo},
+			        success: function () {
+				        location.reload()
+			        }
+		        });
+	        }
+        };
+
         function updateMember(button){
 	        let row = button.closest("tr");
 	        let id = row.querySelector(".userId").textContent;
@@ -36,7 +50,7 @@
 			        method: "GET",
 			        data: {"userId": id, "enabled": enabled},
 			        success: function () {
-						alert("수정완료^^");
+						alert("수정완료!");
 				        location.reload();
 			        }
 		        });
@@ -78,6 +92,7 @@
                             <th>가입일</th>
                             <th>이메일 인증 여부</th>
 	                        <th>활성/비활성화</th>
+	                        <th>수정</th>
                             <th>회원 탈퇴</th>
                         </tr>
 
@@ -93,13 +108,12 @@
 			                        <option value="false" th:text="'비활성'" th:selected="!${member.enabled}"></option>
 		                        </select>
 	                        </td>
-                            <td>
-	                            <button class="deleteMember" type="button" onclick="javascript:deleteMember(this)">회원 탈퇴</button>
-                            </td>
 	                        <td>
 		                        <button class="updateMember" type="button" onclick="updateMember(this)">수정</button>
 	                        </td>
-                                <!-- <td><a th:href="|/updateBoard?boardNo=${member.userNo}|">수정</a> / <a th:href="|/deleteBoard?boardNo=${board.boardNo}|" onclick="return askDelete()">삭제</a></td>-->
+                            <td>
+	                            <button class="deleteMember" type="button" onclick="javascript:deleteMember(this)">회원 탈퇴</button>
+                            </td>
                         </tr>
                     </table>
             </div>
@@ -121,17 +135,20 @@
                         <th>추천수</th>
                         <th>조회수</th>
                         <th>지역</th>
+	                    <th>삭제</th>
+
                     </tr>
 
                     <tr th:each=" board: ${entry.value}">
                         <td th:text="${board.boardNo}"></td>
                         <td th:text="${board.userNo}"></td>
                         <td th:text="${board.userNickname}"></td>
-                        <td th:text="${board.boardTitle}"></td>
-                        <td th:text="${board.inputDate}"></td>
+	                    <td><a th:href="@{/readBoard(boardNo=${board.boardNo})}" th:text="${board.userNickname}"></a></td>
+	                    <td th:text="${board.inputDate}"></td>
                         <td th:text="${board.recommend}"></td>
                         <td th:text="${board.boardView}"></td>
                         <td th:text="${board.localCategory}"></td>
+	                    <td><button type="button" onclick="deleteBoard('${board.boardNo}')">삭제</button></td>
                     </tr>
                     <hr>
 
