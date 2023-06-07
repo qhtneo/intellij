@@ -12,13 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +56,12 @@ public class MemberController {
         int result = mService.deleteMember(userId);
         return "redirect:/logout";
     }
+    @GetMapping("deleteByAdmin")
+    public String deleteByAdmin(@RequestParam("userId") String userId){
+        System.out.println(userId+"이거 오나?");
+        int result = mService.deleteMember(userId);
+        return REDIRECT_INDEX;
+    }
     @GetMapping("/myPage")
     public String myPage(@AuthenticationPrincipal UserDetails user, Model model){
 
@@ -60,6 +69,7 @@ public class MemberController {
         Member member = mService.selectOneMember(userId);
         //클라이언트에 멤버 객체 전달
         model.addAttribute("member",member);
+        System.out.println(user.getAuthorities());
         return "member/myPage";
     }
     @PostMapping("/updateMember")
@@ -217,7 +227,30 @@ public class MemberController {
         model.addAttribute("replyList", replyList);
         model.addAttribute("member", member);
         return "member/myReplyList";
-
     }
-}
+    @GetMapping("/adminManage")
+    public String manage(Model model) {
+        List<Member> members= mService.selectAllMember();
+        List<Board> boardList = bService.selectAllBoard();
 
+        Map<String, List<Board>> categorizedBoards = new HashMap<>();
+
+        for (Board board : boardList) {
+            String localCategory = board.getLocalCategory();
+            List<Board> categorizedList = categorizedBoards.getOrDefault(localCategory, new ArrayList<>());
+            categorizedList.add(board);
+            categorizedBoards.put(localCategory, categorizedList);
+        }
+        int totalLength = categorizedBoards.values()
+                .stream()
+                .mapToInt(List::size)
+                .sum();
+
+        model.addAttribute("categorizedBoards", categorizedBoards);
+        model.addAttribute("members", members);
+        model.addAttribute("totalLength",totalLength);
+//        model.addAttribute("boardList",boardList);
+        return "admin/adminManage";
+    }
+
+}

@@ -17,4 +17,5 @@ public interface MemberService {
 
     Member selectByEmail(String email);
 
+    List<Member> selectAllMember();
 }

@@ -14,6 +14,7 @@
     <select id = "selectAllBoard" resultType = "Board">
         SELECT
             BOARD_NO AS boardNo,
+            USER_NO AS userNo,
             USER_NICKNAME AS userNickname,
             BOARD_TITLE AS boardTitle,
             BOARD_VIEW AS boardView,
@@ -82,12 +83,13 @@
             BOARD_TITLE AS boardTitle,
             BOARD_SUMMARY AS boardSummary,
             BOARD_VIEW AS boardView,
-            DATE_FORMAT(INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
+            INPUT_DATE AS inputDate,
             recommend AS recommend,
             LOCAL_CATEGORY AS localCategory
         FROM 	board
         WHERE 	BOARD_NO = #{boardNo}
     </select>
+
     <!-- 조회수 늘리기 -->
     <update id ="addViewCount" parameterType ="int">
         UPDATE BOARD
@@ -138,7 +140,10 @@
     </select>
     <update id="updateBoard" parameterType="board">
         UPDATE board
-        SET BOARD_TITLE = #{boardTitle}, BOARD_SUMMARY = #{boardSummary}
+        SET
+            BOARD_TITLE = #{boardTitle},
+            BOARD_SUMMARY = #{boardSummary},
+            local_category = #{localCategory}
         WHERE BOARD_NO = #{boardNo}
     </update>
 

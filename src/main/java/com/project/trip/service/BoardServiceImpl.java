@@ -50,12 +50,17 @@ class BoardServiceImpl implements BoardService {
         return navi;
     }
 
+//    @Override
+//    public List<Board> selectAllBoard(PageNavigator navi) {
+//
+//        RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+//
+//        return bDao.selectAllBoard(rb);
+//    }
+
     @Override
-    public List<Board> selectAllBoard(PageNavigator navi) {
-
-        RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-
-        return bDao.selectAllBoard(rb);
+    public List<Board> selectAllBoard() {
+        return bDao.selectAllBoard();
     }
 
     @Override
