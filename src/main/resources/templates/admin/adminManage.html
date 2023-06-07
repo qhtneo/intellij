@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymepleaf.org/extras/spring-security">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AdminPage</title>
+    <script>
+        function btn(button){
+            let id = button.parentNode.parentNode.querySelector('.userId').textContent;
+            if (confirm('정말 삭제하시겠습니까?')) {
+                $.ajax({
+                    url: "/deleteByAdmin",
+                    method: "GET",
+                    data: {"userId": id},
+                    success: function () {
+                        location.reload()
+                    }
+                });
+            }
+        };
+
+        function toggleData(buttonId) {
+            let dataDiv = document.getElementById(buttonId + '-data');
+            if (dataDiv.style.display === 'none') {
+                dataDiv.style.display = 'block';
+            } else {
+                dataDiv.style.display = 'none';
+            }
+        }
+
+    </script>
+    <style>
+        .data {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div>
+
+    <div class="row g-5 w-100 "style="padding-left: 20px">
+        <div class="col-md-7 col-lg-12 mx-auto" style="padding-top: 20px">
+            <h4>관리자 페이지 입니다.</h4>
+            <hr  class="my-hr3">
+            <div> <!--회원 관리-->
+                <p> <b>전체 회원수 :</b> <span th:text="${#lists.size(members)}"></span></p>
+                <span><b>회원 정보:</b></span>
+
+                    <table id = "UserList" >
+                        <tr>
+                            <th>번호</th>
+                            <th>아이디</th>
+                            <th>닉네임</th>
+                            <th>가입일</th>
+                            <th>이메일 인증 여부</th>
+                            <th>회원 탈퇴</th>
+                        </tr>
+
+                        <tr th:each = "member:${members}"  style="text-align: center;">
+                            <td th:text = "${member.userNo}"></td>
+                            <td th:text = "${member.userId}" class="userId"></td>
+                            <td th:text = "${member.userNickname}"></td>
+                            <td th:text = "${member.regDate}"></td>
+                            <td th:text = "${member.userEmailYn}" ></td>
+                            <td><button class=" btn btn-lg btn-primary" type="button" onclick="javascript:btn(this)">회원 탈퇴</button>
+                            </td>
+                                <!-- <td><a th:href="|/updateBoard?boardNo=${member.userNo}|">수정</a> / <a th:href="|/deleteBoard?boardNo=${board.boardNo}|" onclick="return askDelete()">삭제</a></td>-->
+                        </tr>
+                    </table>
+            </div>
+            <hr>
+            <div>
+                <!--여기는 지역별 데이터-->
+                <p> <b>전체 게시글 수  :</b> <span th:text ="${totalLength}"></span>개</p>
+
+                <table id = "boardTable" th:each="entry : ${categorizedBoards.entrySet()}">
+                    <br>
+
+                    <a th:text="${entry.key}"></a>
+                    <tr>
+                        <th>게시글 번호</th>
+                        <th>유저 번호</th>
+                        <th>닉네임</th>
+                        <th>글 제목</th>
+                        <th>글 작성일</th>
+                        <th>추천수</th>
+                        <th>조회수</th>
+                        <th>지역</th>
+                    </tr>
+
+                    <tr th:each=" board: ${entry.value}">
+                        <td th:text="${board.boardNo}"></td>
+                        <td th:text="${board.userNo}"></td>
+                        <td th:text="${board.userNickname}"></td>
+                        <td th:text="${board.boardTitle}"></td>
+                        <td th:text="${board.inputDate}"></td>
+                        <td th:text="${board.recommend}"></td>
+                        <td th:text="${board.boardView}"></td>
+                        <td th:text="${board.localCategory}"></td>
+                    </tr>
+                    <hr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

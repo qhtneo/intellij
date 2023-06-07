@@ -15,4 +15,5 @@ public interface MemberDao {
     Member selectByName(String userNickname);
     Member selectByEmail(String email);
 
+    List<Member> selectAllMember();
 }

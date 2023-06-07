@@ -111,10 +111,13 @@ public class BoardController {
     public String updateBoard(Board board, @AuthenticationPrincipal UserDetails user, Model model) {
 
         String userId = user.getUsername();
+
         String category = board.getLocalCategory();
         board.setLocalCategory(category);
+
         bService.updateBoard(board);
         Member member = mService.selectOneMember(userId);
+        log.debug("member:{}",member);
         //클라이언트에 멤버 객체 전달
         model.addAttribute("member", member);
         List<Board> boardList = bService.selectBoardById(userId);

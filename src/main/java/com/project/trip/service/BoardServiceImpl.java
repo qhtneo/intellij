@@ -43,19 +43,24 @@ class BoardServiceImpl implements BoardService {
 
     @Override
     public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String keyword, String category, String localCategory) {
-        int total = bDao.countBoard(keyword, category);
+        int total = bDao.countBoard(keyword, category, localCategory);
 
         PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, total);
 
         return navi;
     }
 
+//    @Override
+//    public List<Board> selectAllBoard(PageNavigator navi) {
+//
+//        RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+//
+//        return bDao.selectAllBoard(rb);
+//    }
+
     @Override
-    public List<Board> selectAllBoard(PageNavigator navi) {
-
-        RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-
-        return bDao.selectAllBoard(rb);
+    public List<Board> selectAllBoard() {
+        return bDao.selectAllBoard();
     }
 
     @Override

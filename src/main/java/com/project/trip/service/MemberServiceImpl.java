@@ -57,6 +57,10 @@ public class MemberServiceImpl implements MemberService {
         return mDao.selectByEmail(email);
     }
 
+    @Override
+    public List<Member> selectAllMember() {
+        return mDao.selectAllMember();
+    }
 
 
 }
