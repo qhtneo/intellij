@@ -14,7 +14,7 @@ public interface BoardDao {
     Board selectOneBoard(int boardNo);
     int updateBoard(Board board);
     int deleteBoard(int boardNo);
-    List<Board> selectAllBoard(RowBounds rb);
+//    List<Board> selectAllBoard(RowBounds rb);
     int countBoard(String keyword, String category, String localCategory);
     List<Board> selectBoardByKeyword(Map<String, Object> map, RowBounds rb);
     List<Board> selectBoardById(String userId);
@@ -28,4 +28,6 @@ public interface BoardDao {
     List<Board> selectBoardByRecommend(String userId);
 
     void addViewCount(int boardNo);
+
+    List<Board> selectAllBoard();
 }
