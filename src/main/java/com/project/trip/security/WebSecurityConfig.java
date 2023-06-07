@@ -35,6 +35,7 @@ public class WebSecurityConfig {
 					"/list",
 					"/read",
 					"/error",
+					"/emailSend",
 					"/img/**",
 					"/js/**",
 					"/readBoard",

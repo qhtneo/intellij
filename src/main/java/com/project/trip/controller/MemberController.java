@@ -58,7 +58,6 @@ public class MemberController {
     }
     @GetMapping("deleteByAdmin")
     public String deleteByAdmin(@RequestParam("userId") String userId){
-        System.out.println(userId+"이거 오나?");
         int result = mService.deleteMember(userId);
         return REDIRECT_INDEX;
     }
@@ -196,6 +195,12 @@ public class MemberController {
         model.addAttribute("key",confirm);
         model.addAttribute("email",email);
         return "member/checkMember";
+    }
+    @PostMapping("/emailSend")
+    @ResponseBody
+    public String emailCheck(@RequestParam String email) throws Exception {
+        String confirm = emailService.sendSimpleMessage(email);
+        return confirm;
     }
  @PostMapping("/checkIdEmail")
     public String checkAll(String email,String userId, Model model) throws Exception{
