@@ -19,7 +19,7 @@ public class Member implements UserDetails {
     private String userEmail;
     private String regDate;
     private boolean userEmailYn;
-//    private boolean enabled;
+    private boolean enabled;
     private String roleName;
 
     @Override
@@ -51,10 +51,12 @@ public class Member implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return false;
     }
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return this.userEmailYn;
-    }
+//    @Override
+//    public boolean isEnabled() {
+//        return this.userEmailYn;
+//    }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

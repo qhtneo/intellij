@@ -58,6 +58,7 @@
                             <th>닉네임</th>
                             <th>가입일</th>
                             <th>이메일 인증 여부</th>
+	                        <th>활성/비활성화</th>
                             <th>회원 탈퇴</th>
                         </tr>
 
@@ -66,7 +67,13 @@
                             <td th:text = "${member.userId}" class="userId"></td>
                             <td th:text = "${member.userNickname}"></td>
                             <td th:text = "${member.regDate}"></td>
-                            <td th:text = "${member.userEmailYn}" ></td>
+	                        <td th:text = "${member.userEmailYn} ? '인증' : '미인증'"></td>
+	                        <td>
+		                        <select th:model="${member.enabled}">
+			                        <option value="true" th:text="'활성'" th:selected="${member.enabled}"></option>
+			                        <option value="false" th:text="'비활성'" th:selected="!${member.enabled}"></option>
+		                        </select>
+	                        </td>
                             <td><button class=" btn btn-lg btn-primary" type="button" onclick="javascript:btn(this)">회원 탈퇴</button>
                             </td>
                                 <!-- <td><a th:href="|/updateBoard?boardNo=${member.userNo}|">수정</a> / <a th:href="|/deleteBoard?boardNo=${board.boardNo}|" onclick="return askDelete()">삭제</a></td>-->
