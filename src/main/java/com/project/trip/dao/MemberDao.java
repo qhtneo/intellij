@@ -16,4 +16,6 @@ public interface MemberDao {
     Member selectByEmail(String email);
 
     List<Member> selectAllMember();
+
+    void updateRole(Map<String, Object> map);
 }

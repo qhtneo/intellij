@@ -77,6 +77,15 @@ public class MemberController {
         mService.updateMember(member);
         return REDIRECT_INDEX;
     }
+
+    @GetMapping("updateByAdmin")
+    @ResponseBody
+    public String updateByAdmin(@RequestParam("userId") String userId, @RequestParam("enabled") boolean enabled){
+        mService.updateRole(userId, enabled);
+
+        return "OK";
+    }
+
     //아이디 중복확인하는 로직
     @PostMapping("/checkId")
     @ResponseBody
