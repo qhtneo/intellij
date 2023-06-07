@@ -65,6 +65,7 @@ public class WebSecurityConfig {
 	// 인증용 쿼리
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// configure(AuthenticationManagerBuilder auth) : 사용자 세부 서비스를 설정하기 위한 오버라이딩
 
 		String userNameQueryforEnabled =
 				"select user_id username, user_pw password, user_email_yn " +

@@ -213,4 +213,9 @@ public class BoardController {
 
         return "OK";
     }
+
+    @GetMapping("/dataBoard")
+    public String dataBoard(){
+        return "board/dataBoard";
+    }
 }
