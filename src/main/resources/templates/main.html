@@ -113,6 +113,9 @@
 			<button sec:authorize="isAuthenticated()" type="button" class="btn btn-primary"
 			        onclick="location.href = 'myPage'">myPage
 			</button>
+			<button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-primary"
+			        onclick="location.href = 'adminManage'">관리자 페이지
+			</button>
 		</div>
 	</header>
 

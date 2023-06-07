@@ -15,7 +15,11 @@
                user_id       as userId,
                user_nickname as userNickname,
                reg_date      as regDate,
-               user_email_yn as userEmailYn
+               user_email_yn as userEmailYn,
+               CASE enabled
+                   WHEN 1 THEN true
+                   ELSE false
+               END as enabled
         FROM MEMBER
         WHERE rolename = 'ROLE_USER'
     </select>
