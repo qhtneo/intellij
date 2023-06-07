@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>AdminPage</title>
     <script>
-        function btn(button){
+        function deleteMember(button){
             let id = button.parentNode.parentNode.querySelector('.userId').textContent;
             if (confirm('정말 삭제하시겠습니까?')) {
                 $.ajax({
@@ -22,6 +22,25 @@
                     }
                 });
             }
+        };
+
+        function updateMember(button){
+	        let row = button.closest("tr");
+	        let id = row.querySelector(".userId").textContent;
+	        let enabledSelect = row.querySelector(".enabled-select");
+	        let enabled = enabledSelect.value === "true";
+
+	        if (confirm('정말 수정하시겠습니까?')) {
+		        $.ajax({
+			        url: "/updateByAdmin",
+			        method: "GET",
+			        data: {"userId": id, "enabled": enabled},
+			        success: function () {
+						alert("수정완료^^");
+				        location.reload();
+			        }
+		        });
+	        }
         };
 
         function toggleData(buttonId) {
@@ -69,13 +88,17 @@
                             <td th:text = "${member.regDate}"></td>
 	                        <td th:text = "${member.userEmailYn} ? '인증' : '미인증'"></td>
 	                        <td>
-		                        <select th:model="${member.enabled}">
+		                        <select class="enabled-select" th:model="${member.enabled}">
 			                        <option value="true" th:text="'활성'" th:selected="${member.enabled}"></option>
 			                        <option value="false" th:text="'비활성'" th:selected="!${member.enabled}"></option>
 		                        </select>
 	                        </td>
-                            <td><button class=" btn btn-lg btn-primary" type="button" onclick="javascript:btn(this)">회원 탈퇴</button>
+                            <td>
+	                            <button class="deleteMember" type="button" onclick="javascript:deleteMember(this)">회원 탈퇴</button>
                             </td>
+	                        <td>
+		                        <button class="updateMember" type="button" onclick="updateMember(this)">수정</button>
+	                        </td>
                                 <!-- <td><a th:href="|/updateBoard?boardNo=${member.userNo}|">수정</a> / <a th:href="|/deleteBoard?boardNo=${board.boardNo}|" onclick="return askDelete()">삭제</a></td>-->
                         </tr>
                     </table>

@@ -78,5 +78,12 @@
         FROM MEMBER
         where user_email = #{userEmail}
     </select>
+    <!-- 관리자 회원정보 수정하기 -->
+    <update id="updateRole" parameterType="hashmap">
+        UPDATE
+            MEMBER
+        SET
+            ENABLED = #{enabled}
+        WHERE USER_ID = #{userId}
+    </update>
 </mapper>
-
