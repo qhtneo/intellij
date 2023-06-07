@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 인터페이스 이름(풀네임) -->
-<mapper namespace="com.project.trip.dao.ReplyDao">
+<mapper namespace="com.project.trip.reply.dao.ReplyDao">
     <!-- 댓글 쓰기 -->
     <insert id = "insertReply" parameterType = "Reply">
         INSERT INTO
