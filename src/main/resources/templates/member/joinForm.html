@@ -21,6 +21,37 @@
     }
   </style>
   <script>
+    let check1 = 0;
+    let check2 = "";
+    function checkEmail() {
+      let userEmail = document.getElementById("email").value;
+      const expText = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+      let checkEmailMsg = document.getElementById("msgEmail").innerText;
+      if(checkEmailMsg.includes("사용중")) {
+        alert("이미 사용중인 이메일입니다.")
+        document.getElementById("email").focus();
+        return false;
+      }
+      if(expText.test(userEmail)==false){
+        alert("이메일형식이 올바르지 않습니다.");
+        return false;
+      }else {
+        check1 = 1;
+        $.ajax({
+          url:"/emailSend",
+          method:"post",
+          data:{"email": userEmail},
+          success:function(confirm) {
+            check2 = confirm;
+          },
+          error: function(){
+            alert("error!");
+          }
+        });
+        document.getElementById('emailAuthentication').style.display = 'block'
+        alert('인증코드가 발송되었습니다.');
+      }
+    }
     $(document).ready(function(){
       //비밀번호 체크
       $("#pw2").on("blur",function() {
@@ -73,7 +104,6 @@
         })
       });
         //아이디체크
-
       $("#userId").on("blur",function(){
         //this : #userId 요소
         // id 입력창에 입력된 값 가져오기
@@ -140,6 +170,7 @@
       let pw2Value = document.getElementById("pw2").value;
       let nameValue = document.getElementById("userNickname").value;
       let addressValue = document.getElementById("email").value;
+      let code = document.getElementById("emailAuthentication").value;
 
       if (idValue === '' || idValue.length < 3 || idValue.length > 10){
         alert("아이디는 3~10자로 작성해야합니다.");
@@ -194,6 +225,15 @@
       if(checkEmailMsg.includes("사용중")){
         alert("이미 사용중인 이메일입니다.")
         document.getElementById("email").focus();
+        return false;
+      }
+      if(check1 !=1){
+        alert("이메일 인증을 진행해 주세요.");
+        return false;
+      }
+      if(check2!=code){
+        alert('이메일 인증코드가 올바르지 않습니다.')
+        document.getElementById("emailAuthentication").focus();
         return false;
       }
     }
@@ -259,6 +299,15 @@
               <input type="email" class="form-control-lg" name="userEmail" id="email" placeholder="이메일">
             </span><br>
             <span id ="msgEmail" style="font-size: 15px;"></span>
+          </th>
+          <th>
+            <input type="button" value="이메일 인증" onclick="checkEmail();">
+          </th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>
+            <input type=text class="form-control-lg" name="emailAuthentication" id="emailAuthentication" placeholder="인증코드"  style="display:none">
           </th>
         </tr>
         <tr>
