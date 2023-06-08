@@ -235,13 +235,14 @@
         <tr>
             <input type="hidden" th:value="*{boardNo}" id = "boardNum">
             <th th:text="*{localCategory}" class="h6">지역</th>
-            <th th:text="*{boardTitle}" colspan="2" class="h3">제목</th>
+            <td th:text="*{detailLocal}" class="text-start" style="width: 15%">세부 지역</td>
+            <th th:text="*{boardTitle}" colspan="2" class="h3 text-start">제목</th>
             <th th:text="*{userNickname}">글쓴이</th>
         </tr>
         <tr>
         </tr>
         <tr>
-            <th colspan="4">
+            <th colspan="5">
                 <hr>
             </th>
         </tr>
@@ -253,11 +254,11 @@
         </tr>
         <tr>
 
-            <th colspan="4"><div th:utext="*{boardSummary}" style="width: 100%; height: auto; resize: none; border: #cccccc solid 1px; padding: 20px" >내용</div></th>
+            <th colspan="5"><div th:utext="*{boardSummary}" style="width: 100%; height: auto; resize: none; border: #cccccc solid 1px; padding: 20px" >내용</div></th>
 
         </tr>
         <tr>
-            <th colspan="4">
+            <th colspan="5">
                 <hr>
             </th>
         </tr>
@@ -269,6 +270,7 @@
                 <a href="javascript:checkHeart();"><img src="img/fHeart.png" sec:authorize="isAuthenticated()" alt=""
                                                         width="30" height="auto" id="fh"></a>
             </th>
+            <th></th>
             <th></th>
             <th></th>
             <th>

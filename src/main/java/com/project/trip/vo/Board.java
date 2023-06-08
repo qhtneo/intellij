@@ -18,4 +18,5 @@ public class Board {
     private int boardView;         // 글 조회수
     private int recommend;         // 글 좋아요
     private String localCategory;  // 글 지역별 검색
+    private String detailLocal;    // 글 세부지역
 }
