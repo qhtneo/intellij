@@ -117,7 +117,6 @@
         </div>
     </header>
 
-    <!-- 전체 -->
     <div class="d-flex flex-row justify" style="padding: 50px;">
         <!-- 사이드바 -->
         <div class="d-flex flex-column flex-shrink-0 p-3 sticky-top"
@@ -152,46 +151,41 @@
 
         <div class="row g-5 w-100 "style="padding-left: 20px">
             <div class="col-md-7 col-lg-12 mx-auto" style="padding-top: 20px">
-                <hr  class="my-hr3">
-                <div> <!--회원 관리-->
-                    <p> <b>전체 회원수 :</b> <span th:text="${#lists.size(members)}"></span></p>
-                    <span><b>회원 정보:</b></span>
+                <!--여기는 지역별 데이터-->
+                <p> <b>전체 게시글 수  :</b> <span th:text ="${boardList.size()}"></span>개</p>
 
-                    <table id = "UserList" >
-                        <tr>
-                            <th>번호</th>
-                            <th>아이디</th>
-                            <th>닉네임</th>
-                            <th>가입일</th>
-                            <th>이메일 인증 여부</th>
-                            <th>활성/비활성화</th>
-                            <th>수정</th>
-                            <th>회원 탈퇴</th>
-                        </tr>
+                <table id = "boardTable" >
+                    <br>
+                    <tr>
+                        <th>게시글 번호</th>
+                        <th>유저 번호</th>
+                        <th>닉네임</th>
+                        <th>글 제목</th>
+                        <th>글 작성일</th>
+                        <th>추천수</th>
+                        <th>조회수</th>
+                        <th>지역</th>
+                        <th>삭제</th>
 
-                        <tr th:each = "member:${members}"  style="text-align: center;">
-                            <td th:text = "${member.userNo}"></td>
-                            <td th:text = "${member.userId}" class="userId"></td>
-                            <td th:text = "${member.userNickname}"></td>
-                            <td th:text = "${member.regDate}"></td>
-                            <td th:text = "${member.userEmailYn} ? '인증' : '미인증'"></td>
-                            <td>
-                                <select class="enabled-select" th:model="${member.enabled}">
-                                    <option value="true" th:text="'활성'" th:selected="${member.enabled}"></option>
-                                    <option value="false" th:text="'비활성'" th:selected="!${member.enabled}"></option>
-                                </select>
-                            </td>
-                            <td>
-                                <button class="updateMember" type="button" onclick="updateMember(this)">수정</button>
-                            </td>
-                            <td>
-                                <button class="deleteMember" type="button" onclick="javascript:deleteMember(this)">회원 탈퇴</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                    </tr>
+
+                    <tr th:each="board : ${boardList}">
+                        <td th:text="${board.boardNo}"></td>
+                        <td th:text="${board.userNo}"></td>
+                        <td th:text="${board.userNickname}"></td>
+                        <td><a th:href="@{/readBoard(boardNo=${board.boardNo})}" th:text="${board.userNickname}"></a></td>
+                        <td th:text="${board.inputDate}"></td>
+                        <td th:text="${board.recommend}"></td>
+                        <td th:text="${board.boardView}"></td>
+                        <td th:text="${board.localCategory}"></td>
+                        <td><button type="button" onclick="deleteBoard('${board.boardNo}')">삭제</button></td>
+                    </tr>
+                    <hr>
+
+                </table>
             </div>
         </div>
+
     </div>
 </div>
 </body>

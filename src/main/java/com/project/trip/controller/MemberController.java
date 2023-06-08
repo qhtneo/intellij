@@ -243,28 +243,17 @@ public class MemberController {
         return "member/myReplyList";
     }
     @GetMapping("/adminManage")
-    public String manage(Model model) {
+    public String manageMember(Model model) {
         List<Member> members= mService.selectAllMember();
-        List<Board> boardList = bService.selectAllBoard();
-
-        Map<String, List<Board>> categorizedBoards = new HashMap<>();
-
-        for (Board board : boardList) {
-            String localCategory = board.getLocalCategory();
-            List<Board> categorizedList = categorizedBoards.getOrDefault(localCategory, new ArrayList<>());
-            categorizedList.add(board);
-            categorizedBoards.put(localCategory, categorizedList);
-        }
-        int totalLength = categorizedBoards.values()
-                .stream()
-                .mapToInt(List::size)
-                .sum();
-
-        model.addAttribute("categorizedBoards", categorizedBoards);
-        model.addAttribute("members", members);
-        model.addAttribute("totalLength",totalLength);
-//        model.addAttribute("boardList",boardList);
+        model.addAttribute("members",members);
         return "admin/adminManage";
+    }
+
+    @GetMapping("/adminManageBoard")
+    public String manageBoard(Model model) {
+        List<Board> boardList = bService.selectAllBoard();
+        model.addAttribute("boardList",boardList);
+        return "admin/adminManageBoard";
     }
 
 }
