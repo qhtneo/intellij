@@ -9,6 +9,20 @@
         INSERT INTO Member (USER_id, USER_PW, USER_NICKNAME, USER_EMAIL)
         VALUES (#{userId}, #{userPw}, #{userNickname}, #{userEmail})
     </insert>
+    <!--모든 회원 정보 가져오기-->
+    <select id="selectAllMember" resultType="Member">
+        SELECT user_no       as userNo,
+               user_id       as userId,
+               user_nickname as userNickname,
+               reg_date      as regDate,
+               user_email_yn as userEmailYn,
+               CASE enabled
+                   WHEN 1 THEN true
+                   ELSE false
+               END as enabled
+        FROM MEMBER
+        WHERE rolename = 'ROLE_USER'
+    </select>
     <!-- 한명의 회원정보 가져오기 -->
     <select id="selectOneMember" parameterType="string" resultType="Member">
         SELECT user_no       as userNo,
@@ -64,5 +78,12 @@
         FROM MEMBER
         where user_email = #{userEmail}
     </select>
+    <!-- 관리자 회원정보 수정하기 -->
+    <update id="updateRole" parameterType="hashmap">
+        UPDATE
+            MEMBER
+        SET
+            ENABLED = #{enabled}
+        WHERE USER_ID = #{userId}
+    </update>
 </mapper>
-

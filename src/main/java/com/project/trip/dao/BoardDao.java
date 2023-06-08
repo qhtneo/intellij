@@ -3,6 +3,7 @@ package com.project.trip.dao;
 import com.project.trip.vo.Board;
 import com.project.trip.vo.Member;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
@@ -14,8 +15,10 @@ public interface BoardDao {
     Board selectOneBoard(int boardNo);
     int updateBoard(Board board);
     int deleteBoard(int boardNo);
-    List<Board> selectAllBoard(RowBounds rb);
-    int countBoard(String keyword, String category, String localCategory);
+//    List<Board> selectAllBoard(RowBounds rb);
+//    int countBoard(String keyword, String category, String localCategory);
+    int countBoard(@Param("keyword") String keyword, @Param("category") String category, @Param("localCategory") String localCategory);
+
     List<Board> selectBoardByKeyword(Map<String, Object> map, RowBounds rb);
     List<Board> selectBoardById(String userId);
     void updateRecommend(int boardNo);
@@ -28,4 +31,6 @@ public interface BoardDao {
     List<Board> selectBoardByRecommend(String userId);
 
     void addViewCount(int boardNo);
+
+    List<Board> selectAllBoard();
 }

@@ -57,6 +57,20 @@ public class MemberServiceImpl implements MemberService {
         return mDao.selectByEmail(email);
     }
 
+    @Override
+    public List<Member> selectAllMember() {
+        return mDao.selectAllMember();
+    }
 
-
+    @Override
+    public void updateRole(String userId, boolean enabled) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        if(enabled){
+            map.put("enabled", 1);
+        } else{
+            map.put("enabled", 0);
+        }
+        mDao.updateRole(map);
+    }
 }

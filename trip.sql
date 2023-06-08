@@ -1,50 +1,60 @@
 use trip;
 
-CREATE TABLE Member(
-	user_no int	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	user_id VARCHAR(15) NOT NULL unique,
-	user_pw VARCHAR(300) NOT NULL,
-	user_nickname VARCHAR(30) NOT NULL unique,
-	user_email VARCHAR(100) NOT NULL unique,
-	reg_date DATETIME NOT NULL default now(),
-	user_email_yn BOOLEAN NOT NULL DEFAULT 1,
-	enabled boolean default 1,
-    rolename varchar(20) default 'ROLE USER'
+DROP TABLE MEMBER
+;
+CREATE TABLE MEMBER(
+   user_no			BIGINT			NOT NULL 	AUTO_INCREMENT PRIMARY KEY,
+   user_id			VARCHAR(15)		NOT NULL 	COMMENT '아이디(계정)',
+   user_pw			VARCHAR(255)	NOT NULL,
+   user_nickname	VARCHAR(30)		NOT NULL,
+   user_email		VARCHAR(255)	NOT NULL,
+   reg_date			DATETIME		NOT NULL	DEFAULT now(),
+   user_email_yn 	BOOLEAN			NOT NULL 	DEFAULT 0,
+   enabled			BOOLEAN			NOT NULL	DEFAULT 1,
+   rolename			VARCHAR(255) 	NOT NULL	DEFAULT 'ROLE_USER',
+
+	CONSTRAINT uq_Member_user_id 		UNIQUE (user_id),
+	CONSTRAINT uq_Member_user_nickname 	UNIQUE (user_nickname),
+    CONSTRAINT uq_Member_user_email		UNIQUE (user_email)
 );
 
+DROP TABLE BOARD;
 CREATE TABLE BOARD(
-   board_no INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   user_no   int   NOT NULL,
-   user_nickname VARCHAR(30),
-   board_title   VARCHAR(300) NOT NULL,
-   board_summary LONGTEXT NOT NULL,
-   board_view   INT   NOT NULL DEFAULT 0,
-   input_date   TIMESTAMP DEFAULT NOW(),
-   recommend INT NOT NULL   DEFAULT 0,
-    foreign key (user_no) references Member(user_no), 
-    foreign key (user_nickname) references Member(user_nickname)
+   board_no			BIGINT			NOT NULL	AUTO_INCREMENT PRIMARY KEY,
+   user_no 			BIGINT			NOT NULL,
+   user_nickname 	VARCHAR(30)		NOT NULL,
+   board_title		VARCHAR(255)	NOT NULL,
+   board_summary	LONGTEXT		NOT NULL,
+   board_view		INT				NOT NULL	DEFAULT 0,
+   input_date		TIMESTAMP		NOT NULL	DEFAULT	NOW(),
+   recommend		INT				NOT NULL	DEFAULT 0,
+   local_category	VARCHAR(255)	NOT NULL
 );
 
-CREATE TABLE recommend(
-    board_no int not null,
-    user_id varchar(15) not null,
-	foreign key (board_no) references board(board_no) on delete cascade,
-    foreign key (user_id) references member(user_id) on delete cascade on update cascade
+DROP TABLE RECOMMEND;
+CREATE TABLE RECOMMEND(
+    board_no 	INT 			NOT NULL,
+    user_id 	VARCHAR(255) 	NOT NULL
     );
 
-CREATE TABLE Reply(
-	reply_id int auto_increment primary key,
-	board_no int ,
-    user_no int ,
-    reply_content varchar(500) not null,
-    reply_input_date DATETIME not null default now(),
-    user_nickname varchar(30),
-    foreign key(board_no) references BOARD(board_no) on delete cascade,
-    foreign key(user_no) references member(user_no) on delete set null on update cascade,
-    foreign key(user_nickname) references member(user_nickname) on delete set null
+DROP TABLE REPLY;
+CREATE TABLE REPLY(
+	reply_id 			INT 						AUTO_INCREMENT PRIMARY KEY,
+	board_no 			INT ,
+	user_no 			INT ,
+	reply_content 		VARCHAR(500) 	NOT NULL,
+	reply_input_date	DATETIME 		NOT NULL 	DEFAULT now(),
+	user_nickname		VARCHAR(255)
 );
 
+DROP TABLE NOTICE;
+CREATE TABLE NOTICE(
+   user_no     	BIGINT,
+   board_no		INT,
+   board_title		VARCHAR(255),
+   reply_id 		INT,
+   reply_content	VARCHAR(255),
+   message     	VARCHAR(255)
+);
 
-desc user;
-desc board;
-desc reply;
+commit;

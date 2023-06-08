@@ -46,7 +46,8 @@
     <!-- 댓글 수정 -->
     <update id = "updateReply" parameterType = "Reply">
         UPDATE REPLY
-        SET REPLY_CONTENT = #{replyContent}
+        SET REPLY_CONTENT = #{replyContent},
+        REPLY_INPUT_DATE = NOW()
         WHERE REPLY_ID = #{replyId}
     </update>
     <!-- 내 댓글 목록 -->

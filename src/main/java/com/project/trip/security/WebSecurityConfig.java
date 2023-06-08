@@ -16,12 +16,13 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private DataSource dataSource;	// 임포트 패키지 주의
-	
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity hs) throws Exception {
 		hs.csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/",
+					"main1",
 					"/join",
 					"/findMember",
 					"/findId",
@@ -30,21 +31,22 @@ public class WebSecurityConfig {
 					"/checkEmail",
 					"/checkMember",
 					"/checkRecommend",
-				  "/emailConfirm",
+				    "/emailConfirm",
 					"/list",
 					"/read",
 					"/error",
+					"/emailSend",
 					"/img/**",
 					"/js/**",
 					"/readBoard",
 					"/board",
 					"/searchBoard",
 					"/checkIdEmail",
-				  "/recommendList",
+				    "/recommendList",
 					"/errorPage",
-				  "/loadReply")
-
+				    "/loadReply")
 		.permitAll()					// 설정한 리소스의 접근을 인증 없이 사용 허가
+		.antMatchers("/adminManage").hasRole("ADMIN")
 		.anyRequest().authenticated()	// 위의 경로 이외에는 모두 로그인
 		.and()
 		.formLogin()					// 일반적인 폼을 이용한 로그인 처리/실패 방법을 사용
@@ -63,12 +65,15 @@ public class WebSecurityConfig {
 		return hs.build();
 	}
 	// 인증용 쿼리
+	//	요청 가로채기
+	//	각 요청에 대해서 보안 수준을 잘 조절하기 위한 키는 WebSecurityConfigurerAdapter의 configure(HttpSecurity) 메소드 오버라이딩 이다.
+	//	다른 URL 패스들에 대해 선택적으로 보안을 적용하기 위한 configure(HttpSecurity)의 오버라이딩
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// configure(AuthenticationManagerBuilder auth) : 사용자 세부 서비스를 설정하기 위한 오버라이딩
 
 		String userNameQueryforEnabled =
-				"select user_id username, user_pw password, user_email_yn " +
+				"select user_id username, user_pw password, enabled " +
 						"from Member " +
 						"where user_id = ?";
 
@@ -88,4 +93,5 @@ public class WebSecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
+
 }
