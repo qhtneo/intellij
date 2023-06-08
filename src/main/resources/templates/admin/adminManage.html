@@ -23,26 +23,36 @@
                     method: "GET",
                     data: {"userId": id},
                     success: function () {
+						alert('삭제 완료!');
                         location.reload()
                     }
                 });
             }
         };
 
+		// 게시글 삭제를 위한.. 버튼을 눌렀을때~
+        $(document).ready(function () {
+	        $(".deleteBoard").on("click", function () {
+		        let boardNo = $(this).val();
+		        deleteBoard(boardNo);
+	        })
+        });
+		// 게시글 삭제
         function deleteBoard(boardNo){
-			alert(boardNo);
 	        if (confirm('정말 삭제하시겠습니까?')) {
 		        $.ajax({
 			        url: "/deleteBoard",
 			        method: "GET",
 			        data: {"boardNo": boardNo},
 			        success: function () {
+				        alert("뿡");
 				        location.reload()
 			        }
 		        });
 	        }
         };
 
+		// 회원 활성/비활성 수정
         function updateMember(button){
 	        let row = button.closest("tr");
 	        let id = row.querySelector(".userId").textContent;
@@ -55,7 +65,7 @@
 			        method: "GET",
 			        data: {"userId": id, "enabled": enabled},
 			        success: function () {
-						alert("수정완료!");
+						alert("수정 완료!");
 				        location.reload();
 			        }
 		        });
@@ -176,6 +186,7 @@
                             <td th:text = "${member.regDate}"></td>
                             <td th:text = "${member.userEmailYn} ? '인증' : '미인증'"></td>
                             <td>
+
                                 <select class="enabled-select" th:model="${member.enabled}">
                                     <option value="true" th:text="'활성'" th:selected="${member.enabled}"></option>
                                     <option value="false" th:text="'비활성'" th:selected="!${member.enabled}"></option>
@@ -190,6 +201,7 @@
                         </tr>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
