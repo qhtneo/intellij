@@ -156,4 +156,9 @@ public class BoardController {
 
         return "board/boardList";
     }
+
+    @GetMapping("/dataBoard")
+    public String readDataBoard(){
+        return "board/databoard";
+    }
 }
