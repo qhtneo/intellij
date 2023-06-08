@@ -70,6 +70,7 @@ public class WebSecurityConfig {
 	//	다른 URL 패스들에 대해 선택적으로 보안을 적용하기 위한 configure(HttpSecurity)의 오버라이딩
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// configure(AuthenticationManagerBuilder auth) : 사용자 세부 서비스를 설정하기 위한 오버라이딩
 
 		String userNameQueryforEnabled =
 				"select user_id username, user_pw password, enabled " +
