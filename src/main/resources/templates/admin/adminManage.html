@@ -18,26 +18,36 @@
                     method: "GET",
                     data: {"userId": id},
                     success: function () {
+						alert('삭제 완료!');
                         location.reload()
                     }
                 });
             }
         };
 
+		// 게시글 삭제를 위한.. 버튼을 눌렀을때~
+        $(document).ready(function () {
+	        $(".deleteBoard").on("click", function () {
+		        let boardNo = $(this).val();
+		        deleteBoard(boardNo);
+	        })
+        });
+		// 게시글 삭제
         function deleteBoard(boardNo){
-			alert(boardNo);
 	        if (confirm('정말 삭제하시겠습니까?')) {
 		        $.ajax({
 			        url: "/deleteBoard",
 			        method: "GET",
 			        data: {"boardNo": boardNo},
 			        success: function () {
+				        alert("뿡");
 				        location.reload()
 			        }
 		        });
 	        }
         };
 
+		// 회원 활성/비활성 수정
         function updateMember(button){
 	        let row = button.closest("tr");
 	        let id = row.querySelector(".userId").textContent;
@@ -50,7 +60,7 @@
 			        method: "GET",
 			        data: {"userId": id, "enabled": enabled},
 			        success: function () {
-						alert("수정완료!");
+						alert("수정 완료!");
 				        location.reload();
 			        }
 		        });
@@ -112,13 +122,13 @@
 		                        <button class="updateMember" type="button" onclick="updateMember(this)">수정</button>
 	                        </td>
                             <td>
-	                            <button class="deleteMember" type="button" onclick="javascript:deleteMember(this)">회원 탈퇴</button>
+	                            <button class="deleteMember" type="button" onclick="deleteMember(this)">회원 탈퇴</button>
                             </td>
                         </tr>
                     </table>
             </div>
             <hr>
-            <div>
+
                 <!--여기는 지역별 데이터-->
                 <p> <b>전체 게시글 수  :</b> <span th:text ="${totalLength}"></span>개</p>
 
@@ -136,19 +146,18 @@
                         <th>조회수</th>
                         <th>지역</th>
 	                    <th>삭제</th>
-
                     </tr>
 
                     <tr th:each=" board: ${entry.value}">
                         <td th:text="${board.boardNo}"></td>
                         <td th:text="${board.userNo}"></td>
                         <td th:text="${board.userNickname}"></td>
-	                    <td><a th:href="@{/readBoard(boardNo=${board.boardNo})}" th:text="${board.userNickname}"></a></td>
+	                    <td><a th:href="@{/readBoard(boardNo=${board.boardNo})}" th:text="${board.boardTitle}"></a></td>
 	                    <td th:text="${board.inputDate}"></td>
                         <td th:text="${board.recommend}"></td>
                         <td th:text="${board.boardView}"></td>
                         <td th:text="${board.localCategory}"></td>
-	                    <td><button type="button" onclick="deleteBoard('${board.boardNo}')">삭제</button></td>
+	                    <td><button class="deleteBoard" th:value="${board.boardNo}">삭제</button></td>
                     </tr>
                     <hr>
 
