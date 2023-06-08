@@ -7,8 +7,8 @@
     <insert id="writeBoard" parameterType="Board">
         <!-- 글 쓰기 -->
         INSERT INTO
-            board( board_title, board_summary, user_no, user_nickname, local_category)
-        VALUES ( #{boardTitle}, #{boardSummary},#{userNo}, #{userNickname}, #{localCategory})
+            board( board_title, board_summary, user_no, user_nickname, local_category, detail_local)
+        VALUES ( #{boardTitle}, #{boardSummary},#{userNo}, #{userNickname}, #{localCategory}, #{detailLocal})
     </insert>
 
     <select id = "selectAllBoard" resultType = "Board">
@@ -20,7 +20,8 @@
             BOARD_VIEW AS boardView,
             INPUT_DATE AS inputDate,
             recommend AS recommend,
-            LOCAL_CATEGORY AS localCategory
+            LOCAL_CATEGORY AS localCategory,
+            detail_local AS detailLocal
         FROM
             BOARD
         ORDER BY
@@ -85,7 +86,8 @@
             BOARD_VIEW AS boardView,
             INPUT_DATE AS inputDate,
             recommend AS recommend,
-            LOCAL_CATEGORY AS localCategory
+            LOCAL_CATEGORY AS localCategory,
+            detail_local AS detailLocal
         FROM 	board
         WHERE 	BOARD_NO = #{boardNo}
     </select>
@@ -105,7 +107,8 @@
             BOARD_VIEW AS boardView,
             DATE_FORMAT(INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
             recommend AS recommend,
-            LOCAL_CATEGORY AS localCategory
+            LOCAL_CATEGORY AS localCategory,
+            detail_local AS detailLocal
         FROM
             Board B JOIN Member U
         ON
@@ -122,7 +125,8 @@
                B.board_view AS boardView,
                DATE_FORMAT(B.INPUT_DATE, '%y-%m-%d %H:%m') AS inputDate,
                B.recommend AS recommend,
-               B.LOCAL_CATEGORY AS localCategory
+               B.LOCAL_CATEGORY AS localCategory,
+               detail_local AS detailLocal
         FROM recommend r
                  JOIN BOARD B ON R.board_no = B.board_no
                  JOIN Member U ON B.user_no = U.user_no
@@ -142,8 +146,7 @@
         UPDATE board
         SET
             BOARD_TITLE = #{boardTitle},
-            BOARD_SUMMARY = #{boardSummary},
-            local_category = #{localCategory}
+            BOARD_SUMMARY = #{boardSummary}
         WHERE BOARD_NO = #{boardNo}
     </update>
 
